@@ -1,0 +1,81 @@
+---
+title: Changing Colors After the Fact
+author: Joel Nitta
+date: '2018-04-24'
+slug: changing-colors-after-the-fact
+categories:
+  - R
+tags:
+  - R
+  - plotting
+header:
+  caption: ''
+  image: ''
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+I, like many other budding bioinformaticians out there, use `ggplot2` in R to produce my figures, all the way from exploratory analyses to final figures for publications. One thing I like about `ggplot2` is the default colors it uses. They are easy to distinguish, and I find the palette pleasing to the eye. However, I recently got to the final submission stage of a paper and realized the publisher wants CMYK color mode and tiff format for the figures. This I now realize is a fairly common demand because it makes it easier for the printer. The colors that `ggplot2` uses look great on the screen (which is RGB mode), but when automatically converted to CMYK mode they look drab and pale.
+
+The code below produces examples of `ggplot2` colors as pdf files, but the second one has `colormodel="cmyk"` included in the call to `pdf()` to convert to CMYK mode.
+
+```{r rgb_colors, message=FALSE, warnings=FALSE, errors=FALSE}
+library(scales)
+pdf(file = "ggplot_4_colors.pdf")
+show_col(hue_pal()(4))
+invisible(dev.off())
+```
+
+![](/post/2018-04-24-changing-colors-after-the-fact/ggplot_4_colors.pdf){width=400px, height=400px}
+
+```{r cmyk_colors, message=FALSE}
+pdf(file = "ggplot_4_colors_cmyk.pdf", colormodel="cmyk")
+show_col(hue_pal()(4))
+invisible(dev.off())
+```
+
+![](/post/2018-04-24-changing-colors-after-the-fact/ggplot_4_colors_cmyk.pdf){width=400px, height=400px}
+
+The second one looks a little faded, right?
+
+There's a lot of detail about **why** this happens that I won't go into, but suffice to say that I didn't want my figures looking like that. A simple fix would be to go back into my R code and use a different set of more CMYK-friendly colors to begin with, but I had already modified my figures significantly in inkscape, and didn't want to do that all over again. (Ideally I would be able to make figures using exclusively code, but my skills aren't quite there yet!) So how to most painlessly convert my colors to a palette that looks good in CMYK?
+
+The first step is to select colors that look good in CMYK. I used `RColorBrewer`, which is available both as an R package and as a web interface. On the [webpage](http://colorbrewer2.org/), I tinkered with the settings for 8--9 qualitative colors that would be "print" (read "CMYK") friendly, and found a set that roughly matched my ggplot colors. Note that this only works if you have a relatively small set of colors, since you have to choose them manually. My 8-color scheme is about the max.
+
+I then identified by hexidecimal code which color I wanted to replace with which. For example, the "pink" color in the ggplot2 palette is `ff61c`, and the corresponding color in the CMYK-friendly palette I chose from `RColorBrewer` is `e7298a`.
+
+Now I needed to replace the colors consistently in all my figures. One way to go about this would have been to use inkscape or photoshop to click through each color in each figure and manually change them. But the beauty of inkscape svg files is that they are just text (xml to be exact), and can easily be manipulated with text search and replace. There are many ways to batch search and replace in the command line, but I wrote a short set of sed commands to replace each color.
+
+The sed commands are formatted as so:
+`s%<color code to find>%<color code to replace>%g`
+
+My sed command file looked like this:
+
+```
+s%ff61c3%e7298a%g
+s%d39200%d95f02%g
+s%db72fb%984ea3%g
+s%93aa00%a6761d%g
+s%f8766d%e41a1c%g
+```
+
+I saved this as "sed_color_replace" on my desktop
+
+Then in the terminal, I navigated to where my svg image files are located, and ran the sed commands on the svg file, saving it as a new file.
+
+`sed -f /Users/joelnitta/Desktop/sed_color_replace Figure_5.svg > Figure_5_recolored.svg`
+
+Now when I open the pdf, the colors are all CMYK-friendly, **and** the ones I want.
+
+Since I have multiple figures that use the same color scheme, it is now easy to just specify a different file name in the terminal command and do the exact same replacement. Yay for code.
+
+Bonus section for publication: convert the color-corrected pdf to tiff at the proper resolution. This is how I did it on my mac laptop. See this post for other ways that it could be done on other setups.
+
+* First, save the svg as a pdf in inkscape, since inkscape can't export as tiff. 
+
+* Next, open the pdf file in preview, crop to the appropriate final size (if necessary), and save as tiff. Note that the saving options for tiff include the final dpi, which may be important to meet journal requirements, and LZW compression, which I highly recommend or the tiff will be ginormous.
+
+* Next, open the tiff file in ColorSync Utility (located in the Utilities folder under applications), and at the bottom, locate the "Match to Profile" menu. Choose a reasonable sounding CMYK profile under the "output" submenu (I chose Photoshop 5 Default CMYK). In my experience, they all turn out pretty much the same. Not sure what "intent" means ("get my paper published"?), but again it doesn't seem to matter much. Hit Apply. You should notice that if you chose CMYK-friendly colors in RColorBrewer, the colors won't change very much - which is what we want! Save, and that should be the final tiff at the proper resolution and in nice-looking CMYK colors.
