@@ -33,12 +33,12 @@ filter_default = 0
   tag = "*"
 
 [[filter]]
-  name = "Deep Learning"
-  tag = ".deep-learning"
+  name = "Gametophytes"
+  tag = ".gametophytes"
 
 [[filter]]
-  name = "Other"
-  tag = ".demo"
+  name = "Community Ecology"
+  tag = ".community_ecology"
 
 +++
 
