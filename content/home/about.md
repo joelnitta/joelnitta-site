@@ -37,4 +37,6 @@ weight = 5
 
 I am a Japan Society for the Promotion of Science Postdoctoral Fellow at the National Museum of Nature and Science, Japan. I study **ferns**, an ancient and diverse lineage of vascular plants.
 
-Ferns have a unique lifecycle including two free-living stages (gametophyte and sporophyte) that differ from each other dramatically in appearance and physiology. This sets ferns apart from all other land plants, and has important implications for their ecology and evolution. I am particularly interested in how different stages of the fern lifecycle contribute to community assembly processes.
+Ferns have a unique lifecycle combining two free-living stages (gametophyte and sporophyte) that differ from each other dramatically in appearance and physiology. This sets ferns apart from nearly all other land plants, and has important implications for their ecology and evolution. I am particularly interested in how different stages of the fern lifecycle contribute to community assembly processes.
+
+I am also a new but enthusiastic adherent to reproducible analysis and coding, especially with R! Please see my blog for stories about this.
