@@ -19,7 +19,8 @@
 bibtex_2academic <- function(bibfile,
                              outfold,
                              abstract = FALSE, 
-                             overwrite = FALSE) {
+                             overwrite = FALSE,
+                             bold_name) {
   
   require(RefManageR)
   require(dplyr)
@@ -94,6 +95,10 @@ bibtex_2academic <- function(bibfile,
       
       # Authors. Comma separated list, e.g. `["Bob Smith", "David Jones"]`.
       auth_hugo <- str_replace_all(x["author"], " and ", "\", \"")
+      # Optionally make one of the names bold
+      if (!is.null(bold_name)) {
+        auth_hugo <- gsub(bold_name, paste0("**", bold_name, "**"), auth_hugo)
+      }
       auth_hugo <- stringi::stri_trans_general(auth_hugo, "latin-ascii")
       write(paste0("authors = [\"", auth_hugo,"\"]"), fileConn, append = T)
       
@@ -161,4 +166,5 @@ bibtex_2academic <- function(bibfile,
 bibtex_2academic(bibfile  = "R/my_papers.bib", 
                  outfold   = "content/publication", 
                  abstract  = TRUE,
-                 overwrite = TRUE)
+                 overwrite = TRUE,
+                 bold_name = "Joel H. Nitta")
