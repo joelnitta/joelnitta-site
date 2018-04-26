@@ -1,3 +1,16 @@
+# bibtex_2academic
+
+# script to automate making .md files for each publication
+# original script downloaded from: https://www.r-bloggers.com/automatically-importing-publications-from-bibtex-to-a-hugo-academic-blog/
+
+# documentation from the blog:
+
+# The outfold argument allows specifying where the generated md files will be saved. 
+# Though in the end they will have to be moved to folder content/publication you may 
+# want to save them at first in a different folder to be able to check them before trying to deploy.
+#
+# The abstract argument specifies whether to include the abstract in the md or not.
+
 bibtex_2academic <- function(bibfile,
                              outfold,
                              abstract = FALSE, 
@@ -123,3 +136,7 @@ bibtex_2academic <- function(bibfile,
   
   apply(mypubs, FUN = function(x) create_md(x), MARGIN = 1)
 }
+
+bibtex_2academic(bibfile  = "R/my_papers.bib", 
+                 outfold   = "content/publication", 
+                 abstract  = FALSE)
