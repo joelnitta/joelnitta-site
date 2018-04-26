@@ -13,7 +13,7 @@
 
 # to generate .bib file:
 # 1. open Mendeley
-# 2. make sure to check "escape latex special characters" in bibtex tab of preferences
+# 2. make sure to UNcheck "escape latex special characters" in bibtex tab of preferences
 # 3. select my publications in Mendeley -> Export -> select bibtex (*.bib)
 
 bibtex_2academic <- function(bibfile,
@@ -53,11 +53,20 @@ bibtex_2academic <- function(bibfile,
   # remove brackets added by Mendeley
   mypubs$title <- gsub("{", "", mypubs$title, fixed=TRUE)
   mypubs$title <- gsub("}", "", mypubs$title, fixed=TRUE)
-  # convert Mendeley italics to markdown italics
-  mypubs$title <- gsub("\\textlessi\\textgreater", "*", mypubs$title, fixed=TRUE)
-  mypubs$title <- gsub("\\textless/i\\textgreater", "*", mypubs$title, fixed=TRUE)
+  # remove italics in title
+  # see: https://github.com/gcushen/hugo-academic/issues/280
+  # apparently the code could be tweaked to allow them, but leave alone for now
+  mypubs$title <- gsub("<i>", "", mypubs$title, fixed=TRUE)
+  mypubs$title <- gsub("</i>", "", mypubs$title, fixed=TRUE)
   
-
+  # replace lingering latex characters in abstract with unicode that weren't excluded by 
+  # unchecking "escape latex special characters" in mendeley preferences
+  # there's gotta be a better way... maybe using knitr to convert from tex to md?
+  # brute force it for now
+  mypubs$abstract <- gsub("$\\sim$", "~", mypubs$abstract, fixed=TRUE)
+  mypubs$abstract <- gsub("{\"}", "'", mypubs$abstract, fixed=TRUE)
+  mypubs$abstract <- gsub("{\\\"{o}}", "ö", mypubs$abstract, fixed=TRUE)
+  
   # create a function which populates the md template based on the info
   # about a publication
   create_md <- function(x) {
