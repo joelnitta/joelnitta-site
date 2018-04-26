@@ -11,6 +11,11 @@
 #
 # The abstract argument specifies whether to include the abstract in the md or not.
 
+# to generate .bib file:
+# 1. open Mendeley
+# 2. make sure to check "escape latex special characters" in bibtex tab of preferences
+# 3. select my publications in Mendeley -> Export -> select bibtex (*.bib)
+
 bibtex_2academic <- function(bibfile,
                              outfold,
                              abstract = FALSE, 
@@ -44,6 +49,15 @@ bibtex_2academic <- function(bibfile,
                                  bibtype == "Misc" ~ "0",
                                  TRUE ~ "0"))
   
+  # format titles
+  # remove brackets added by Mendeley
+  mypubs$title <- gsub("{", "", mypubs$title, fixed=TRUE)
+  mypubs$title <- gsub("}", "", mypubs$title, fixed=TRUE)
+  # convert Mendeley italics to markdown italics
+  mypubs$title <- gsub("\\textlessi\\textgreater", "*", mypubs$title, fixed=TRUE)
+  mypubs$title <- gsub("\\textless/i\\textgreater", "*", mypubs$title, fixed=TRUE)
+  
+
   # create a function which populates the md template based on the info
   # about a publication
   create_md <- function(x) {
@@ -139,4 +153,5 @@ bibtex_2academic <- function(bibfile,
 
 bibtex_2academic(bibfile  = "R/my_papers.bib", 
                  outfold   = "content/publication", 
-                 abstract  = FALSE)
+                 abstract  = TRUE,
+                 overwrite = TRUE)
