@@ -39,4 +39,4 @@ I am a Japan Society for the Promotion of Science Postdoctoral Fellow at the Nat
 
 Ferns have a unique lifecycle combining two free-living stages (gametophyte and sporophyte) that differ from each other dramatically in appearance and physiology. This sets ferns apart from nearly all other land plants, and has important implications for their ecology and evolution. I am particularly interested in how different stages of the fern lifecycle contribute to community assembly processes.
 
-I am also a new but enthusiastic adherent to reproducible analysis and coding, especially with R! Please see my blog for stories about this.
+I am also a new but enthusiastic adherent to reproducible analysis and coding, especially with R! Please see my <a href="/#posts" data-target="#posts">blog</a> for stories about this topic.
