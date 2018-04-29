@@ -1,0 +1,5 @@
+# for controlling what version of hugo netlify should use.
+# change here as necessary for theme
+# on netfily, make sure deploy settings -> build command is set to 'hugo'
+[context.production.environment]
+  HUGO_VERSION = "0.39"
