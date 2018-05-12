@@ -1,0 +1,76 @@
+---
+title: My Blogdown Experience
+author: Joel Nitta
+date: '2018-05-02'
+slug: my-blogdown-experience
+categories:
+  - R
+tags:
+  - R
+  - blogdown
+header:
+  caption: ''
+  image: ''
+output:
+  blogdown::html_page
+---
+
+
+
+<p>I recently decided to completely overhaul my personal website using <a href="https://bookdown.org/yihui/blogdown/">blogdown</a>. There are already some great <a href="#resources">posts</a> on this topic, so I won’t go into too much detail. Rather, I will just provide a quick overview of the process, and some thoughts on what worked well and where I had difficulty.</p>
+<div id="blogdown" class="section level2">
+<h2>Blogdown</h2>
+<p>Strictly speaking, <code>blogdown</code> is an <a href="https://github.com/rstudio/blogdown">R package</a> that allows one to write blogposts using R markdown, but the <a href="https://bookdown.org/yihui/blogdown/">book</a> covers much more than just this – it explains how completely (and relatively easily) set up a website centered around such a blog. My current site is one such example. I can weave R code into my posts, edit everything locally, and when I’m ready to update I just <code>git push</code> my changes to the server. Sweet.</p>
+</div>
+<div id="workflow-summary" class="section level2">
+<h2>Workflow summary</h2>
+<p>The steps to set up a site can be grouped into two major sections: making the webpage on your computer, and deploying the webpage to a server. Again, I’m not going into details since so many other blog posts and the book cover those, but this is just a quick overview so you can see how the process works.</p>
+<div id="make-the-webpage-locally" class="section level3">
+<h3>Make the webpage locally</h3>
+<ol style="list-style-type: decimal">
+<li>Install RStudio and the necessary R packages.</li>
+<li>Your website will be managed as an R project. To make a new R project, in RStudio, select File -&gt; New Project -&gt; New Directory (or exisiting directory if you prefer) -&gt; Website using blogdown.</li>
+<li>In the next menu, choose a theme and whether you want to start with the example webpage files or not. Include the example files to see what a functioning webpage looks like. (These two steps can also be accomplished using <code>blogdown::new_site()</code>). 4.Edit the webpage locally to your liking. Use <code>blogdown::serve_site()</code> to see how changes to your code appear on your webpage.</li>
+</ol>
+</div>
+<div id="deploy-the-webpage-to-a-server" class="section level3">
+<h3>Deploy the webpage to a server</h3>
+<p>There are several ways to do this, but by far the easiest is with <a href="https://www.netlify.com/">Netlify</a>. If you aren’t concerned about using <code>git push</code> to update your website, all you have to do is:</p>
+<ol style="list-style-type: decimal">
+<li>Create an account on <a href="https://www.netlify.com/">Netlify</a> by logging in with your github credentials.</li>
+<li>Upload your pre-built webpage to your account by dragging the <code>public/</code> folder onto your Netlify account page. Done.</li>
+</ol>
+<p>You will have a URL with some randomly-generated words that is less than ideal, but there are <a href="https://bookdown.org/yihui/blogdown/domain-name.html#domain-name">various ways</a> to change this.</p>
+</div>
+</div>
+<div id="points-of-caution" class="section level2">
+<h2>Points of caution</h2>
+<p>These are some things that I noticed that aren’t mentioned in some of the other blogs or the book.</p>
+<div id="watch-for-silent-build-errors" class="section level3">
+<h3>Watch for silent build errors</h3>
+<p>First, <code>blogdown::serve_site()</code>, although awesome in the respect that it automatically refreshes the site on each save, doesn’t do any error checking to make sure that Hugo compiled correctly. Instead, it simply won’t refresh. So it is very easy to miss an error that actually broke your site. I hope that in future versions <code>blogdown</code> takes this into account and throws some sort of error message. For now, I think the best thing to do is <code>git commit</code> whenever you make a change and are sure that the site is compiling correctly. This way can easily revert if you break something several saves later without noticing. If you suspect something fishy, navigate to the root directory of your site, and in the terminal run <code>hugo -v</code>. This is the command for hugo to build your site and be verbose about the output. If it gives you an error message, that can be useful for diagnosing the cause of the problem.</p>
+</div>
+<div id="rmd-rmarkdown" class="section level3">
+<h3>Rmd != Rmarkdown</h3>
+<p>This only applies if you are using github to push changes to your site hosted on Netlify (as opposed to manually uploading <code>public/</code>). In this case, Netlify builds the site using Hugo each time “from scratch”, so it is not the same as using <code>blogdown::serve_site()</code> locally to build <code>public/</code>.</p>
+<p>If you write posts using R markdown (and that’s kinda the whole point of <code>blogdown</code>), be sure to use <code>.Rmarkdown</code> as the extension, <strong>not</strong> <code>.Rmd</code>. <code>.Rmd</code> of course stands for “R Markdown”, so you’d think they’d be equivalent, but the important difference is that <code>.Rmd</code> will compile to <code>.html</code>, whereas <code>.Rmarkdown</code> will compile to <code>.markdown</code>. Hugo needs the <code>.markdown</code> file to build the site – <code>.html</code> files in your <code>content/</code> folder won’t get copied to <code>public/</code>! However, content generated by <code>.Rmd</code> files <strong>will</strong> still show up in the RStudio Viewer if you use <code>blogdown::serve_site()</code>. So again it’s a case where everything looks fine in RStudio, but when you try to deploy all of the sudden things go wrong – in this case, your posts disappear.</p>
+</div>
+<div id="dont-be-a-inadvertent-copycat" class="section level3">
+<h3>Don’t be a (inadvertent) copycat</h3>
+<p>Finally, if you use the popular <a href="https://github.com/gcushen/hugo-academic">Academic</a> theme, please be sure to delete the default blog post! I don’t know how many times I saw this and thought everyone was writing about the exact same thing.</p>
+</div>
+</div>
+<div id="resources" class="section level2">
+<h2>Resources</h2>
+<p><code>blogdown</code> already seems quite popular, and there are number of excellent resources out there to guide you to getting setup, in addition to the <a href="https://bookdown.org/yihui/blogdown/">book</a>. Here are some I found useful.</p>
+<ul>
+<li>Dan Quintana’s <a href="https://twitter.com/dsquintana/status/993410504570888192">tweetorial</a> provides an excellent and quick overview!</li>
+</ul>
+{{% tweet "993410504570888192" %}}
+<ul>
+<li><p>Mikey Harper’s <a href="https://mikeyharper.uk/migrating-to-blogdown/">post</a> on the benefits of <code>blogdown</code>.</p></li>
+<li><p>Alison Presmanes Hill’s <a href="https://alison.rbind.io/post/up-and-running-with-blogdown/">tutorial</a> goes into much more detail.</p></li>
+<li><p>Emi Tanaka’s <a href="https://emitanaka.github.io/post/blogdowntutorial/">post</a> on adding some “bling” to your <code>blogdown</code> site.</p></li>
+<li><p>George Cushen’s <a href="https://sourcethemes.com/academic/docs/">guide</a> to using the Academic theme.</p></li>
+</ul>
+</div>
