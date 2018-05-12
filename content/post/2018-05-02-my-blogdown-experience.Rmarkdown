@@ -15,7 +15,7 @@ output:
   blogdown::html_page
 ---
 
-I recently decided to completely overhaul my personal website using [blogdown](https://bookdown.org/yihui/blogdown/). There are already some great [posts](#resources) on this topic, so I won't go into too much detail. Rather, I will just provide a quick overview of the process, and some thoughts on what worked well and where I had difficulty.
+I recently decided to completely overhaul my personal website using [blogdown](https://bookdown.org/yihui/blogdown/). There are already many great [posts](#resources) on this topic, so I won't go into too much detail. Rather, I will just provide a quick overview of the process, and some thoughts on what worked well and where I had difficulty.
 
 ## Blogdown
 
@@ -23,7 +23,7 @@ Strictly speaking, `blogdown` is an [R package](https://github.com/rstudio/blogd
 
 ## Workflow summary
 
-The steps to set up a site can be grouped into two major sections: making the webpage on your computer, and deploying the webpage to a server. Again, I'm not going into details since so many other blog posts and the book cover those, but this is just a quick overview so you can see how the process works.
+The steps to set up a site can be grouped into two major parts: making the webpage on your computer, and deploying the webpage to a server. Again, I'm not going into details since so many other blog posts and the book cover those, but this is just a quick overview so you can see how the process works.
 
 ### Make the webpage locally
 
@@ -47,9 +47,23 @@ These are some things that I noticed that aren't mentioned in some of the other 
 
 ### Watch for silent build errors
 
-Although `blogdown::serve_site()` is awesome in the respect that it automatically refreshes the site on each save, doesn't do any error checking to make sure that Hugo compiled correctly. Instead, it simply won't refresh. So it is very easy to miss an error that actually broke your site. I hope that in future versions `blogdown` takes this into account and throws some sort of error message. For now, I think the best thing to do is `git commit` whenever you make a change and are sure that the site is compiling correctly. This way can easily revert if you break something several saves later without noticing. If you suspect something fishy, navigate to the root directory of your site, and in the terminal run `hugo -v`. This is the command for hugo to build your site and be verbose about the output. If it gives you an error message, that can be useful for diagnosing the cause of the problem.
+Although `blogdown::serve_site()` is awesome in the respect that it automatically refreshes the site on each save, doesn't do any error checking to make sure that Hugo compiled correctly. Instead, it simply won't refresh. So it is very easy to miss an error that actually broke your site. I hope that in future versions `blogdown` takes this into account and throws some sort of error message. 
 
-### Don't be a (inadvertent) copycat
+For now, I think the best thing to do is `git commit` whenever you make a change and are sure that the site is compiling correctly. This way can easily revert if you break something several saves later without noticing. If you suspect something fishy, navigate to the root directory of your site, and in the terminal run `hugo -v`. This is the command for hugo to build your site and be verbose about the output. If it gives you an error message, that can be useful for diagnosing the cause of the problem.
+
+## Specify the right version of hugo
+
+Some themes require at least a certain version of hugo (e.g., the current [Academic](https://github.com/gcushen/hugo-academic) theme requires at least 0.30), but Netlify by default runs 0.17. To specify a higher version, I recommend including a `netlify.toml` file in your root website directory. The contents of the file look like:
+
+```
+[context.production.environment]
+  HUGO_VERSION = "0.39"
+```
+
+Specify the version as needed. Then under "deploy settings" on your Netlify account, enter simply "hugo" as the build command. There are [other ways to do this](https://bookdown.org/yihui/blogdown/netlify.html), but I think this method is simple and reproducible because you don't have to manually tweak any other Netlify settings.
+
+### Don't be an (inadvertent) copycat
+
 If you use the popular [Academic](https://github.com/gcushen/hugo-academic) theme, please be sure to delete the default blog post! I don't know how many times I saw this and thought everyone was writing about the exact same thing.
 
 ## Resources
