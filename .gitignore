@@ -4,4 +4,4 @@
 .Ruserdata
 public
 blogdown
-# content/post/*.html
+content/post/*.html
