@@ -10,7 +10,7 @@ title = "Joel Nitta"
 
 # Your copyright notice - appears in site footer.
 # To display a copyright symbol, type `&copy;`.
-copyright = "&copy; 2018"
+copyright = "&copy; 2018 · Icon Created by MRFA from Noun Project"
 
 theme = "hugo-academic"
 enableEmoji = true
