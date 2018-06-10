@@ -19,7 +19,7 @@ url_project = ""
 url_slides = ""
 url_video = ""
 url_poster = ""
-url_source = "https://academic.oup.com/biolinnean/article/123/2/321/4788353"
+url_source = ""
 math = true
 highlight = true
 [header]
