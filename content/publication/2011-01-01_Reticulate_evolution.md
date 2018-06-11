@@ -27,5 +27,6 @@ math = true
 highlight = true
 [header]
 image = "publications/ajb2.2011.98.issue-11.cover.jpg"
+image_preview = "publications/ajb2.2011.98.issue-11.cover.jpg"
 caption = ""
 +++
