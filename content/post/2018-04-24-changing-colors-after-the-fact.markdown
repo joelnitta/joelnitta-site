@@ -31,7 +31,7 @@ dev.off()
 
 
 
-<img src="/post/2018-04-24-changing-colors-after-the-fact/ggplot_4_colors.pdf" width="400" height="400">
+![](/post/2018-04-24-changing-colors-after-the-fact/ggplot_4_colors.pdf)
 
 
 ```r
@@ -43,7 +43,7 @@ dev.off()
 
 
 
-<img src="/post/2018-04-24-changing-colors-after-the-fact/ggplot_4_colors_cmyk.pdf" width="400" height="400">
+![](/post/2018-04-24-changing-colors-after-the-fact/ggplot_4_colors_cmyk.pdf)
 
 The second one looks a little faded, right?
 

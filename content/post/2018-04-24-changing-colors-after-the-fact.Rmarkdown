@@ -38,12 +38,12 @@ dev.off()
 
 ```{r rgb_colors_to_run, include=FALSE}
 library(scales)
-pdf(file = paste0("../../", pdf_outfolder, "/ggplot_4_colors.pdf"))
+pdf(file = paste0("../../", pdf_outfolder, "/ggplot_4_colors.pdf"), width = 3, height = 3)
 show_col(hue_pal()(4))
 dev.off()
 ```
 
-<img src="/post/2018-04-24-changing-colors-after-the-fact/ggplot_4_colors.pdf" width="400" height="400">
+![](/post/2018-04-24-changing-colors-after-the-fact/ggplot_4_colors.pdf)
 
 ```{r cmyk_colors_to_show, eval=FALSE}
 library(scales)
@@ -54,12 +54,12 @@ dev.off()
 
 ```{r cmyk_colors_to_run, include=FALSE}
 library(scales)
-pdf(file = paste0("../../", pdf_outfolder, "/ggplot_4_colors_cmyk.pdf"), colormodel="cmyk")
+pdf(file = paste0("../../", pdf_outfolder, "/ggplot_4_colors_cmyk.pdf"), colormodel="cmyk", width = 3, height = 3)
 show_col(hue_pal()(4))
 dev.off()
 ```
 
-<img src="/post/2018-04-24-changing-colors-after-the-fact/ggplot_4_colors_cmyk.pdf" width="400" height="400">
+![](/post/2018-04-24-changing-colors-after-the-fact/ggplot_4_colors_cmyk.pdf)
 
 The second one looks a little faded, right?
 
