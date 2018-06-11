@@ -1,5 +1,5 @@
 +++
-title = "Molecular Phylogenetics and Evolution A plastid phylogeny and character evolution of the Old World fern genus Pyrrosia (Polypodiaceae) with the description of a new genus : Hovenkampia (Polypodiaceae)"
+title = "A plastid phylogeny and character evolution of the Old World fern genus Pyrrosia (Polypodiaceae) with the description of a new genus: Hovenkampia (Polypodiaceae)"
 date = "2017-06-29"
 authors = ["Xin-mao Zhou", "Liang Zhang", "Cheng-wei Chen", "Chun-xiang Li", "Yao-moan Huang", "De-kui Chen", "Ngan Thi", "Daniele Cicuzza", "Ralf Knapp", "Thien Tam", "**Joel H. Nitta**", "Xin-fen Gao", "Li-bing Zhang"]
 publication_types = ["2"]
