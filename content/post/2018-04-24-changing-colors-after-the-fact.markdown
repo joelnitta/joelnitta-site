@@ -1,9 +1,9 @@
 ---
-draft: FALSE
-title: Changing Colors After the Fact
+title: Changing colors after the fact
 author: Joel Nitta
 date: '2018-04-24'
 slug: changing-colors-after-the-fact
+summary: Correcting for CMYK colors downstream from the original code
 categories:
   - R
 tags:

@@ -3,7 +3,7 @@ title: Thoughts on blogdown
 author: Joel Nitta
 date: '2018-05-02'
 slug: my-blogdown-experience
-summary: Reflections on setting up a site with blogdown, with a focus on steps that are easily overlooked and gave me trouble.
+summary: Reflections on setting up a site with blogdown, with a focus on steps that are easily overlooked and gave me trouble
 categories:
   - R
 tags:
