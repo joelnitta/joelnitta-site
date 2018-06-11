@@ -9,7 +9,7 @@ abstract = "The Moorea Biocode seeks to compile an integrative taxonomy based on
 abstract_short = ""
 image_preview = ""
 selected = false
-projects = []
+projects = ["dna-barcodes"]
 tags = []
 url_pdf = "https://drive.google.com/uc?export=download&id=1AppLB9I2dTOmlVIdTmvCxFQ6y8TpSwbo"
 url_preprint = ""

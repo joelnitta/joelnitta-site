@@ -9,7 +9,7 @@ abstract = "The ferns and lycophytes of Mo'orea, French Polynesia were surveyed 
 abstract_short = ""
 image_preview = ""
 selected = false
-projects = []
+projects = ["community_ecology"]
 tags = []
 url_pdf = "https://drive.google.com/uc?export=download&id=1eGh7EKE03RXRlfxLHNoOTySpDdkQ_44p"
 url_preprint = ""

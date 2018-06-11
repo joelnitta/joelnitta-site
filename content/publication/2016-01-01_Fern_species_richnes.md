@@ -9,7 +9,7 @@ abstract = "Inherent characteristics of island species make them particularly su
 abstract_short = ""
 image_preview = ""
 selected = false
-projects = []
+projects = ["community_ecology"]
 tags = []
 url_pdf = "https://d6b9790b-a-62cb3a1a-s-sites.googlegroups.com/site/pouteaurobin/pouteau2016.pdf?attachauth=ANoY7crvo6M-2kHa_mqu-356TBM7AkU--pCYao8edVv9GdRVQtsHTfcV4hAphaeRGDgye2cMRuTiOEZZ1hXsr6HPDIDNCBYt7cFMmvzAAW5gvskjQgkMUArhArXzcMHiwP7gg_2JYtf118kLlJh6c9z6RL7InayEfgIy4UduYVZ9pezFsVT5uolsbISyEC5Ti1MVkv0T_71yJmE64SOJGx7W1cnQfp-tBg%3D%3D&attredirects=0"
 url_preprint = ""

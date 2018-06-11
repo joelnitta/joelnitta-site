@@ -9,7 +9,7 @@ abstract = "Ferns are the only major lineage of vascular plants that have nutrit
 abstract_short = ""
 image_preview = ""
 selected = false
-projects = []
+projects = ["dna-barcodes", "community_ecology"]
 tags = []
 url_pdf = "https://drive.google.com/uc?export=download&id=1dP7mVBelnr4Kbl9olPVp7wzJQ1wiMBZ_"
 url_preprint = ""
