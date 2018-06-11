@@ -6,10 +6,10 @@ date = 2018-05-09T00:00:00
 title = "Community Ecology"
 
 # Project summary to display on homepage.
-summary = "Determining community assembly processes in ferns."
+summary = "Determining community assembly processes in ferns"
 
 # Optional image to display on homepage (relative to `static/img/` folder).
-image_preview = "headers/research_img2_square.jpg"
+image_preview = "headers/sampling_gametos_square.jpg"
 
 # Tags: can be used for filtering projects.
 # Example: `tags = ["gametophytes", "DNA barcoding", "community ecology"]`
@@ -23,7 +23,7 @@ math = false
 
 # Optional featured image (relative to `static/img/` folder).
 [header]
-image = "headers/research_img2.jpg"
+image = "headers/nectandra_plot.jpg"
 caption = "Sampling fern communities in Costa Rica"
 
 +++
