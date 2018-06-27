@@ -163,5 +163,5 @@ bibtex_2academic <- function(bibfile,
 bibtex_2academic(bibfile  = "R/my_papers.bib", 
                  outfold   = "content/publication", 
                  abstract  = TRUE,
-                 overwrite = TRUE,
+                 overwrite = FALSE,
                  bold_name = "Joel H. Nitta")
