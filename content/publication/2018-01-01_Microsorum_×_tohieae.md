@@ -14,7 +14,7 @@ tags = []
 url_pdf = "https://drive.google.com/uc?export=download&id=1c3aMz_qmZ5hcMl5OfGYhhZgO4UNl3VI1"
 url_preprint = ""
 url_code = ""
-url_dataset = "https://datadryad.org//resource/doi.org/10.5061/dryad.hm813"
+url_dataset = "https://doi.org/10.5061/dryad.hm813"
 url_project = ""
 url_slides = ""
 url_video = ""
