@@ -1,0 +1,85 @@
+---
+title: NARA Data Analysis
+author: Joel Nitta
+date: '2018-08-09'
+slug: nara-data-analysis
+categories: []
+tags: []
+header:
+  caption: ''
+  image: ''
+draft: TRUE
+---
+
+```{r silent_setup, include=FALSE} 
+knitr::opts_chunk$set(cache = TRUE)
+library(emo)
+```
+
+## Set-up
+
+```{r setup, results="hide", message=FALSE, warning=FALSE}
+library(tidyverse)
+library(data.table)
+library(tidytext)
+library(wordcloud)
+library(purrrlyr)
+library(jsonlite)
+library(listviewer)
+library(summarytools)
+```
+
+```{r }
+# Load the data we processed from querying the NARA API
+tidy_data <- readr::read_csv("nara_data.csv")
+
+# What series do the items come from?
+tidy_data %>% count(parent_series_title, sort = TRUE) 
+
+# Most are from the "Central Photographic File of the War Relocation Authority", which has digitized its whole collection
+tidy_data %>%
+  select(archive, records_type, contributor, record_group, tags) %>%
+  dfSummary(style = "grid", plain.ascii = TRUE, footnote = NA)
+
+textual_data <- tidy_data %>% filter (records_type == "Textual Records")
+
+textual_data %>% select(scopeAndContentNote, parent_series_title, creator, thumbnail, record_group, archive) %>%
+dfSummary(style = "grid", plain.ascii = TRUE, footnote = NA)
+```
+
+## Analysis 1: Photo Captions
+
+Now that we have our data in a tidy format, we can finally get to the interesting part: analysis!
+
+The `scopeAndContentNote` column looks like it mostly contains captions for the photographs. Let's see what kinds of words most often appear in the captions, borrowing heavily from Julia Silge and David Robinson's [Introduction to tidytext](https://cran.r-project.org/web/packages/tidytext/vignettes/tidytext.html).
+
+First make a tidy dataframe of words in `scopeAndContentNote`.
+
+```{r }
+
+tidy_data %>% filter (records_type == "Textual Records") %>%
+  dplyr::select(title, scopeAndContentNote) %>%
+  unnest_tokens(word, scopeAndContentNote) -> tidy_word_data
+```
+
+Next, exclude stopwords, plus some words that show up in almost every record.
+
+```{r }
+my_stopwords <- tibble(
+  word = c("full", "caption", "photograph", "reads", "na", "war", "relocation", "authority"),
+  lexicon = "custom"
+)
+stopwords <- bind_rows(get_stopwords(), my_stopwords)
+
+cleaned_data <-
+  tidy_word_data %>%
+  anti_join(stopwords)
+```
+
+Now we can use this to make a wordcloud.
+
+```{r }
+cleaned_data %>%
+  count(word) %>%
+  with(wordcloud(word, n, max.words = 50))
+```
