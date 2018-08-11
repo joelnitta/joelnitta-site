@@ -1,0 +1,227 @@
+---
+title: NARA Data Analysis
+author: Joel Nitta
+date: '2018-08-09'
+slug: nara-data-analysis
+categories: []
+tags: []
+header:
+  caption: ''
+  image: ''
+draft: TRUE
+---
+
+
+
+<div id="set-up" class="section level2">
+<h2>Set-up</h2>
+<pre class="r"><code>library(tidyverse)
+library(data.table)
+library(tidytext)
+library(wordcloud)
+library(purrrlyr)
+library(jsonlite)
+library(listviewer)
+library(summarytools)</code></pre>
+<pre class="r"><code># Load the data we processed from querying the NARA API
+tidy_data &lt;- readr::read_csv(&quot;nara_data.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   naId = col_integer(),
+##   type = col_character(),
+##   score = col_double(),
+##   contributor = col_character(),
+##   scopeAndContentNote = col_character(),
+##   records_type = col_character(),
+##   title = col_character(),
+##   parent_series_title = col_character(),
+##   start_date = col_integer(),
+##   end_date = col_integer(),
+##   creator = col_character(),
+##   thumbnail = col_character(),
+##   record_group = col_integer(),
+##   archive = col_character(),
+##   tags = col_character()
+## )</code></pre>
+<pre class="r"><code># What series do the items come from?
+tidy_data %&gt;% count(parent_series_title, sort = TRUE) </code></pre>
+<pre><code>## # A tibble: 17 x 2
+##    parent_series_title                                                   n
+##    &lt;chr&gt;                                                             &lt;int&gt;
+##  1 Central Photographic File of the War Relocation Authority          3960
+##  2 &lt;NA&gt;                                                               1492
+##  3 Command Chronologies and Related Documentation                        6
+##  4 National Security Decision Directives (NSDDs)                         4
+##  5 Government Agencies Files                                             3
+##  6 Franklin D. Roosevelt Library Public Domain Photographs               2
+##  7 Memorandums for the Record                                            2
+##  8 Colorado River Relocation Center                                      1
+##  9 Construction Completion Reports                                       1
+## 10 Final Accountability Rosters of Evacuees                              1
+## 11 Fort Ontario Emergency Refugee Shelter at Oswego, New York            1
+## 12 Legislative Bill Files                                                1
+## 13 Manzanar Publications                                                 1
+## 14 Operations Planning Files                                             1
+## 15 Relocation Statistics                                                 1
+## 16 Washington Office Correspondence                                      1
+## 17 World War II Honor List of Dead and Missing Army and Army Air Fo…     1</code></pre>
+<pre class="r"><code># Most are from the &quot;Central Photographic File of the War Relocation Authority&quot;, which has digitized its whole collection
+tidy_data %&gt;%
+  select(archive, records_type, contributor, record_group, tags) %&gt;%
+  dfSummary(style = &quot;grid&quot;, plain.ascii = TRUE, footnote = NA)</code></pre>
+<pre><code>## Data Frame Summary     
+## N: 5479   
+## 
+## +----+---------------+---------------------------------+---------------------+---------------------+----------+----------+
+## | No | Variable      | Stats / Values                  | Freqs (% of Valid)  | Text Graph          | Valid    | Missing  |
+## +====+===============+=================================+=====================+=====================+==========+==========+
+## | 1  | archive       | 1. National Archives at Coll    | 3982 (73.0%)        | IIIIIIIIIIIIIIII    | 5455     | 24       |
+## |    | [character]   | 2. Electronic Records Archiv    | 1417 (26.0%)        | IIIII               | (99.56%) | (0.44%)  |
+## |    |               | 3. NARA&#39;s Rocky Mountain Reg    | 22 ( 0.4%)          |                     |          |          |
+## |    |               | 4. National Archives Buildin    | 12 ( 0.2%)          |                     |          |          |
+## |    |               | 5. Harry S. Truman Library (    | 8 ( 0.1%)           |                     |          |          |
+## |    |               | 6. Ronald Reagan Library (Si    | 4 ( 0.1%)           |                     |          |          |
+## |    |               | 7. Franklin D. Roosevelt Lib    | 2 ( 0.0%)           |                     |          |          |
+## |    |               | 8. NARA&#39;s Pacific Region (Ri    | 2 ( 0.0%)           |                     |          |          |
+## |    |               | 9. NARA&#39;s Southeast Region (    | 2 ( 0.0%)           |                     |          |          |
+## |    |               | 10. Dwight D. Eisenhower Libr   | 1 ( 0.0%)           |                     |          |          |
+## |    |               | [ 3 others ]                    | 3 ( 0.1%)           |                     |          |          |
+## +----+---------------+---------------------------------+---------------------+---------------------+----------+----------+
+## | 2  | records_type  | 1. Photographs and other Gra    | 3965 (72.7%)        | IIIIIIIIIIIIIIII    | 5457     | 22       |
+## |    | [character]   | 2. Textual Records              | 1492 (27.3%)        | IIIIII              | (99.6%)  | (0.4%)   |
+## +----+---------------+---------------------------------+---------------------+---------------------+----------+----------+
+## | 3  | contributor   | 1. Albers, Clem                 | 381 (10.2%)         | IIIIII              | 3750     | 1729     |
+## |    | [character]   | 2. Clark, Fred, photographer    | 154 ( 4.1%)         | II                  | (68.44%) | (31.56%) |
+## |    |               | 3. Cook, John                   | 26 ( 0.7%)          |                     |          |          |
+## |    |               | 4. Iwasaki, Hikaru, 1923-       | 291 ( 7.8%)         | IIII                |          |          |
+## |    |               | 5. Lange, Dorothea, 1895-196    | 872 (23.2%)         | IIIIIIIIIIIII       |          |          |
+## |    |               | 6. Lynn, Charles, War Reloca    | 18 ( 0.5%)          |                     |          |          |
+## |    |               | 7. Mace, Charles E., photogr    | 93 ( 2.5%)          | I                   |          |          |
+## |    |               | 8. McClelland, Joe, War Relo    | 188 ( 5.0%)         | III                 |          |          |
+## |    |               | 9. Parker, Tom                  | 707 (18.9%)         | IIIIIIIIIII         |          |          |
+## |    |               | 10. Stewart, Francis, War Rel   | 1002 (26.7%)        | IIIIIIIIIIIIIIII    |          |          |
+## |    |               | 11. Van Tassel, Gretchen        | 18 ( 0.5%)          |                     |          |          |
+## +----+---------------+---------------------------------+---------------------+---------------------+----------+----------+
+## | 4  | record_group  | mean (sd) : 209.89 (7.96)       | 46 :    1 ( 0.0%)   |                     | 3978     | 1501     |
+## |    | [integer]     | min &lt; med &lt; max :               | 77 :    1 ( 0.0%)   |                     | (72.6%)  | (27.4%)  |
+## |    |               | 46 &lt; 210 &lt; 549                  | 127 :    6 ( 0.1%)  |                     |          |          |
+## |    |               | IQR (CV) : 0 (0.04)             | 142 :    1 ( 0.0%)  |                     |          |          |
+## |    |               |                                 | 148 :    2 ( 0.1%)  |                     |          |          |
+## |    |               |                                 | 210 : 3965 (99.7%)  | IIIIIIIIIIIIIIII    |          |          |
+## |    |               |                                 | 407 :    1 ( 0.0%)  |                     |          |          |
+## |    |               |                                 | 549 :    1 ( 0.0%)  |                     |          |          |
+## +----+---------------+---------------------------------+---------------------+---------------------+----------+----------+
+## | 5  | tags          | 1. MRC-tg1                      | 31 ( 9.3%)          | II                  | 332      | 5147     |
+## |    | [character]   | 2. tghr-tg1                     | 22 ( 6.6%)          | I                   | (6.06%)  | (93.94%) |
+## |    |               | 3. Departure                    | 8 ( 2.4%)           |                     |          |          |
+## |    |               | 4. RoadTripDenver               | 8 ( 2.4%)           |                     |          |          |
+## |    |               | 5. jwric-ts1, cart18-rmdv-ts    | 6 ( 1.8%)           |                     |          |          |
+## |    |               | 6. jwric-ts1                    | 5 ( 1.5%)           |                     |          |          |
+## |    |               | 7. Japanese Internment          | 4 ( 1.2%)           |                     |          |          |
+## |    |               | 8. strawberries                 | 3 ( 0.9%)           |                     |          |          |
+## |    |               | 9. american flag, pledge of     | 2 ( 0.6%)           |                     |          |          |
+## |    |               | 10. ArchivesCrafty              | 2 ( 0.6%)           |                     |          |          |
+## |    |               | [ 232 others ]                  | 241 (72.3%)         | IIIIIIIIIIIIIIII    |          |          |
+## +----+---------------+---------------------------------+---------------------+---------------------+----------+----------+</code></pre>
+<pre class="r"><code>textual_data &lt;- tidy_data %&gt;% filter (records_type == &quot;Textual Records&quot;)
+
+textual_data %&gt;% select(scopeAndContentNote, parent_series_title, creator, thumbnail, record_group, archive) %&gt;%
+dfSummary(style = &quot;grid&quot;, plain.ascii = TRUE, footnote = NA)</code></pre>
+<pre><code>## Data Frame Summary     
+## N: 1492   
+## 
+## +----+----------------------+---------------------------------+--------------------+---------------------+----------+----------+
+## | No | Variable             | Stats / Values                  | Freqs (% of Valid) | Text Graph          | Valid    | Missing  |
+## +====+======================+=================================+====================+=====================+==========+==========+
+## | 1  | scopeAndContentNote  | 1. This document was include    | 16 ( 1.1%)         |                     | 1438     | 54       |
+## |    | [character]          | 2. This document was include    | 4 ( 0.3%)          |                     | (96.38%) | (3.62%)  |
+## |    |                      | 3. This is a statement by Di    | 2 ( 0.1%)          |                     |          |          |
+## |    |                      | 4. [From the Introduction] I    | 1 ( 0.1%)          |                     |          |          |
+## |    |                      | 5. A comprehensive analysis     | 1 ( 0.1%)          |                     |          |          |
+## |    |                      | 6. Administrative documents     | 1 ( 0.1%)          |                     |          |          |
+## |    |                      | 7. CFS Report To Congress -     | 1 ( 0.1%)          |                     |          |          |
+## |    |                      | 8. Correspondence from the h    | 1 ( 0.1%)          |                     |          |          |
+## |    |                      | 9. Correspondence, documents    | 1 ( 0.1%)          |                     |          |          |
+## |    |                      | 10. Fifteen countries were re   | 1 ( 0.1%)          |                     |          |          |
+## |    |                      | [ 1409 others ]                 | 1409 (98.6%)       | IIIIIIIIIIIIIIII    |          |          |
+## +----+----------------------+---------------------------------+--------------------+---------------------+----------+----------+
+## | 2  | parent_series_title  | 1. Command Chronologies and     | 6 (26.1%)          | IIIIIIIIIIIIIIII    | 23       | 1469     |
+## |    | [character]          | 2. National Security Decisio    | 4 (17.4%)          | IIIIIIIIII          | (1.54%)  | (98.46%) |
+## |    |                      | 3. Government Agencies Files    | 3 (13.0%)          | IIIIIIII            |          |          |
+## |    |                      | 4. Memorandums for the Recor    | 2 ( 8.7%)          | IIIII               |          |          |
+## |    |                      | 5. Construction Completion R    | 1 ( 4.3%)          | II                  |          |          |
+## |    |                      | 6. Final Accountability Rost    | 1 ( 4.3%)          | II                  |          |          |
+## |    |                      | 7. Legislative Bill Files       | 1 ( 4.3%)          | II                  |          |          |
+## |    |                      | 8. Manzanar Publications        | 1 ( 4.3%)          | II                  |          |          |
+## |    |                      | 9. Operations Planning Files    | 1 ( 4.3%)          | II                  |          |          |
+## |    |                      | 10. Relocation Statistics       | 1 ( 4.3%)          | II                  |          |          |
+## |    |                      | [ 2 others ]                    | 2 ( 8.7%)          | IIIII               |          |          |
+## +----+----------------------+---------------------------------+--------------------+---------------------+----------+----------+
+## | 3  | creator              | 1. Department of Defense. De    | 6 (31.6%)          | IIIIIIIIIIIIIIII    | 19       | 1473     |
+## |    | [character]          | 2. Department of the Interio    | 3 (15.8%)          | IIIIIIII            | (1.27%)  | (98.73%) |
+## |    |                      | 3. National Commission on Te    | 2 (10.5%)          | IIIII               |          |          |
+## |    |                      | 4. President (1981-1989 : Re    | 4 (21.1%)          | IIIIIIIIII          |          |          |
+## |    |                      | 5. Tennessee Valley Authorit    | 1 ( 5.3%)          | II                  |          |          |
+## |    |                      | 6. U.S. Senate. Committee on    | 1 ( 5.3%)          | II                  |          |          |
+## |    |                      | 7. War Department. Office of    | 1 ( 5.3%)          | II                  |          |          |
+## |    |                      | 8. War Department. The Adjut    | 1 ( 5.3%)          | II                  |          |          |
+## +----+----------------------+---------------------------------+--------------------+---------------------+----------+----------+
+## | 4  | thumbnail            | 1. https://catalog.archives.    | 1 ( 0.1%)          |                     | 1407     | 85       |
+## |    | [character]          | 2. https://catalog.archives.    | 1 ( 0.1%)          |                     | (94.3%)  | (5.7%)   |
+## |    |                      | 3. https://catalog.archives.    | 1 ( 0.1%)          |                     |          |          |
+## |    |                      | 4. https://catalog.archives.    | 1 ( 0.1%)          |                     |          |          |
+## |    |                      | 5. https://catalog.archives.    | 1 ( 0.1%)          |                     |          |          |
+## |    |                      | 6. https://catalog.archives.    | 1 ( 0.1%)          |                     |          |          |
+## |    |                      | 7. https://catalog.archives.    | 1 ( 0.1%)          |                     |          |          |
+## |    |                      | 8. https://catalog.archives.    | 1 ( 0.1%)          |                     |          |          |
+## |    |                      | 9. https://catalog.archives.    | 1 ( 0.1%)          |                     |          |          |
+## |    |                      | 10. https://catalog.archives.   | 1 ( 0.1%)          |                     |          |          |
+## |    |                      | [ 1397 others ]                 | 1397 (97.8%)       | IIIIIIIIIIIIIIII    |          |          |
+## +----+----------------------+---------------------------------+--------------------+---------------------+----------+----------+
+## | 5  | record_group         | mean (sd) : 181.81 (126.29)     | 46 : 1 ( 6.2%)     | II                  | 16       | 1476     |
+## |    | [integer]            | min &lt; med &lt; max :               | 77 : 1 ( 6.2%)     | II                  | (1.07%)  | (98.93%) |
+## |    |                      | 46 &lt; 134.5 &lt; 549                | 127 : 6 (37.5%)    | IIIIIIIIIIIIIIII    |          |          |
+## |    |                      | IQR (CV) : 83 (0.69)            | 142 : 1 ( 6.2%)    | II                  |          |          |
+## |    |                      |                                 | 148 : 2 (12.5%)    | IIIII               |          |          |
+## |    |                      |                                 | 210 : 3 (18.8%)    | IIIIIIII            |          |          |
+## |    |                      |                                 | 407 : 1 ( 6.2%)    | II                  |          |          |
+## |    |                      |                                 | 549 : 1 ( 6.2%)    | II                  |          |          |
+## +----+----------------------+---------------------------------+--------------------+---------------------+----------+----------+
+## | 6  | archive              | 1. Electronic Records Archiv    | 1417 (95.1%)       | IIIIIIIIIIIIIIII    | 1490     | 2        |
+## |    | [character]          | 2. NARA&#39;s Rocky Mountain Reg    | 22 ( 1.5%)         |                     | (99.87%) | (0.13%)  |
+## |    |                      | 3. National Archives at Coll    | 20 ( 1.3%)         |                     |          |          |
+## |    |                      | 4. National Archives Buildin    | 12 ( 0.8%)         |                     |          |          |
+## |    |                      | 5. Harry S. Truman Library (    | 8 ( 0.5%)          |                     |          |          |
+## |    |                      | 6. Ronald Reagan Library (Si    | 4 ( 0.3%)          |                     |          |          |
+## |    |                      | 7. NARA&#39;s Southeast Region (    | 2 ( 0.1%)          |                     |          |          |
+## |    |                      | 8. Dwight D. Eisenhower Libr    | 1 ( 0.1%)          |                     |          |          |
+## |    |                      | 9. Gerald R. Ford Library (A    | 1 ( 0.1%)          |                     |          |          |
+## |    |                      | 10. NARA&#39;s Pacific Alaska Reg   | 1 ( 0.1%)          |                     |          |          |
+## |    |                      | [ 2 others ]                    | 2 ( 0.1%)          |                     |          |          |
+## +----+----------------------+---------------------------------+--------------------+---------------------+----------+----------+</code></pre>
+</div>
+<div id="analysis-1-photo-captions" class="section level2">
+<h2>Analysis 1: Photo Captions</h2>
+<p>Now that we have our data in a tidy format, we can finally get to the interesting part: analysis!</p>
+<p>The <code>scopeAndContentNote</code> column looks like it mostly contains captions for the photographs. Let’s see what kinds of words most often appear in the captions, borrowing heavily from Julia Silge and David Robinson’s <a href="https://cran.r-project.org/web/packages/tidytext/vignettes/tidytext.html">Introduction to tidytext</a>.</p>
+<p>First make a tidy dataframe of words in <code>scopeAndContentNote</code>.</p>
+<pre class="r"><code>tidy_data %&gt;% filter (records_type == &quot;Textual Records&quot;) %&gt;%
+  dplyr::select(title, scopeAndContentNote) %&gt;%
+  unnest_tokens(word, scopeAndContentNote) -&gt; tidy_word_data</code></pre>
+<p>Next, exclude stopwords, plus some words that show up in almost every record.</p>
+<pre class="r"><code>my_stopwords &lt;- tibble(
+  word = c(&quot;full&quot;, &quot;caption&quot;, &quot;photograph&quot;, &quot;reads&quot;, &quot;na&quot;, &quot;war&quot;, &quot;relocation&quot;, &quot;authority&quot;),
+  lexicon = &quot;custom&quot;
+)
+stopwords &lt;- bind_rows(get_stopwords(), my_stopwords)
+
+cleaned_data &lt;-
+  tidy_word_data %&gt;%
+  anti_join(stopwords)</code></pre>
+<pre><code>## Joining, by = &quot;word&quot;</code></pre>
+<p>Now we can use this to make a wordcloud.</p>
+<pre class="r"><code>cleaned_data %&gt;%
+  count(word) %&gt;%
+  with(wordcloud(word, n, max.words = 50))</code></pre>
+<p><img src="/post/2018-08-09-nara-data-analysis_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
