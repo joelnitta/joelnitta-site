@@ -1,7 +1,7 @@
 ---
 title: Querying the NARA database
 author: Joel Nitta
-date: '2018-08-08'
+date: '2018-08-11'
 slug: querying-the-nara-database
 summary: Fun with U.S. Gov't-issued APIs!
 categories:
