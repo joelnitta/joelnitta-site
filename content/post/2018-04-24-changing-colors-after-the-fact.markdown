@@ -14,9 +14,13 @@ header:
   image: ''
 ---
 
+
+
+
 I, like many other data scientists out there, use `ggplot2` in R to produce my figures, all the way from exploratory analyses to final figures for publications. One thing I like about `ggplot2` is the default colors it uses. They are easy to distinguish, and I find the palette pleasing to the eye. However, I recently got to the final submission stage of a paper and realized the publisher wants CMYK color mode and tiff format for the figures. This I now realize is a fairly common demand because it makes it easier for the printer. The colors that `ggplot2` use look great on the screen (which is RGB mode), but when automatically converted to CMYK mode they look drab and pale.
 
 The code below produces examples of `ggplot2` colors as pdf files, but the second one has `colormodel="cmyk"` included in the call to `pdf()` to convert to CMYK mode.
+
 
 ```r
 library(scales)
@@ -25,7 +29,10 @@ show_col(hue_pal()(4))
 dev.off()
 ```
 
+
+
 ![](/post/2018-04-24-changing-colors-after-the-fact/ggplot_4_colors.png)
+
 
 ```r
 library(scales)
@@ -33,6 +40,8 @@ pdf(file = "ggplot_4_colors_cmyk.pdf", colormodel="cmyk")
 show_col(hue_pal()(4))
 dev.off()
 ```
+
+
 
 ![](/post/2018-04-24-changing-colors-after-the-fact/ggplot_4_colors_cmyk.png)
 
