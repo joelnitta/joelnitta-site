@@ -183,7 +183,8 @@ Now we can use `pluck` in combination with `collapse_list` to extract this parti
 
 ```{r }
 scopeAndContentNote <- map_chr(json_data, ~ 
-                               pluck(., scopeAndContentNote_location) %>% 
+                               pluck(., scopeAndContentNote_location,
+                                     .default = NA_character_) %>% 
                                  collapse_list) 
 scopeAndContentNote %>% head
 scopeAndContentNote %>% length
@@ -244,7 +245,8 @@ The next step is to map our anonymous plucking function (which works on one colu
 ```{r }
 make_df <- function (data, lookup_list, col_name) {
   sym_col_name <- sym(col_name)
-  map_chr(data, ~ pluck(., lookup_list[[col_name]]) %>% collapse_list) %>% 
+  map_chr(data, ~ pluck(., lookup_list[[col_name]], 
+                        .default = NA_character_) %>% collapse_list) %>% 
     tibble %>% select(!!sym_col_name := .)
 }
 ```
@@ -270,7 +272,7 @@ tag_location <- brackets_to_list('[["publicContributions"]][["tags"]][["tag"]]')
 Let's extract these up into their own list to at least remove some layers of complexity.
 
 ```{r }
-tag_list <- map(json_data, ~ pluck(., tag_location)) 
+tag_list <- map(json_data, ~ pluck(., tag_location, .default = NA_character_)) 
 jsonedit(tag_list[1:10])
 ```
 
@@ -279,7 +281,8 @@ Two things are immediately obvious: some items have many tags, and some have non
 To extract just the tags, which are located one level down within each item, we use another mind-bending nested map. We then collapse down the resulting character vectors into a single-length vector each by mapping `paste()`.
 
 ```{r}
-mult_tags <- map(tag_list, ~map_chr(., ~pluck(., "$") %>% collapse_list)) %>%
+mult_tags <- map(tag_list, 
+                 ~ map_chr(., ~pluck(., "$", .default = NA_character_) %>% collapse_list)) %>%
   map_chr(paste, collapse = ", ")
 mult_tags %>% head
 ```
@@ -287,7 +290,7 @@ mult_tags %>% head
 I called these "mult_tags" because each contain more than one tag. It turns out items with only one tag lack a level of nestedness. We want these too, but don't need to use the nested map for them.
 
 ```{r}
-single_tags <- map_chr(tag_list, ~pluck(., "$") %>% collapse_list)
+single_tags <- map_chr(tag_list, ~pluck(., "$", .default = NA_character_) %>% collapse_list)
 single_tags[!is.na(single_tags)] %>% head
 ```
 
