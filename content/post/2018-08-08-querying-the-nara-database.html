@@ -88,7 +88,7 @@ library(listviewer)</code></pre>
 <pre><code>## List of 1
 ##  $ opaResponse:List of 4
 ##   ..$ @status: chr &quot;200&quot;
-##   ..$ time   : chr &quot;2018-08-11T08:40:03.130Z&quot;
+##   ..$ time   : chr &quot;2018-08-13T20:47:51.621Z&quot;
 ##   ..$ request:List of 5
 ##   .. ..$ format     : chr &quot;json&quot;
 ##   .. ..$ pretty     : logi TRUE
@@ -96,12 +96,12 @@ library(listviewer)</code></pre>
 ##   .. ..$ q          : chr &quot;war%20relocation%20authority&quot;
 ##   .. ..$ resultTypes: chr &quot;item&quot;
 ##   ..$ results:List of 5
-##   .. ..$ queryTime: int 145
+##   .. ..$ queryTime: int 50
 ##   .. ..$ total    : int 5479
 ##   .. ..$ offset   : int 0
 ##   .. ..$ rows     : int 10
 ##   .. ..$ result   :List of 10</code></pre>
-<p>We see that everything is contained in a single list item, which is unnamed. Not sure what the purpose of that is! 😕</p>
+<p>We see that everything is contained in a single list item, which is unnamed. Not sure what the purpose of that is. 😕</p>
 <p>Drilling down a bit, <code>$opaResponse</code> contains <code>$request</code>, which holds metadata about our query. <code>$opaResponse</code> also contains <code>$results</code>, which sounds more like what we’re interested in!</p>
 <p>Notice that we had 5479 total results, but only 10 items in <code>$results$result</code>. This is because the default API query only returns that top 10 results. Now that we know how many results to expect, let’s specify that in a “real” query. In the API, we can indicate the maximum number of results to return (up to 10,000) with <code>rows=</code>. Note that this one will take much longer to download.</p>
 <pre class="r"><code># Wait 5 minutes so we don&#39;t overload the API with requests
@@ -154,7 +154,7 @@ tidy_data %&gt;% head</code></pre>
 <div id="level-2-intermediate" class="section level3">
 <h3>Level 2: Intermediate</h3>
 <p>Most of the bits of data we are interested in are nested further down in the list though, so this approach won’t work for those. Instead, we will use <code>purrr::pluck()</code>, which as the name suggests “plucks” more deeply nested elements out of the list.</p>
-<p>To see how this works, let’s start with a single element of the JSON data that we want to turn into a column in our tidy dataframe. Take for example, the “scopeAndContentNote” field. This appears to contain photo captions, which could be quite interesting!</p>
+<p>To see how this works, let’s start with a single element of the JSON data that we want to turn into a column in our tidy dataframe. Take for example, the “scopeAndContentNote” field. This appears to contain photo captions, which could be quite interesting.</p>
 <p>By examining the JSON data, we see “scopeAndContentNote” is nested within “item”, which is nested within “description”. We can use these as input into <code>pluck</code> to extract just this element. Let’s try that just for the first record.</p>
 <pre class="r"><code>scopeAndContentNote_location &lt;- list(&quot;description&quot;, &quot;item&quot;, &quot;scopeAndContentNote&quot;)
 pluck(json_data, 1, scopeAndContentNote_location)</code></pre>
@@ -163,22 +163,24 @@ pluck(json_data, 1, scopeAndContentNote_location)</code></pre>
 <pre class="r"><code>map_chr(json_data, ~ pluck(., scopeAndContentNote_location))</code></pre>
 <pre><code>## Error: Result 4 is not a length 1 atomic vector</code></pre>
 <p>Nope, this doesn’t work because this field is missing for the fourth item in the JSON data.</p>
-<p>This could also be an issue if the element will try to <code>pluck</code> is itself a list with multiple elements. To get around this problem, let’s make a function to flatten lists or return <code>NA</code> for missing elements.</p>
+<p>We can get around this by setting the <code>.default</code> argument of <code>pluck</code> to <code>NA</code> (Thanks to <a href="https://twitter.com/hadleywickham/status/1028967053875728384">Hadley Wickham for pointing this out!</a>)</p>
+<pre class="r"><code>map_chr(json_data, ~ pluck(., scopeAndContentNote_location, 
+                           .default = NA_character_)) %&gt;% head</code></pre>
+<pre><code>## [1] &quot;The full caption for this photograph reads: Manzanar Relocation Center, Manzanar, California. Pruning trees at this War Relocatin Authority center for evacuees of Japanese ancestry.\n&quot;          
+## [2] &quot;The full caption for this photograph reads: Manzanar Relocation Center, Manzanar, California. Lunchtime at Manzanar, a War Relocation Authority center for evacuees of Japanese ancestry.\n&quot;      
+## [3] &quot;The full caption for this photograph reads: Poston, Arizona. Constructing quarters for evacuees of Japanese ancestry at War Relocation Authority center on Colorado River Indian Reservation.\n&quot;  
+## [4] NA                                                                                                                                                                                                 
+## [5] &quot;The full caption for this photograph reads: Manzanar Relocation Center, Manzanar, California. Mealtime at Manzanar, a War Relocation Authority center for evacuees of Japanese ancestry.\n&quot;       
+## [6] &quot;The full caption for this photograph reads: Poston, Arizona. Barracks under construction at this War Relocation Authority center where evacuees of Japanese ancestry are spending the duration.\n&quot;</code></pre>
+<p>There is still one potential problem to take care of before mapping <code>pluck</code> across the dataset: what if the element will try to <code>pluck</code> is itself a list with multiple elements? To get around this, let’s make a function to aggressively flatten lists and return a character vector of length one.</p>
 <pre class="r"><code>collapse_list &lt;- function (x, collapse_char = &quot;; &quot;) {
-  if (is.null(x)) {return (NA_character_)}
+  if (is.null(x)) {return (NA_character_)} # just in case
   if (is.list(x)) {
     unlist(x) %&gt;%
       paste(sep = &quot;_&quot;, collapse = collapse_char) -&gt; x
   }
   x
 }</code></pre>
-<p>Test it out on the problematic list item.</p>
-<pre class="r"><code>pluck(json_data, 4, scopeAndContentNote_location)</code></pre>
-<pre><code>## NULL</code></pre>
-<pre class="r"><code>pluck(json_data, 4, scopeAndContentNote_location) %&gt;%
-collapse_list</code></pre>
-<pre><code>## [1] NA</code></pre>
-<p>Good! The difference between <code>NA</code> and <code>NULL</code> may not seem like much, but it’s important because many R functions (like <code>map_chr</code>) will error if given <code>NULL</code> values, but often return <code>NA</code> if given <code>NA</code>.</p>
 <p>Now we can use <code>pluck</code> in combination with <code>collapse_list</code> to extract this particular element from every result in <code>json_data</code>. Note the use of <code>~</code> to specify an anonymous function, with <code>.</code> to indicate the argument we’re mapping over.</p>
 <pre class="r"><code>scopeAndContentNote &lt;- map_chr(json_data, ~ 
                                pluck(., scopeAndContentNote_location) %&gt;% 
@@ -220,7 +222,7 @@ brackets_to_list(title_location)</code></pre>
 ## [1] &quot;title&quot;</code></pre>
 <pre class="r"><code>pluck(json_data, 1, brackets_to_list(title_location))</code></pre>
 <pre><code>## [1] &quot;Manzanar Relocation Center, Manzanar, California. Pruning trees at this War Relocatin Authority cen . . .&quot;</code></pre>
-<p>We can now (finally!) start scaling up by copying the “addresses” from RStudio’s list viewer into a list, then mapping that list onto <code>brackets_to_list</code>. Note that the “addresses” must be copied within single brackets (I’m pretty sure there’s a <code>tidyeval</code> way around this but haven’t figured it out yet… comments welcome!).</p>
+<p>We can now (finally) start scaling up by copying the “addresses” from RStudio’s list viewer into a list, then mapping that list onto <code>brackets_to_list</code>. Note that the “addresses” must be copied within single brackets (I’m pretty sure there’s a <code>tidyeval</code> way around this but haven’t figured it out yet… comments welcome).</p>
 <pre class="r"><code>list(
   contributor = &#39;[[&quot;description&quot;]][[&quot;item&quot;]][[&quot;personalContributorArray&quot;]][[&quot;personalContributor&quot;]][[&quot;contributor&quot;]][[&quot;termName&quot;]]&#39;,
   scopeAndContentNote = &#39;[[&quot;description&quot;]][[&quot;item&quot;]][[&quot;scopeAndContentNote&quot;]]&#39;,
@@ -235,7 +237,7 @@ brackets_to_list(title_location)</code></pre>
   archive = &#39;[[&quot;description&quot;]][[&quot;item&quot;]][[&quot;physicalOccurrenceArray&quot;]][[&quot;itemPhysicalOccurrence&quot;]][[&quot;locationArray&quot;]][[&quot;location&quot;]][[&quot;facility&quot;]][[&quot;termName&quot;]]&#39;
 ) %&gt;%
 map(brackets_to_list) -&gt; lookup_terms</code></pre>
-<p>The next step is to map our anonymous plucking function (which works on one column) onto the full dataset (to go across all the columns). For this, we define a new function to pass to <code>map_df</code>. This nested mapping makes my head hurt, but it works! Note that the version here is restricted to character vectors, which works for this dataset, but may need to be changed for other cases. Again, <a href="https://jennybc.github.io/purrr-tutorial/ex26_ny-food-market-json.html">Jenny Bryan’s post</a> is the go-to!</p>
+<p>The next step is to map our anonymous plucking function (which works on one column) onto the full dataset (to go across all the columns). For this, we define a new function to pass to <code>map_df</code>. This nested mapping makes my head hurt, but it works. Note that the version here is restricted to character vectors, which works for this dataset, but may need to be changed for other cases. Again, <a href="https://jennybc.github.io/purrr-tutorial/ex26_ny-food-market-json.html">Jenny Bryan’s post</a> is the go-to.</p>
 <pre class="r"><code>make_df &lt;- function (data, lookup_list, col_name) {
   sym_col_name &lt;- sym(col_name)
   map_chr(data, ~ pluck(., lookup_list[[col_name]]) %&gt;% collapse_list) %&gt;% 
@@ -261,7 +263,7 @@ other_cols %&gt;% head</code></pre>
 </div>
 <div id="level-3-facepalm" class="section level3">
 <h3>Level 3: Facepalm</h3>
-<p>Great, we’re <em>almost</em> there. There’s one last tricky list element to tackle: user-contributed tags. This one also looks quite interesting for data analysis, so I want to be sure to include it! These are tags that anybody can add to the database either through the UI or the API. Unfortunately they are… (you guessed it) a deeply nested list! We can find their location through my now tried-and-true paste from RStudio viewer method.</p>
+<p>Great, we’re <em>almost</em> there. There’s one last tricky list element to tackle: user-contributed tags. This one also looks quite interesting for data analysis, so I want to be sure to include it. These are tags that anybody can add to the database either through the UI or the API. Unfortunately they are… (you guessed it) a deeply nested list! We can find their location through my now tried-and-true paste from RStudio viewer method.</p>
 <pre class="r"><code>tag_location &lt;- brackets_to_list(&#39;[[&quot;publicContributions&quot;]][[&quot;tags&quot;]][[&quot;tag&quot;]]&#39;)</code></pre>
 <p>Let’s extract these up into their own list to at least remove some layers of complexity.</p>
 <pre class="r"><code>tag_list &lt;- map(json_data, ~ pluck(., tag_location)) 
@@ -284,7 +286,7 @@ mult_tags %&gt;% head</code></pre>
 single_tags[!is.na(single_tags)] %&gt;% head</code></pre>
 <pre><code>## [1] &quot;water tower&quot;       &quot;Japanese&quot;          &quot;construction&quot;     
 ## [4] &quot;cots&quot;              &quot;ArchivesGameNight&quot; &quot;MRC-tg1&quot;</code></pre>
-<p>Now, we can finally combine both sets of tags into the final vector!</p>
+<p>Now, we can finally combine both sets of tags into the final vector.</p>
 <pre class="r"><code>tags &lt;- coalesce(single_tags, mult_tags)</code></pre>
 <p>That <code>paste(collapse)</code> left a bunch of <code>&quot;&quot;</code> elements in our vector though. Let’s convert those to proper <code>NA</code>.</p>
 <pre class="r"><code>tags &lt;- map_chr(tags, function (x) if (x == &quot;&quot;) {NA_character_} else {x})</code></pre>
@@ -473,4 +475,5 @@ tidy_data %&gt;%
 </table></div>
 <p>Hmmm… interesting! Even this broad overview is providing a fascinating peek into the dataset. The “items” are mostly photographs, with the remaining 27% documents. Most of the photographs were taken by just a handful of people, Dorothea Lange being one of the more prolific.</p>
 <p>Whew, just tidying the JSON data took up the whole blogpost. Hopefully I can get to data analysis in the next one.</p>
+<p>Updated 2018-08-14; <a href="https://raw.githubusercontent.com/joelnitta/joelnitta-site/master/content/post/2018-08-08-querying-the-nara-database.Rmd">source code</a></p>
 </div>

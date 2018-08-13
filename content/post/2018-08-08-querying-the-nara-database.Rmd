@@ -83,7 +83,7 @@ How are the data structured? Let's look at the top 3 levels to get started.
 str(initial_search, max.level = 3)
 ```
 
-We see that everything is contained in a single list item, which is unnamed. Not sure what the purpose of that is! `r emo::ji("confused")`
+We see that everything is contained in a single list item, which is unnamed. Not sure what the purpose of that is. `r emo::ji("confused")`
 
 Drilling down a bit, `$opaResponse` contains `$request`, which holds metadata about our query.  `$opaResponse` also contains `$results`, which sounds more like what we're interested in!
 
@@ -142,7 +142,7 @@ tidy_data %>% head
 
 Most of the bits of data we are interested in are nested further down in the list though, so this approach won't work for those. Instead, we will use `purrr::pluck()`, which as the name suggests "plucks" more deeply nested elements out of the list.
 
-To see how this works, let's start with a single element of the JSON data that we want to turn into a column in our tidy dataframe. Take for example, the "scopeAndContentNote" field. This appears to contain photo captions, which could be quite interesting! 
+To see how this works, let's start with a single element of the JSON data that we want to turn into a column in our tidy dataframe. Take for example, the "scopeAndContentNote" field. This appears to contain photo captions, which could be quite interesting.
 
 By examining the JSON data, we see "scopeAndContentNote" is nested within "item", which is nested within "description". We can use these as input into `pluck` to extract just this element. Let's try that just for the first record.
 
@@ -159,11 +159,18 @@ map_chr(json_data, ~ pluck(., scopeAndContentNote_location))
 
 Nope, this doesn't work because this field is missing for the fourth item in the JSON data.
 
-This could also be an issue if the element will try to `pluck` is itself a list with multiple elements. To get around this problem, let's make a function to flatten lists or return `NA` for missing elements.
+We can get around this by setting the `.default` argument of `pluck` to `NA` (Thanks to [Hadley Wickham for pointing this out!](https://twitter.com/hadleywickham/status/1028967053875728384))
+
+```{r error=TRUE}
+map_chr(json_data, ~ pluck(., scopeAndContentNote_location, 
+                           .default = NA_character_)) %>% head
+```
+
+There is still one potential problem to take care of before mapping `pluck` across the dataset: what if the element will try to `pluck` is itself a list with multiple elements? To get around this, let's make a function to aggressively flatten lists and return a character vector of length one. 
 
 ```{r }
 collapse_list <- function (x, collapse_char = "; ") {
-  if (is.null(x)) {return (NA_character_)}
+  if (is.null(x)) {return (NA_character_)} # just in case
   if (is.list(x)) {
     unlist(x) %>%
       paste(sep = "_", collapse = collapse_char) -> x
@@ -171,16 +178,6 @@ collapse_list <- function (x, collapse_char = "; ") {
   x
 }
 ```
-
-Test it out on the problematic list item.
-
-```{r }
-pluck(json_data, 4, scopeAndContentNote_location)
-pluck(json_data, 4, scopeAndContentNote_location) %>%
-collapse_list
-```
-
-Good! The difference between `NA` and `NULL` may not seem like much, but it's important because many R functions (like `map_chr`) will error if given `NULL` values, but often return `NA` if given `NA`. 
 
 Now we can use `pluck` in combination with `collapse_list` to extract this particular element from every result in `json_data`. Note the use of `~` to specify an anonymous function, with `.` to indicate the argument we're mapping over.
 
@@ -223,7 +220,7 @@ brackets_to_list(title_location)
 pluck(json_data, 1, brackets_to_list(title_location))
 ```
 
-We can now (finally!) start scaling up by copying the "addresses" from RStudio's list viewer into a list, then mapping that list onto `brackets_to_list`. Note that the "addresses" must be copied within single brackets (I'm pretty sure there's a `tidyeval` way around this but haven't figured it out yet... comments welcome!).
+We can now (finally) start scaling up by copying the "addresses" from RStudio's list viewer into a list, then mapping that list onto `brackets_to_list`. Note that the "addresses" must be copied within single brackets (I'm pretty sure there's a `tidyeval` way around this but haven't figured it out yet... comments welcome).
 
 ```{r }
 list(
@@ -242,7 +239,7 @@ list(
 map(brackets_to_list) -> lookup_terms
 ```
 
-The next step is to map our anonymous plucking function (which works on one column) onto the full dataset (to go across all the columns). For this, we define a new function to pass to `map_df`. This nested mapping makes my head hurt, but it works! Note that the version here is restricted to character vectors, which works for this dataset, but may need to be changed for other cases. Again, [Jenny Bryan's post](https://jennybc.github.io/purrr-tutorial/ex26_ny-food-market-json.html) is the go-to!
+The next step is to map our anonymous plucking function (which works on one column) onto the full dataset (to go across all the columns). For this, we define a new function to pass to `map_df`. This nested mapping makes my head hurt, but it works. Note that the version here is restricted to character vectors, which works for this dataset, but may need to be changed for other cases. Again, [Jenny Bryan's post](https://jennybc.github.io/purrr-tutorial/ex26_ny-food-market-json.html) is the go-to.
 
 ```{r }
 make_df <- function (data, lookup_list, col_name) {
@@ -264,7 +261,7 @@ other_cols %>% head
 
 ### Level 3: Facepalm
 
-Great, we're _almost_ there. There's one last tricky list element to tackle: user-contributed tags. This one also looks quite interesting for data analysis, so I want to be sure to include it! These are tags that anybody can add to the database either through the UI or the API. Unfortunately they are... (you guessed it) a deeply nested list! We can find their location through my now tried-and-true paste from RStudio viewer method.
+Great, we're _almost_ there. There's one last tricky list element to tackle: user-contributed tags. This one also looks quite interesting for data analysis, so I want to be sure to include it. These are tags that anybody can add to the database either through the UI or the API. Unfortunately they are... (you guessed it) a deeply nested list! We can find their location through my now tried-and-true paste from RStudio viewer method.
 
 ```{r }
 tag_location <- brackets_to_list('[["publicContributions"]][["tags"]][["tag"]]')
@@ -294,7 +291,7 @@ single_tags <- map_chr(tag_list, ~pluck(., "$") %>% collapse_list)
 single_tags[!is.na(single_tags)] %>% head
 ```
 
-Now, we can finally combine both sets of tags into the final vector!
+Now, we can finally combine both sets of tags into the final vector.
 
 ```{r}
 tags <- coalesce(single_tags, mult_tags)
@@ -337,3 +334,5 @@ tidy_data %>%
 Hmmm... interesting! Even this broad overview is providing a fascinating peek into the dataset. The "items" are mostly photographs, with the remaining 27% documents. Most of the photographs were taken by just a handful of people, Dorothea Lange being one of the more prolific.
 
 Whew, just tidying the JSON data took up the whole blogpost. Hopefully I can get to data analysis in the next one.
+
+Updated 2018-08-14; [source code](https://raw.githubusercontent.com/joelnitta/joelnitta-site/master/content/post/2018-08-08-querying-the-nara-database.Rmd)
