@@ -1,0 +1,109 @@
+---
+title: How to run an R analysis anywhere
+author: Joel Nitta
+date: '2018-09-27'
+slug: how-to-run-an-r-analysis-anywhere
+summary: 'What to do when you forget your laptop charger'
+categories:
+  - R
+tags:
+  - reproducible research
+  - docker
+  - git
+header:
+  caption: ''
+  image: 'headers/how-to-run-an-r-analysis-anywhere.png'
+---
+
+
+
+<!-- use a scroll box for wide output -->
+<!-- https://stackoverflow.com/questions/36845178/width-of-r-code-chunk-output-in-rmarkdown-files-knitr-ed-to-html -->
+<style>
+pre {
+  overflow-x: auto;
+}
+pre code {
+  word-wrap: normal;
+  white-space: pre;
+}
+</style>
+<p>I’ve been meaning to make all of my projects easily accessible on the cloud for a while now mostly for greater reproducibility. But other things (<em>ahem</em> actually writing code, <em>ahem ahem</em> labwork) have taken priority, so I never made everything fully cloud-deployable. Then I forgot my laptop charger at lab on a Friday before a three-day weekend. I now had much more motivation to achieve my goal. With a few hours’ battery charge left, it was time to get my workflow on the cloud (then find someone’s computer to borrow)! These are my notes for how to do so.</p>
+<p>There are basically four components for running everything on the cloud:</p>
+<ul>
+<li>a place to store code</li>
+<li>a place to store data</li>
+<li>a computing environment</li>
+<li>a server to run everything</li>
+</ul>
+<p>There are various solutions to these problems, but I use, respectively: <strong>github</strong>, <strong>google drive</strong>, <strong>docker</strong>, and <strong>digital ocean</strong>.</p>
+<div id="launch-an-r-container-on-digital-ocean" class="section level2">
+<h2>Launch an R container on digital ocean</h2>
+<p><a href="https://www.digitalocean.com">Digital Ocean</a> is cloud services platform. They do a lot of things, but the pertinent one for this post are their convenient <a href="https://www.digitalocean.com/docs/one-clicks/">One-click Applications</a> that let you run servers (“droplets” in Digital Ocean parlance) for specific tasks very easily.</p>
+<p><a href="https://www.docker.com/">Docker</a> is a freely-available system for running self-contained computing environments. It’s great for reproducible research because it takes all the uncertainty out of the user’s computer settings like software versions and dependencies. Even better, the <a href="https://www.rocker-project.org">Rocker Project</a> maintains pre-built Docker images for R, so you don’t have to worry about building it yourself (for R projects, anyways).</p>
+<p>I use Digital Ocean’s Docker application to run a Docker image on a server, which I can then access from a browser on any computer.</p>
+<p>Here’s how:</p>
+<p>Create an account and login to Digital Ocean. Click the green <strong>Create</strong> button in the upper right. Select <strong>Droplets</strong>, then under <strong>Choose an Image</strong>, click <strong>One-click Apps</strong>, then <strong>Docker</strong>. From here, you can choose how much juice you want your server to have and how much you want to pay for it. For typical R sessions, I’ve found the default $20 per month (3 cents per hr) server to be fine, or perhaps the next tier up. If most longish-running analyses take less than a day to a few days, this only costs you a few cups of coffee<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>.</p>
+<p>Once the droplet is running, copy the IP address. In the terminal, run <code>ssh root@&lt;IP address&gt;</code>. Type the password provided in the email sent when the droplet got created (if you don’t have an SSH key setup).</p>
+<p>To launch one of the <a href="https://www.rocker-project.org">Rocker R containers</a> (e.g., tidyverse), run</p>
+<pre class="console"><code>docker run -d -p 8787:8787 -e USER=&lt;user name&gt; -e PASSWORD=&lt;clever password&gt; -e ROOT=true rocker/verse</code></pre>
+<p>Note that you need to provide <code>USER</code>, <code>PASSWORD</code>, and <code>ROOT</code>with the <code>-e</code> argument. Previous versions of Rocker containers would just allow you to sign in with login and password both “rstudio” by default, but no more.</p>
+<p>Access the RStudio Server from your browser at <code>http://&lt;IP ADDRESS&gt;:8787</code>.</p>
+<p>Login using the username and password you specified with the <code>docker run</code> command.</p>
+</div>
+<div id="get-your-code" class="section level2">
+<h2>Get your code</h2>
+<p>I’m going to assume ya’ll know about git and github. If not, Jenny Bryan’s <a href="http://happygitwithr.com/">Happy Git with R</a> is a great place to start from an R-centric perspective, and there are loads of other resources out there.</p>
+<p>RStudio Server gives us everything we need to edit and run R code from a browser window, but the working directory is still empty. We need to pull down our code from github.</p>
+<p>First though, let’s create a new project in RStudio to house our code. This will allow us to access useful tools like the RStudio interface to git.</p>
+<p>Click <strong>File</strong> → <strong>New Project</strong> → <strong>New Directory</strong> → <strong>New Project</strong>. Enter the name for your project and check the <strong>Create a git repository</strong> box.</p>
+<p>In the RStudio terminal window (the “terminal” tab is next to the “console” tab), add your remote repo with the canonical name “origin” for pulling code:</p>
+<pre class="console"><code>git remote add origin https://github.com/&lt;user&gt;/&lt;repo&gt;.git</code></pre>
+<p>Pull your code (you may need to delete the existing <code>.gitignore</code> file first):</p>
+<pre class="console"><code>git pull origin master</code></pre>
+<p>Tell git who you are:</p>
+<pre class="console"><code>git config --global user.name &quot;My Name&quot;
+git config --global user.email myname@somewhere.com</code></pre>
+<p>Now you should be able to edit code, save it, and push changes to your github repo.</p>
+</div>
+<div id="get-your-data" class="section level2">
+<h2>Get your data</h2>
+<p>The above steps may be all you need to run analyses and edit R code in RStudio on the cloud. However, my project also includes some large raw data files that are too big to host on github (and I wouldn’t want to track raw data anyways). My solution to this is google drive and the <code>googledrive</code> <a href="https://googledrive.tidyverse.org/index.html">R package</a>.</p>
+<p>You could either use usual google drive folders or a backup folder to host data, but I prefer the backup method. That way I don’t have to move my raw data to a google drive folder, and I get an extra back-up to boot.</p>
+<p>First, install <a href="https://www.google.com/drive/download/backup-and-sync/">Backup and Sync</a>.</p>
+<p>Select the data folder you want to backup, and wait for everything to upload.</p>
+<p>Install the <code>googledrive</code> R package:</p>
+<pre class="r"><code>install.packages(&quot;googledrive&quot;)</code></pre>
+<p>The first time you use <code>googledrive</code>, it will ask you if you want to “use a local file (‘.httr-oauth’), to cache OAuth access credentials between R sessions”? This is a very convenient way to securely access your google account, because the login info is stored in the <code>.httr-oauth</code> file, and you won’t be tempted to save it in code or have to enter it manually every time. Be sure to add <code>.httr-oauth</code> to your <code>.gitignore</code> to keep it out of your repo though.</p>
+<p>You will need to find the path to your data folder on google drive. This may take some trial and error, depending on how your google drive is organized. The <a href="https://googledrive.tidyverse.org/reference/drive_ls.html"><code>drive_ls()</code></a> function is your friend here. The name of the folder I selected for back-up is <code>data_raw</code>, and its path on google drive is <code>My MacBook Pro/data_raw/</code>.</p>
+<div id="downloading-files-simple-case" class="section level3">
+<h3>Downloading files: simple case</h3>
+<p>If your backed-up data folder only consists of files within a single folder and no subdirectories, downloading it is simple.</p>
+<p>Here I use the path to my <code>data_raw</code> folder on my google drive as an example. Create an empty <code>data_raw</code> folder within the RStudio project, then run:</p>
+<pre class="r"><code>folder_contents &lt;- drive_ls(&quot;My MacBook Pro/data_raw/&quot;)
+
+purrr::walk2(
+    map(folder_contents$id, as_id),
+    paste0(&quot;data_raw/&quot;, folder_contents$name),
+    drive_download,
+    overwrite = TRUE
+  )</code></pre>
+</div>
+<div id="downloading-files-dealing-with-subfolders" class="section level3">
+<h3>Downloading files: dealing with subfolders</h3>
+<p>If your data are organized into subfolders, things are a bit more tricky because <code>googledrive</code> only downloads files, not folders. Hopefully your organization scheme doesn’t have too many subfolders, which make things hard to follow anyways. There is probably a way to recursively download everything and preserve the folder structure, but my work-around for now is to download files on a per-folder basis.</p>
+<p>I include a <code>README.MD</code> describing the files for each subfolder in <code>data</code> or <code>data_raw</code>, and track it with git (probably a good idea anyways). This way, my folder structure is preserved in the repo even though I ignore all the other raw data files.</p>
+<p>I wrote <a href="https://gist.github.com/joelnitta/d38184c2554963d41587b910595ea081">a function</a> based on the above code to filter out subfolders and download all the files in folder. I also put it in my lovely <code>jntools</code> <a href="https://github.com/joelnitta/jntools">R package</a>.</p>
+</div>
+</div>
+<div id="wrap-up" class="section level2">
+<h2>Wrap-up</h2>
+<p>That’s pretty much it.</p>
+<p>Be careful about downloading any results though, but because once the container is gone, anything inside it disappears for good!</p>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>You are charged for the time the server exists, so make sure to destroy it when you’re done or you will be billed even if it’s just sitting there not running. Also, beware of weird error messages that may be the result of running out of memory if you were too cheap.<a href="#fnref1">↩</a></p></li>
+</ol>
+</div>
