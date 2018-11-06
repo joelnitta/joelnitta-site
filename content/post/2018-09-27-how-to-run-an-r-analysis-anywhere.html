@@ -1,9 +1,9 @@
 ---
 title: How to run an R analysis anywhere
 author: Joel Nitta
-date: '2018-09-27'
+date: '2018-11-06'
 slug: how-to-run-an-r-analysis-anywhere
-summary: 'What to do when you forget your laptop charger'
+summary: 'What will *you* do when your laptop crashes?'
 categories:
   - R
 tags:
@@ -28,7 +28,7 @@ pre code {
   white-space: pre;
 }
 </style>
-<p>I’ve been meaning to make all of my projects easily accessible on the cloud for a while now mostly for greater reproducibility. But other things (<em>ahem</em> actually writing code, <em>ahem ahem</em> labwork) have taken priority, so I never made everything fully cloud-deployable. Then I forgot my laptop charger at lab on a Friday before a three-day weekend. I now had much more motivation to achieve my goal. With a few hours’ battery charge left, it was time to get my workflow on the cloud (then find someone’s computer to borrow)! These are my notes for how to do so.</p>
+<p>I’ve been meaning to make all of my projects easily accessible on the cloud for a while now mostly for greater reproducibility. But other things (<em>ahem</em> actually writing code, <em>ahem ahem</em> labwork) have taken priority, so I never made everything fully cloud-deployable. Then I forgot my laptop charger at lab on a Friday before a three-day weekend. I now had much more motivation to achieve my goal. With a few hours’ battery charge left, it was time to get my workflow on the cloud (then find someone’s computer to borrow)! These are my notes for how to do so.<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
 <p>There are basically four components for running everything on the cloud:</p>
 <ul>
 <li>a place to store code</li>
@@ -43,7 +43,7 @@ pre code {
 <p><a href="https://www.docker.com/">Docker</a> is a freely-available system for running self-contained computing environments. It’s great for reproducible research because it takes all the uncertainty out of the user’s computer settings like software versions and dependencies. Even better, the <a href="https://www.rocker-project.org">Rocker Project</a> maintains pre-built Docker images for R, so you don’t have to worry about building it yourself (for R projects, anyways).</p>
 <p>I use Digital Ocean’s Docker application to run a Docker image on a server, which I can then access from a browser on any computer.</p>
 <p>Here’s how:</p>
-<p>Create an account and login to Digital Ocean. Click the green <strong>Create</strong> button in the upper right. Select <strong>Droplets</strong>, then under <strong>Choose an Image</strong>, click <strong>One-click Apps</strong>, then <strong>Docker</strong>. From here, you can choose how much juice you want your server to have and how much you want to pay for it. For typical R sessions, I’ve found the default $20 per month (3 cents per hr) server to be fine, or perhaps the next tier up. If most longish-running analyses take less than a day to a few days, this only costs you a few cups of coffee<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>.</p>
+<p>Create an account and login to Digital Ocean. Click the green <strong>Create</strong> button in the upper right. Select <strong>Droplets</strong>, then under <strong>Choose an Image</strong>, click <strong>One-click Apps</strong>, then <strong>Docker</strong>. From here, you can choose how much juice you want your server to have and how much you want to pay for it. For typical R sessions, I’ve found the default $20 per month (3 cents per hr) server to be fine, or perhaps the next tier up. If most longish-running analyses take less than a day to a few days, this only costs you a few cups of coffee<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>.</p>
 <p>Once the droplet is running, copy the IP address. In the terminal, run <code>ssh root@&lt;IP address&gt;</code>. Type the password provided in the email sent when the droplet got created (if you don’t have an SSH key setup).</p>
 <p>To launch one of the <a href="https://www.rocker-project.org">Rocker R containers</a> (e.g., tidyverse), run</p>
 <pre class="console"><code>docker run -d -p 8787:8787 -e USER=&lt;user name&gt; -e PASSWORD=&lt;clever password&gt; -e ROOT=true rocker/verse</code></pre>
@@ -104,6 +104,7 @@ purrr::walk2(
 <div class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p>You are charged for the time the server exists, so make sure to destroy it when you’re done or you will be billed even if it’s just sitting there not running. Also, beware of weird error messages that may be the result of running out of memory if you were too cheap.<a href="#fnref1">↩</a></p></li>
+<li id="fn1"><p>After writing the first draft of this post, my computer actually failed to start up after installing an update. I was able to run everything on a computer in my lab following my own instructions, so doing this was definitely worth it!<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>You are charged for the time the server exists, so make sure to destroy it when you’re done or you will be billed even if it’s just sitting there not running. Also, beware of weird error messages that may be the result of running out of memory if you were too cheap.<a href="#fnref2">↩</a></p></li>
 </ol>
 </div>

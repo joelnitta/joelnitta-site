@@ -1,9 +1,9 @@
 ---
 title: How to run an R analysis anywhere
 author: Joel Nitta
-date: '2018-09-27'
+date: '2018-11-06'
 slug: how-to-run-an-r-analysis-anywhere
-summary: 'What to do when you forget your laptop charger'
+summary: 'What will *you* do when your laptop crashes?'
 categories:
   - R
 tags:
@@ -26,7 +26,7 @@ pre code {
 }
 </style>
 
-I've been meaning to make all of my projects easily accessible on the cloud for a while now mostly for greater reproducibility. But other things (*ahem* actually writing code, *ahem ahem* labwork) have taken priority, so I never made everything fully cloud-deployable. Then I forgot my laptop charger at lab on a Friday before a three-day weekend. I now had much more motivation to achieve my goal. With a few hours' battery charge left, it was time to get my workflow on the cloud (then find someone's computer to borrow)! These are my notes for how to do so.
+I've been meaning to make all of my projects easily accessible on the cloud for a while now mostly for greater reproducibility. But other things (*ahem* actually writing code, *ahem ahem* labwork) have taken priority, so I never made everything fully cloud-deployable. Then I forgot my laptop charger at lab on a Friday before a three-day weekend. I now had much more motivation to achieve my goal. With a few hours' battery charge left, it was time to get my workflow on the cloud (then find someone's computer to borrow)! These are my notes for how to do so.[^1]
 
 There are basically four components for running everything on the cloud: 
 
@@ -47,7 +47,7 @@ I use Digital Ocean's Docker application to run a Docker image on a server, whic
 
 Here's how:
 
-Create an account and login to Digital Ocean. Click the green __Create__ button in the upper right. Select __Droplets__, then under __Choose an Image__, click __One-click Apps__, then __Docker__. From here, you can choose how much juice you want your server to have and how much you want to pay for it. For typical R sessions, I've found the default $20 per month (3 cents per hr) server to be fine, or perhaps the next tier up. If most longish-running analyses take less than a day to a few days, this only costs you a few cups of coffee[^1].
+Create an account and login to Digital Ocean. Click the green __Create__ button in the upper right. Select __Droplets__, then under __Choose an Image__, click __One-click Apps__, then __Docker__. From here, you can choose how much juice you want your server to have and how much you want to pay for it. For typical R sessions, I've found the default $20 per month (3 cents per hr) server to be fine, or perhaps the next tier up. If most longish-running analyses take less than a day to a few days, this only costs you a few cups of coffee[^2].
 
 Once the droplet is running, copy the IP address. In the terminal, run `ssh root@<IP address>`. Type the password provided in the email sent when the droplet got created (if you don't have an SSH key setup).
 
@@ -145,4 +145,6 @@ That's pretty much it.
 
 Be careful about downloading any results though, but because once the container is gone, anything inside it disappears for good!
 
-[^1]: You are charged for the time the server exists, so make sure to destroy it when you're done or you will be billed even if it's just sitting there not running. Also, beware of weird error messages that may be the result of running out of memory if you were too cheap.
+[^1]: After writing the first draft of this post, my computer actually failed to start up after installing an update. I was able to run everything on a computer in my lab following my own instructions, so doing this was definitely worth it! 
+
+[^2]: You are charged for the time the server exists, so make sure to destroy it when you're done or you will be billed even if it's just sitting there not running. Also, beware of weird error messages that may be the result of running out of memory if you were too cheap.
