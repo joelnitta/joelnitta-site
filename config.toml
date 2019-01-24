@@ -239,6 +239,11 @@ enableGitInfo = false
     link = "https://scholar.google.com/citations?user=FtzrMYwAAAAJ"
 
   [[params.social]]
+    icon = "publons"
+    icon_pack = "ai"
+    link = "https://publons.com/researcher/1537346/joel-nitta/"
+
+  [[params.social]]
     icon = "github"
     icon_pack = "fa"
     link = "//github.com/joelnitta"
