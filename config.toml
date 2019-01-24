@@ -242,6 +242,11 @@ enableGitInfo = false
     icon = "github"
     icon_pack = "fa"
     link = "//github.com/joelnitta"
+    
+  [[params.social]]
+    icon = "cv"
+    icon_pack = "ai"
+    link = "https://drive.google.com/uc?export=download&id=1bBADSSDT0K3xmfonbTUHLjyMQlud3_hB"
 
 
 # Navigation Links
