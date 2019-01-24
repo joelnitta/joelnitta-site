@@ -35,7 +35,7 @@ weight = 5
 
 # About Me
 
-I am a Japan Society for the Promotion of Science Postdoctoral Fellow at the <a href="http://www.kahaku.go.jp/english/">National Museum of Nature and Science, Japan</a>. I study **ferns**, an ancient and diverse lineage of vascular plants.
+I am a Peter Buck Postdoctoral Fellow at the <a href="https://naturalhistory.si.edu/research/botany/">Smithsonian National Museum of Natural History</a>. I study **ferns**, an ancient and diverse lineage of vascular plants.
 
 Ferns have a unique lifecycle combining two free-living stages (gametophyte and sporophyte) that differ from each other dramatically in appearance and physiology. This sets ferns apart from nearly all other land plants, and has important implications for their ecology and evolution. I am particularly interested in how different stages of the fern lifecycle contribute to community assembly processes, as well as fern ecology, evolution, and systematics generally.
 
