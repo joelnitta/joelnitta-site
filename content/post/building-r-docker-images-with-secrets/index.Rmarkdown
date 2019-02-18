@@ -11,7 +11,7 @@ tags:
   - reproducible research
 header:
   caption: ''
-  image: 'headers/top_secret_header.png'
+  image: 'top_secret_header.png'
   preview_only: false
 image:
   caption: ''
@@ -32,7 +32,7 @@ header <-
   image_chop("0x40") %>%
   image_resize("700x")
 
-image_write(header, path = here::here("static/img/headers/top_secret_header.png"), format = "png")
+image_write(header, path = here::here("static/img/top_secret_header.png"), format = "png")
 
 # Make "featured" image more rectangular to go next to text
 featured <- 

@@ -393,9 +393,11 @@ Hmmm... interesting! Even this broad overview is providing a fascinating peek in
 
 Whew, just tidying the JSON data took up the whole blogpost. Hopefully I can get to data analysis in the next one.
 
+----
+
 Updated 2019-02-18
 
-[source code](https://raw.githubusercontent.com/joelnitta/joelnitta-site/master/content/post/querying-the-nara-database/index.Rmarkdown)
+[source code](https://github.com/joelnitta/joelnitta-site/blob/master/content/post/querying-the-nara-database/index.Rmd)
 
 ```{r sesh}
 sessionInfo()

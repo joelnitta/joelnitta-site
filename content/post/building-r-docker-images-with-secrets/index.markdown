@@ -11,7 +11,7 @@ tags:
   - reproducible research
 header:
   caption: ''
-  image: 'headers/top_secret_header.png'
+  image: 'top_secret_header.png'
   preview_only: false
 image:
   caption: ''
