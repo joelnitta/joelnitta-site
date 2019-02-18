@@ -45,7 +45,7 @@ setwd(here())
 
 # Save header image in case the link breaks
 image_read("https://www.nps.gov/orgs/1260/images/Banner_DSCN0044_960.jpg?maxwidth=1200&maxheight=1200&autorotate=false") %>%
-image_write(path = here("public/img/headers/querying-the-nara-database.png"), format = "png")
+image_write(path = here("static/img/headers/querying-the-nara-database.png"), format = "png")
 
 # Make square(ish) version as feature image
 image_read("https://www.nps.gov/orgs/1260/images/Banner_DSCN0044_960.jpg?maxwidth=1200&maxheight=1200&autorotate=false") %>%
