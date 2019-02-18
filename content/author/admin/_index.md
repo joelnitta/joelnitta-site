@@ -1,0 +1,89 @@
++++
+# Display name
+name = "Joel Nitta"
+
+# Username (this should match the folder name)
+authors = ["admin"]
+
+# Is this the primary user of the site?
+superuser = true
+
+# Role/position
+role = "Postdoctoral Fellow"
+
+# Organizations/Affiliations
+#   Separate multiple entries with a comma, using the form: `[ {name="Org1", url=""}, {name="Org2", url=""} ]`.
+organizations = [ { name = "Smithsonian Institution", url = "https://naturalhistory.si.edu/research/botany/" } ]
+
+# Short bio (displayed in user profile at end of posts)
+bio = ""
+
+# Enter email to display Gravatar (if Gravatar enabled in Config)
+email = ""
+
+# List (academic) interests or hobbies
+interests = [
+  "Plant Systematics",
+  "Community Ecology",
+  "R"
+]
+
+# Organizational groups that you belong to (for People widget)
+#   Set this to `[]` or comment out if you are not using People widget.
+user_groups = []
+
+# List qualifications (such as academic degrees)
+[[education.courses]]
+  course = "PhD in Organismic and Evolutionary Biology"
+  institution = "Harvard University"
+  year = 2016
+
+[[education.courses]]
+  course = "MS in Biological Sciences"
+  institution = "University of Tokyo"
+  year = 2010
+
+[[education.courses]]
+  course = "BA in Integrative Biology and Japanese Language"
+  institution = "University of California, Berkeley"
+  year = 2007
+
+# Social/Academic Networking
+# For available icons, see: https://sourcethemes.com/academic/docs/widgets/#icons
+#   For an email link, use "fas" icon pack, "envelope" icon, and a link in the
+#   form "mailto:your-email@example.com" or "#contact" for contact widget.
+
+[[social]]
+  icon = "envelope"
+  icon_pack = "fa"
+  link = "mailto:joelnitta@gmail.com"
+
+[[social]]
+  icon = "twitter"
+  icon_pack = "fab"
+  link = "//twitter.com/joel_nitta"
+
+[[social]]
+  icon = "google-scholar"
+  icon_pack = "ai"
+  link = "https://scholar.google.com/citations?user=FtzrMYwAAAAJ"
+
+[[social]]
+  icon = "github"
+  icon_pack = "fab"
+  link = "//github.com/joelnitta"
+
+# Link to a PDF of your resume/CV from the About widget.
+# To enable, copy your resume/CV to `static/files/cv.pdf` and uncomment the lines below.
+[[social]]
+   icon = "cv"
+   icon_pack = "ai"
+   link = "files/cv.pdf"
+
++++
+
+I am a Peter Buck Postdoctoral Fellow at the <a href="https://naturalhistory.si.edu/research/botany/">Smithsonian National Museum of Natural History</a>. I study **ferns**, an ancient and diverse lineage of vascular plants.
+
+Ferns have a unique lifecycle combining two free-living stages (gametophyte and sporophyte) that differ from each other dramatically in appearance and physiology. This sets ferns apart from nearly all other land plants, and has important implications for their ecology and evolution. I am particularly interested in how different stages of the fern lifecycle contribute to community assembly processes, as well as fern ecology, evolution, and systematics generally.
+
+I am also an enthusiastic adherent of reproducible analysis and coding, especially with [<i class="fab fa-r-project"></i>](https://www.r-project.org)! Please see my <a href="/#posts" data-target="#posts">blog</a> for more stories about this topic.

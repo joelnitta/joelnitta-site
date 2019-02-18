@@ -1,0 +1,402 @@
+---
+title: Querying the NARA database
+author: Joel Nitta
+date: '2018-08-11'
+slug: querying-the-nara-database
+summary: Fun with U.S. Gov't-issued APIs!
+categories:
+  - R
+  - tidyverse
+tags:
+  - JSON
+  - API
+  - National Archives and Records Administration
+header:
+  caption: 'Image Credit: [NPS.gov](https://www.nps.gov/orgs/1260/archives.htm)'
+  image: 'headers/querying-the-nara-database.png'
+  preview_only: false
+image:
+  caption: ''
+  focal_point: 'top'
+  preview_only: true
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 2
+    css: "/css/summarytools.css"
+reading_time: false
+---
+<!-- use a scroll box for wide output --> 
+<!-- https://stackoverflow.com/questions/36845178/width-of-r-code-chunk-output-in-rmarkdown-files-knitr-ed-to-html --> 
+<style>
+pre {
+  overflow-x: auto;
+}
+pre code {
+  word-wrap: normal;
+  white-space: pre;
+}
+</style>
+
+```{r make-header-image, include = FALSE, eval = FALSE}
+library(here)
+library(magick)
+setwd(here())
+
+# Save header image in case the link breaks
+image_read("https://www.nps.gov/orgs/1260/images/Banner_DSCN0044_960.jpg?maxwidth=1200&maxheight=1200&autorotate=false") %>%
+image_write(path = here("public/img/headers/querying-the-nara-database.png"), format = "png")
+
+# Make square(ish) version as feature image
+image_read("https://www.nps.gov/orgs/1260/images/Banner_DSCN0044_960.jpg?maxwidth=1200&maxheight=1200&autorotate=false") %>%
+  image_crop("500x300+100") %>%
+  image_write(path = here("content/post/querying-the-nara-database/featured.png"), format = "png")
+```
+
+
+```{r silent_setup, include=FALSE} 
+library(emo)
+library(knitr)
+opts_chunk$set(comment = NA, prompt = FALSE)
+
+library(summarytools)
+st_options(plain.ascii = FALSE,          # This is a must in Rmd documents
+           style = "rmarkdown",          # idem
+           dfSummary.varnumbers = FALSE, # This keeps results narrow enough
+           dfSummary.valid.col = FALSE)  # idem
+
+ st_css() # Include CSS for styling summarytools table
+ 
+ library(widgetframe) # For framing HTML widgets
+```
+
+## TL;DR
+
+* NARA is the U.S. national records archive with >100 terabytes of data and an open API
+* The data are deeply nested and a pain to navigate
+* I show how to extract and tidy the useful bits
+
+## What is the NARA API?
+
+NARA is the [The U.S. National Archives and Records Administration](https://www.archives.gov/). According to the [website](https://www.archives.gov/publications/general-info-leaflets/1-about-archives.html), the NARA collection includes:
+
+> "approximately 10 billion pages of textual records; 12 million maps, charts, and architectural and engineering drawings; 25 million still photographs and graphics; 24 million aerial photographs; 300,000 reels of motion picture film; 400,000 video and sound recordings; and 133 terabytes of electronic data." 
+
+In other words, if you're interested in big data, this is your kind of place! Traditionally, most "records" were physical objects stored in archives, but these days NARA is getting better and better about digitazation and open access. I only know this because a certain somebody who does a lot of research in the archives said to me the other day "Hey, NARA says they have an [API](https://github.com/usnationalarchives/Catalog-API). What can we do with that?" `r emo::ji("thinking")`
+
+This person happens to be researching the [internment of Japanese Americans during WWII](https://en.wikipedia.org/wiki/Internment_of_Japanese_Americans). The main U.S. government agency involved in this regrettable activity was the [War Relocation Authority](https://en.wikipedia.org/wiki/War_Relocation_Authority). 
+
+Googling failed to turn up any existing R package to interface with the NARA API, despite its hugeness. Look like it's time to roll up our sleeves and get our hands dirty...
+
+Let's query "war relocation authority" on the NARA API, get those data into R, and see what they have to say!
+
+## Set-up
+
+```{r setup, results="hide", message=FALSE, warning=FALSE}
+library(tidyverse)
+library(jsonlite)
+library(listviewer)
+```
+
+## Data Import
+
+NARA has an open API, with the base URL <https://catalog.archives.gov/api/v1>. The [github documentation](https://github.com/usnationalarchives/Catalog-API/blob/master/search_and_export.md) has a very helpful explanation of how to query the API, as well as a [sandbox](https://catalog.archives.gov/interactivedocumentation) to test things out. Here, we are going to restrict our results to just "items", which [according to NARA's data model](https://www.archives.gov/research/data-model/) are:
+
+> "The smallest intellectually indivisible archival unit (e.g. a letter, memorandum, report, leaflet, or photograph)."
+
+If we were not to do so, the search would also turn up loads of metadata including bits of `.gov` websites, collections of items, etc. We specify our query terms with `q=war%20relocation%20authority` and filter by the "item" result type with `resultTypes=item`.
+
+```{r initial-query}
+initial_search <- jsonlite::fromJSON("https://catalog.archives.gov/api/v1?&q=war%20relocation%20authority&resultTypes=item", simplifyVector = FALSE)
+```
+
+How are the data structured? Let's look at the top 3 levels to get started.
+
+```{r initial-query-structure}
+str(initial_search, max.level = 3)
+```
+
+We see that everything is contained in a single list item, which is unnamed. Not sure what the purpose of that is. `r emo::ji("confused")`
+
+Drilling down a bit, `$opaResponse` contains `$request`, which holds metadata about our query.  `$opaResponse` also contains `$results`, which sounds more like what we're interested in!
+
+Notice that we had `r initial_search[["opaResponse"]][["results"]][["total"]]` total results, but only 10 items in `$results$result`. This is because the default API query only returns that top 10 results. Now that we know how many results to expect, let's specify that in a "real" query. In the API, we can indicate the maximum number of results to return (up to 10,000) with `rows=`. Note that this one will take much longer to download.
+
+```{r real-query, cache = TRUE}
+# Wait a minute so we don't overload the API with requests
+Sys.sleep(60)
+
+# Get number of rows to download from initial results
+n_rows <- initial_search[["opaResponse"]][["results"]][["total"]]
+
+# Set a timer
+start_time <- Sys.time()
+
+# Call the API, specifying the total number of rows from the results of the initial search
+json_raw <- jsonlite::fromJSON(glue::glue("https://catalog.archives.gov/api/v1?&q=war%20relocation%20authority&resultTypes=item&rows={n_rows}"), simplifyVector = FALSE)
+
+# See how long it took
+finish_time <- Sys.time()
+finish_time - start_time
+```
+
+From our glimpse into the structure of the initial results, we know that the data we're interested in are nested down in `$opaResponse$results$result`. Let's extract those as `json_data`.
+
+```{r real-query-length}
+json_data <- json_raw$opaResponse$results$result
+nresults <- length(json_data)
+nresults
+```
+
+OK, so how are the "real" results structured? There's no way to check each one, so let's grab 10 randomly and have a look.
+
+```{r real-query-structure-notrun, echo=TRUE, eval = FALSE}
+set.seed(3098) # for reproducibility
+jsonedit(json_data[sample(1:nresults, 10)])
+```
+
+```{r real-query-structure, echo=FALSE, eval = TRUE}
+set.seed(3098) # for reproducibility
+widget <- jsonedit(json_data[sample(1:nresults, 10)])
+widgetframe::frameWidget(widget, height = "350")
+```
+
+It looks like they have a more-or-less shared structure (6--7 items each), so we _should_ be able to wrangle them into something more tidy.
+
+## Data Tidying
+
+The number of headaches this induces depends on how deeply nested the items are. We'll start easy.
+
+### Level 1: Beginner
+
+Within `json_data`, each item contains just a few items that don't contain nested lists. We can just use these directly to start building our tidy dataframe. Forunately, none of these contain null values, so we don't have to deal with that headache. For details on this and other more advanced ways to build tidy dataframes from JSON lists, see [Jenny Bryan's excellent purrr tutorial](https://jennybc.github.io/purrr-tutorial/ex26_ny-food-market-json.html).
+
+```{r simple-cols}
+simple_cols <- c("naId", "type", "score")
+
+tidy_data <- json_data %>% 
+  map_df(`[`, simple_cols)
+
+tidy_data %>% head
+```
+
+### Level 2: Intermediate
+
+Most of the bits of data we are interested in are nested further down in the list though, so this approach won't work for those. Instead, we will use `purrr::pluck()`, which as the name suggests "plucks" more deeply nested elements out of the list.
+
+To see how this works, let's start with a single element of the JSON data that we want to turn into a column in our tidy dataframe. Take for example, the "scopeAndContentNote" field. This appears to contain photo captions, which could be quite interesting.
+
+By examining the JSON data, we see "scopeAndContentNote" is nested within "item", which is nested within "description". We can use these as input into `pluck` to extract just this element. As the docs for `pluck` say, "if your accessors are stored in a list, you can splice that in with !!!". Let's try that just for the first record:
+
+
+```{r scope-and-content}
+scopeAndContentNote_location <- list("description", "item", "scopeAndContentNote")
+
+pluck(json_data, 1, !!!scopeAndContentNote_location)
+```
+
+Maybe we can map the `pluck` function over the whole list and thereby extract "scopeAndContentNote"?
+  
+```{r map-scope-and-content, error=TRUE}
+map_chr(json_data, ~ pluck(., !!!scopeAndContentNote_location))
+```
+
+Nope, this doesn't work because this field is missing for the fourth item in the JSON data.
+
+We can get around this by setting the `.default` argument of `pluck` to `NA` (Thanks to [Hadley Wickham for pointing this out!](https://twitter.com/hadleywickham/status/1028967053875728384))
+
+```{r use-default, error=TRUE}
+map_chr(json_data, ~ pluck(., !!!scopeAndContentNote_location, 
+  .default = NA_character_)) %>% head
+```
+
+There is still one potential problem to take care of before mapping `pluck` across the dataset: what if the element will try to `pluck` is itself a list with multiple elements? To get around this, let's make a function to aggressively flatten lists and return a character vector of length one. 
+
+```{r collapse-list}
+collapse_list <- function (x, collapse_char = "; ") {
+  if (is.null(x)) {return (NA_character_)} # just in case
+  if (is.list(x)) {
+    unlist(x) %>%
+      paste(sep = "_", collapse = collapse_char) -> x
+  }
+  x
+}
+```
+
+Now we can use `pluck` in combination with `collapse_list` to extract this particular element from every result in `json_data`. Note the use of `~` to specify an anonymous function, with `.` to indicate the argument we're mapping over.
+
+```{r pluck-scope}
+scopeAndContentNote <- map_chr(
+  json_data, ~ pluck(., !!!scopeAndContentNote_location, 
+  .default = NA_character_) %>% collapse_list)
+
+scopeAndContentNote %>% head
+
+scopeAndContentNote %>% length
+```
+
+Cool! But how do we scale up to the rest of the elements we want to `pluck`?
+
+First of all, we need an easy way to find the locations of the elements we are interested within this gaping black hole of a list. I manually typed in the (rather short) three levels to "scopeAndContentNote", but I'd rather not do that for everything.
+
+Here is where RStudio really shines, and it would be a much bigger pain without it. If you click on the `json_data` in the "Environment" tab, or just type `View(json_data)` in the console, you'll get a view of the nested list similar to that produced by `jsonedit()`. We can drill down through the nested list and identify the bits of data that matter. Once you find something that you want to keep, click the "copy" icon on the right side. This will copy the double-bracket code needed to grab that element to the console.
+
+Here's a twitter-view of how that works:
+  
+```{r tweet, echo=FALSE}
+blogdown::shortcode("tweet", 1025111258666692608)
+```
+
+That's very handy, but unfortunately `pluck` needs the directions to the thing to `pluck` either as a function or a list, not a bunch of strings in brackets. So, here is a fairly hacky function to convert a line of strings in brackets to a list.
+
+```{r make_lookup_list}
+brackets_to_list <- function (x) {
+  gsub("]][[", "_", x, fixed = TRUE) %>%
+    gsub("[[", "", ., fixed = TRUE) %>%
+    gsub("]]", "", ., fixed = TRUE) %>%
+    gsub('\"', "", ., fixed = TRUE) %>%
+    stringr::str_split("_") %>%
+    purrr::flatten()
+}
+
+title_location <- '[["description"]][["item"]][["title"]]'
+
+brackets_to_list(title_location)
+
+pluck(json_data, 1, !!!brackets_to_list(title_location))
+```
+
+We can now (finally) start scaling up by copying the "addresses" from RStudio's list viewer into a list, then mapping that list onto `brackets_to_list`. Note that the "addresses" must be copied within single brackets (I'm pretty sure there's a `tidyeval` way around this but haven't figured it out yet... comments welcome).
+
+```{r ugly}
+list(
+  contributor = '[["description"]][["item"]][["personalContributorArray"]][["personalContributor"]][["contributor"]][["termName"]]',
+  scopeAndContentNote = '[["description"]][["item"]][["scopeAndContentNote"]]',
+  records_type = '[["description"]][["item"]][["generalRecordsTypeArray"]][["generalRecordsType"]][["termName"]]',
+  title = '[["description"]][["item"]][["title"]] ',
+  parent_series_title = '[["description"]][["item"]][["parentSeries"]][["title"]]',
+  start_date = '[["description"]][["item"]][["parentSeries"]][["inclusiveDates"]][["inclusiveStartDate"]][["year"]]',
+  end_date = '[["description"]][["item"]][["parentSeries"]][["inclusiveDates"]][["inclusiveEndDate"]][["year"]]',
+  creator = '[["description"]][["item"]][["parentSeries"]][["creatingOrganizationArray"]][["creatingOrganization"]][["creator"]][["termName"]]',
+  thumbnail = '[["objects"]][["object"]][["thumbnail"]][["@url"]]',
+  record_group = '[["description"]][["item"]][["parentSeries"]][["parentRecordGroup"]][["recordGroupNumber"]]',
+  archive = '[["description"]][["item"]][["physicalOccurrenceArray"]][["itemPhysicalOccurrence"]][["locationArray"]][["location"]][["facility"]][["termName"]]'
+) %>%
+  map(brackets_to_list) -> lookup_terms
+```
+
+The next step is to map our anonymous plucking function (which works on one column) onto the full dataset (to go across all the columns). For this, we define a new function to pass to `map_df`. This nested mapping makes my head hurt, but it works. Note that the version here is restricted to character vectors, which works for this dataset, but may need to be changed for other cases. Again, [Jenny Bryan's post](https://jennybc.github.io/purrr-tutorial/ex26_ny-food-market-json.html) is the go-to.
+
+```{r make-df}
+make_df <- function (data, lookup_list, col_name) {
+  sym_col_name <- sym(col_name)
+  map_chr(data, ~ pluck(., !!!lookup_list[[col_name]], 
+                        .default = NA_character_) %>% collapse_list) %>% 
+    tibble %>% select(!!sym_col_name := .)
+}
+```
+
+Use `map_dfc` to bind the results by column, not row.
+
+```{r apply-make-df-func}
+other_cols <- map_dfc(
+  names(lookup_terms), 
+  make_df, 
+  data = json_data, 
+  lookup_list = lookup_terms)
+
+other_cols %>% head
+```
+
+### Level 3: Facepalm
+
+Great, we're _almost_ there. There's one last tricky list element to tackle: user-contributed tags. This one also looks quite interesting for data analysis, so I want to be sure to include it. These are tags that anybody can add to the database either through the UI or the API. Unfortunately they are... (you guessed it) a deeply nested list! We can find their location through my now tried-and-true paste from RStudio viewer method.
+
+```{r tag-location}
+tag_location <- brackets_to_list('[["publicContributions"]][["tags"]][["tag"]]')
+```
+
+Let's extract these up into their own list to at least remove some layers of complexity.
+
+```{r tag-list-notrun, echo=TRUE, eval = FALSE}
+tag_list <- map(json_data, ~ pluck(., !!!tag_location, .default = NA_character_)) 
+jsonedit(tag_list[1:10])
+```
+
+```{r tag-list, echo=FALSE, eval = TRUE}
+tag_list <- map(json_data, ~ pluck(., !!!tag_location, .default = NA_character_)) 
+tag_list_widget <- jsonedit(tag_list[1:10])
+widgetframe::frameWidget(tag_list_widget, height = "350")
+```
+
+Two things are immediately obvious: some items have many tags, and some have none. For example, the first item has 17 tags. But it's not that easy... the tags themselves (indicated by the name "$") are contained within nested lists that also contain other metadata. 
+
+To extract just the tags, which are located one level down within each item, we use another mind-bending nested map. We then collapse down the resulting character vectors into a single-length vector each by mapping `paste()`.
+
+```{r mult-tags}
+mult_tags <- map(tag_list, 
+  ~ map_chr(., ~pluck(., "$", .default = NA_character_) %>% collapse_list)) %>%
+  map_chr(paste, collapse = ", ")
+
+mult_tags %>% head
+```
+
+I called these "mult_tags" because each contain more than one tag. It turns out items with only one tag lack a level of nestedness. We want these too, but don't need to use the nested map for them.
+
+```{r single-tags}
+single_tags <- map_chr(tag_list, ~pluck(., "$", .default = NA_character_) %>% collapse_list)
+
+single_tags[!is.na(single_tags)] %>% head
+```
+
+Now, we can finally combine both sets of tags into the final vector.
+
+```{r coalesce-tags}
+tags <- coalesce(single_tags, mult_tags)
+```
+
+That `paste(collapse)` left a bunch of `""` elements in our vector though. Let's convert those to proper `NA`.
+
+```{r drop-nas}
+tags <- map_chr(tags, function (x) if (x == "") {NA_character_} else {x})
+```
+
+Now we can combine these with the "simple" columns into our tidy dataframe.
+
+```{r combine_data}
+tidy_data <- bind_cols(tidy_data, other_cols, tags = tags)
+
+# Save our data so we can use it for analysis in the next blog post
+readr::write_csv(tidy_data, "nara_data.csv")
+
+tidy_data %>% head
+
+```
+
+Phew!`r emo::ji("sweat")` Finally all tidy.
+
+## Inspecting the Data
+
+Let's get an overview of some of the data.
+
+```{r summary, results='asis'}
+library(summarytools)
+summarytools::st_options("footnote", NA)
+
+tidy_data %>%
+select(archive, records_type, contributor, record_group, tags) %>%
+summarytools::dfSummary(style = "grid", plain.ascii = FALSE) %>%
+print(method = "render", omit.headings = TRUE)
+```
+
+Hmmm... interesting! Even this broad overview is providing a fascinating peek into the dataset. The "items" are mostly photographs, with the remaining one-third or so documents. Most of the photographs were taken by just a handful of people, Dorothea Lange being one of the more prolific.
+
+Whew, just tidying the JSON data took up the whole blogpost. Hopefully I can get to data analysis in the next one.
+
+Updated 2019-02-18
+
+[source code](https://raw.githubusercontent.com/joelnitta/joelnitta-site/master/content/post/querying-the-nara-database/index.Rmarkdown)
+
+```{r sesh}
+sessionInfo()
+```
