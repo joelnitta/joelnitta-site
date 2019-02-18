@@ -13,7 +13,7 @@ tags:
   - National Archives and Records Administration
 header:
   caption: 'Image Credit: [NPS.gov](https://www.nps.gov/orgs/1260/archives.htm)'
-  image: 'headers/querying-the-nara-database.png'
+  image: 'querying-the-nara-database.png'
   preview_only: false
 image:
   caption: ''
@@ -45,7 +45,7 @@ setwd(here())
 
 # Save header image in case the link breaks
 image_read("https://www.nps.gov/orgs/1260/images/Banner_DSCN0044_960.jpg?maxwidth=1200&maxheight=1200&autorotate=false") %>%
-image_write(path = here("static/img/headers/querying-the-nara-database.png"), format = "png")
+image_write(path = here("static/img/querying-the-nara-database.png"), format = "png")
 
 # Make square(ish) version as feature image
 image_read("https://www.nps.gov/orgs/1260/images/Banner_DSCN0044_960.jpg?maxwidth=1200&maxheight=1200&autorotate=false") %>%
