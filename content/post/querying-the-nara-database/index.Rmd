@@ -63,11 +63,14 @@ library(summarytools)
 st_options(plain.ascii = FALSE,          # This is a must in Rmd documents
            style = "rmarkdown",          # idem
            dfSummary.varnumbers = FALSE, # This keeps results narrow enough
-           dfSummary.valid.col = FALSE)  # idem
-
- st_css() # Include CSS for styling summarytools table
+           dfSummary.valid.col = FALSE,  # idem
+           footnote = NA)
  
  library(widgetframe) # For framing HTML widgets
+```
+
+```{r, echo=FALSE, results='asis'} 
+st_css() # Include CSS for styling summarytools table
 ```
 
 ## TL;DR
@@ -380,13 +383,10 @@ Phew!`r emo::ji("sweat")` Finally all tidy.
 Let's get an overview of some of the data.
 
 ```{r summary, results='asis'}
-library(summarytools)
-summarytools::st_options("footnote", NA)
-
 tidy_data %>%
 select(archive, records_type, contributor, record_group, tags) %>%
-summarytools::dfSummary(style = "grid", plain.ascii = FALSE) %>%
-print(method = "render", omit.headings = TRUE)
+summarytools::dfSummary(graph.magnif = .75) %>%
+print(method = "render", headings = FALSE)
 ```
 
 Hmmm... interesting! Even this broad overview is providing a fascinating peek into the dataset. The "items" are mostly photographs, with the remaining one-third or so documents. Most of the photographs were taken by just a handful of people, Dorothea Lange being one of the more prolific.
