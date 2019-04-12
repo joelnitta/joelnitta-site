@@ -395,7 +395,7 @@ Whew, just tidying the JSON data took up the whole blogpost. Hopefully I can get
 
 ----
 
-Updated 2019-02-18
+Updated 2019-04-12
 
 [source code](https://github.com/joelnitta/joelnitta-site/blob/master/content/post/querying-the-nara-database/index.Rmd)
 
