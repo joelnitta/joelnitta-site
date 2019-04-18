@@ -1,0 +1,164 @@
+---
+title: Docker and Packrat
+author: Joel Nitta
+date: '2019-04-18'
+slug: []
+summary: Of whales and rats.
+categories:
+  - R
+tags:
+  - docker
+  - packrat
+  - reproducible research
+image:
+  caption: ''
+  focal_point: ''
+---
+
+
+```{r setup, include=FALSE} 
+library(emo)
+```
+
+
+## TL;DR
+
+- Combining docker and `packrat` allows for better control over package versioning in R.
+- I made [an example repo that shows how](https://github.com/joelnitta/docker-packrat-example).
+
+## Background
+
+The [rocker set of docker images](https://www.rocker-project.org/) has made it much easier to do reproducible data analysis with R. By using one of the rocker images, we can ensure that the computing software environment, R version, and package versions are always the same, no matter where the code is being run.
+
+However, one tricky point with this setup is managing R package versions. The rocker project [takes the following approach](https://github.com/rocker-org/rocker-versioned/blob/master/VERSIONS.md): images are tagged with the R version installed, e.g., 3.5.1, 3.5.2., etc. When you install packages to a tagged image, they are installed from [MRAN](https://mran.microsoft.com/), which keeps daily snapshots of [CRAN](https://cran.r-project.org/) going back to 2014. The package version installed is the one *from the last day that version of R was most current*. So, if you are using the `rocker/tidyverse:3.3.1` image and you install a package, it will be the package version from 2016-10-31 (they day before 3.3.2 was released). If you use the default `latest` tag (or equivalently, the current R version, as of writing 3.5.3), the most current packages will be installed.
+
+This is fine if you aren't too concerned about specific package versions, and just need to keep things consistent: you could use a version-tagged image, and be done with it. But what if we want to run, e.g., R 3.5.3 with a specific package version? Simply using the `3.5.3` or `latest` tag isn't a good option, because this will change day-to-day. You could rebuild the image using the exact same `Dockerfile` and end up with different package versions.
+
+This is where `packrat` comes in[^1]. At first I was dubious of using `packrat` with docker because I thought it was overkill -- as described above, the rocker images **almost** take care of that for us. But it is perfect for when you need to have finer control over versioning.
+
+## Part 1: Take a `r emo::ji("camera with flash")`
+
+`packrat` [is a package for managing R packages](https://rstudio.github.io/packrat/). The basic idea is that instead of using the default location to install packages that are shared across all R code, each project gets its own private library of packages. That way, package versions are independent from project to project.
+
+We will rely on just two `packrat` functions: `snapshot()` and `restore()`.
+
+`snapshot()` writes a text file to `packrat/packrat.lock` documenting all package versions, where they came from (i.e., which repository they were installed from), and the version of R in use. `restore()` installs the packages exactly as listed in `packrat.lock`.
+
+The first step is to write the `packrat.lock` file with `snapshot()`. I will do this from the docker container so it tracks the correct version of R. You could use any rocker image, but I prefer the `rstudio` image because it allows us to run RStudio server to edit code in the container.
+
+```bash
+docker run -it -e DISABLE_AUTH=true rocker/rstudio:3.5.3 R
+```
+
+Inside the container, install `packrat`.
+
+```{r install-packrat, eval=FALSE}
+install.packages("packrat", repos = "https://cran.rstudio.com/")
+```
+
+Switch on "packrat mode" with `packrat::init()`. Now, packages will be installed to the project-specific library instead of the system-wide library. 
+
+```{r init-packrat, eval=FALSE}
+packrat::init(
+  infer.dependencies = FALSE,
+  enter = TRUE,
+  restart = FALSE)
+```
+
+We are using `packrat` in a very bare-bones fashion and therefore changing several of the defaults, which bear explaining:
+
+- The `infer.dependencies` argument tells `packrat` to try and find all of the packages being used in this project by scanning all of the R scripts and looking for package names in calls to `library()` and such. My approach here (which I picked up from [Miles McBain's blogpost](https://milesmcbain.xyz/packrat-lite/)) is to avoid this behavior and be explicit about which packages to track. This allows us to have full control over versioning.  
+
+- `enter = TRUE` tells packrat to that we want to enter "packrat mode" now, not after restarting R.
+
+- `restart = FALSE` tells packrat *not* to restart R after the call to `packrat::init()`.
+
+Next, specify which repository(ies) to use to download packages. You would need to add others here if you were also using e.g., [Bioconductor](https://bioconductor.org/). This allows `packrat` to track package origins.
+
+```{r set-repos, eval=FALSE}
+my_repos <- c(CRAN = "https://cran.rstudio.com/")
+options(repos = my_repos)
+```
+
+Install packages to your heart's content. For example purposes, I'm just going to install one package with no dependencies from CRAN.
+
+```{r install-packages, eval=FALSE}
+cran_packages <- c("glue")
+install.packages(cran_packages)
+```
+
+Once packages installations are complete (this can take a while if you have more than a handful of packages, especially if they have a lot of dependencies), save the current state with `packrat::snapshot()`.
+
+```{r snapshot, eval=FALSE}
+packrat::snapshot(
+  snapshot.sources = FALSE,
+  ignore.stale = TRUE,
+  infer.dependencies = FALSE)
+```
+
+Again, we are using several non-default settings for `snapshot()`:
+
+- `snapshot.sources = FALSE` tells `packrat` not to save the entire source code of every package. We are fine with just installing from CRAN again when we run `packrat::restore()`.
+- `ignore.stale = TRUE`. This is a kind of weird setting where `packrat` would give a warning if a package had been installed by `packrat` but differed from the last snapshotted version. We don't care about this, and just want to snapshot everything as it is.
+- `infer.dependecies = FALSE` as above.
+
+You should now have a `packrat` folder in your working directory, which contains a file called `packrat.lock` with all package version information inside.
+
+Note that there are bunch of other files in the `packrat` folder that we don't need to track. If you are using `git` for version control, I recommend adding the following lines to your `.gitignore`:
+
+```bash
+packrat/*
+!packrat/packrat.lock
+```
+
+## Part 2: Build the image
+
+Really the whole point of Part 1 was just to obtain the `packrat.lock` file. Now we will put that to use to install packages to the docker image.
+
+I hardly ever build docker images interactively. Instead, it is much better from a reproducibility standpoint to use `Dockerfile`s. My `Dockerfile` for an image using `packrat` looks like this:
+
+```
+FROM rocker/rstudio:3.5.3
+
+RUN apt-get update
+
+COPY ./packrat/packrat.lock packrat/
+
+RUN install2.r packrat
+
+RUN Rscript -e 'packrat::restore()'
+
+# Modify Rprofile.site
+RUN echo '.libPaths("/packrat/lib/x86_64-pc-linux-gnu/3.5.3")' >> /usr/local/lib/R/etc/Rprofile.site
+```
+
+This should be saved as the `Dockerfile` in the root of the project directory. So the project directory tree might look like:
+
+```bash
+├── code
+├── data
+├── Dockerfile
+├── install_packages.R
+├── packrat
+│  └── packrat.lock
+└── results
+```
+
+You would then build the image and run containers the usual way:
+
+```bash
+docker build . -t mycontainer
+docker run -it mycontainer R
+```
+
+Notice the last line of the `Dockerfile` above: `RUN echo '.libPaths("/packrat/lib/x86_64-pc-linux-gnu/3.5.3")' >> /usr/local/lib/R/etc/Rprofile.site`. This is needed because for some reason Rstudio server doesn't parse `Rprofile` normally, but we need to tell R to use the `packrat` library instead of the default library for loading packages. I found a workaround by just modifying the `Rprofile.site` file used by Rstudio server.
+
+## Wrap-up
+
+I don't recommend doing all of the above by hand. Rather, I have a script called `install_packages.R` that I use to create the `packrat.lock` file. I've [posted this as an example repo](https://github.com/joelnitta/docker-packrat-example) that installs one packge each from CRAN, Bioconductor, and GitHub. 
+
+Note that you could [use the tips from my last blog post](https://www.joelnitta.com/post/building-r-docker-images-with-secrets/building-r-docker-images-with-secrets/) to install private packages from GitHub without inadvertantly writing your credentials into the docker image.
+
+Enjoy!
+
+[^1]: The successor to `packrat`, `renv` [is under active development](https://rstudio.github.io/renv/index.html) and looks like it will be perfect for doing the sorts of things talked about in this post.
