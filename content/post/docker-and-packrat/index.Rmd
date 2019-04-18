@@ -13,6 +13,10 @@ tags:
 image:
   caption: ''
   focal_point: ''
+header:
+  caption: 'wikipedia'
+  image: 'headers/Rat_on_Midden_resize.png'
+  preview_only: false
 ---
 
 
