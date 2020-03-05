@@ -2,4 +2,4 @@
 # change here as necessary for theme
 # on netfily, make sure deploy settings -> build command is set to 'hugo'
 [context.production.environment]
-  HUGO_VERSION = "0.53"
+  HUGO_VERSION = "0.64.0"
