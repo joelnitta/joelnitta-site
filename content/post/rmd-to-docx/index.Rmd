@@ -91,7 +91,7 @@ You can specify the reference Word document when converting the tex file with Pa
 pandoc -s ms.tex -o docx --reference-doc=custom-reference.docx
 ```
 
-For more info on setting up a reference Word document for styling, see [this blogpost](https://rmarkdown.rstudio.com/articles_docx.html) and the [Pandoc manual](https://pandoc.org/MANUAL.html) (search for '--reference-doc').
+For more info on setting up a reference Word document for styling, see [this blogpost](https://rmarkdown.rstudio.com/articles_docx.html) and the [Pandoc manual](https://pandoc.org/MANUAL.html) (search for '\-\-reference-doc').
 
 ## An example
 
