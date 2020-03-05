@@ -1,0 +1,95 @@
+---
+title: A better way to go to Word from Rmd
+author: Joel Nitta
+date: '2020-03-05'
+slug: rmd-to-docx
+summary: "Especially for scientific manuscripts."
+categories: 
+  - R
+tags:
+  - reproducible research
+image:
+  caption: "*St. Mark Writing* https://www.si.edu/openaccess"
+  placement: 2
+  focal_point: "Center"
+  preview_only: false
+---
+
+
+
+<div id="tldr" class="section level2">
+<h2>tl;dr</h2>
+<p>I describe a method to output R Markdown to Microsoft Word with formatting for (nearly) any scientific journal. <a href="https://github.com/joelnitta/ms_template">Check out the example repo</a>.</p>
+</div>
+<div id="bridging-the-divide" class="section level2">
+<h2>Bridging the divide</h2>
+<p>I recently figured out a way to convert from R Markdown to Microsoft Word format that is ideal for submitting scientific manuscripts (MS) to journals. This may seem like a minor feature, but it’s huge for me as a biologist, since almost all journals I submit to require Microsoft Word or rich text format, with just a handful accepting Latex (and certainly not Markdown!).</p>
+</div>
+<div id="what-is-r-markdown" class="section level2">
+<h2>What is R Markdown?</h2>
+<p>R Markdown is R’s version of <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a>. It builds on Markdown by being able to run chunks of R code. This allows you to mix long-form text and code in a single file, which is rendered into your choice of output format<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. The biggest benefit for scientific writing is <strong>that the results of your code show up directly in your MS</strong>, so it is always up to date and you never have to worry about copy-and-paste errors. Score one for reproducibility!</p>
+<p>Another benefit is that, by using the methods described in this post, we can separate the <strong>content</strong> of the manuscript from <strong>formatting</strong> (somewhat akin to CSS for HTML). This means you are free (**cue angelic choir**) to compose your MS without regard for journal format, then apply journal-specific formatting separately.</p>
+<p>For the rest of the post, I assume readers already know the basics of R Markdown (and Latex). If not, <a href="https://bookdown.org/yihui/rmarkdown/">R Markdown: The Definitive Guide</a> is an excellent resource for beginners and experienced users alike.</p>
+</div>
+<div id="doesnt-rmd-already-output-to-docx" class="section level2">
+<h2>Doesn’t Rmd already output to docx?</h2>
+<p>Yes, but in a somewhat limited fashion. There are some times where Latex is very handy for writing papers (<a href="#use-latex-sparingly-in-r-markdown">more on that below</a>). And most Latex code won’t get converted properly when going from Rmd to docx (only to PDF). This method lets us preserve Latex-rendered text in the docx file.</p>
+</div>
+<div id="the-solution" class="section level2">
+<h2>The solution</h2>
+<p>It’s pretty simple: use <a href="https://pandoc.org/">Pandoc</a> to convert from tex to docx.</p>
+<ol style="list-style-type: decimal">
+<li>Set up the yaml of your Rmd file (let’s call it <code>ms.Rmd</code>) to output to PDF by using <code>rmarkdown::pdf_document</code> with <code>keep_tex: yes</code><a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>.</li>
+</ol>
+<pre class="yaml"><code>output: 
+  rmarkdown::pdf_document:
+    keep_tex: yes</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Render your Rmd using <code>rmarkdown::render()</code> or the “Knit” icon in R Studio.</p></li>
+<li><p>In addition to the rendered PDF file, there will also be a tex file in your working directory. For example, <code>ms.Rmd</code> will be rendered to <code>ms.pdf</code> and <code>ms.tex</code>. Run pandoc to convert the tex file to docx.</p></li>
+</ol>
+<pre class="bash"><code>pandoc -s ms.tex -o docx</code></pre>
+<p>And that’s it! You will now have a docx version of your MS.</p>
+<p>Of course, the results of the example code shown here are no different from outputting to docx with <code>rmarkdown::word_document()</code>.</p>
+<p>The real benefits become clear when you use some of the tips below to output docx <strong>including all the formatting</strong> that would be rendered with <code>rmarkdown::pdf_document()</code>.</p>
+</div>
+<div id="other-tips-for-writing-scientific-papers-in-r-markdown" class="section level2">
+<h2>Other tips for writing scientific papers in R Markdown</h2>
+<p>There are several useful features of R markdown for writing scientific manuscripts that bear mention.</p>
+<div id="use-csl-for-formatting-citations" class="section level3">
+<h3>Use CSL for formatting citations</h3>
+<p>One of the major benefits of using R Markdown is that you can use <a href="https://citationstyles.org/">Citation Style Language</a> (CSL) templates to format citations for various journals.</p>
+<p>Just go to the <a href="https://www.zotero.org/styles">Zotero Style Repository</a>, search for the CSL template for your journal, and download it.</p>
+<p>As of writing, there were over 9000 journals in the repository, so chances are good that most any journal you’re interested in submitting to will be there! And if not, <a href="https://editor.citationstyles.org/visualEditor/">there is also an open-source CSL editor available to customize citation styles</a>.</p>
+</div>
+<div id="use-latex-sparingly-in-r-markdown" class="section level3">
+<h3>Use Latex (sparingly) in R Markdown</h3>
+<p>R Markdown is remarkably flexible: it understands Latex (and html) in addition to R and Markdown. One of my favorite uses for this is setting up <a href="https://en.wikibooks.org/wiki/LaTeX/Macros">custom Latex macros</a> for formatting certain words or phrases according to journal style.</p>
+<p>For example, journals may vary in whether they require common Latin phrases in italics such as “e.g.”. To deal with this, I define a custom Latex macro with <code>\newcommand{\eg}{e.g.\xspace}</code><a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>. Whenever I want to use “e.g.”, in my MS I type <code>\eg</code>. If I later submit to journal that requires “<em>e.g.</em>”, I would just change my macro to <code>\newcommand{\eg}{textit{e.g.}\xspace}</code>. This way I only have to change one line of code to format for a different journal, instead of manually formatting the Word document every time.</p>
+</div>
+<div id="leave-the-rest-of-the-styling-to-word" class="section level3">
+<h3>Leave the rest of the styling to Word!</h3>
+<p>I said “sparingly” above because although Latex is capable of some very fancy formatting, it is notoriously complicated. You can easily get sucked into a blackhole of googling for obscure Latex code or packages to make minor adjustments to the appearance of your PDF.</p>
+<p>Instead, use a reference Word document to specify styling. You style the reference document to meet journal format (paragraph spacing, line numbers, etc.) in Word, and those will be applied by Pandoc to the final MS.</p>
+<p>You can specify the reference Word document when converting the tex file with Pandoc using the <code>--reference-doc</code> flag like so:</p>
+<pre class="bash"><code>pandoc -s ms.tex -o docx --reference-doc=custom-reference.docx</code></pre>
+<p>For more info on setting up a reference Word document for styling, see <a href="https://rmarkdown.rstudio.com/articles_docx.html">this blogpost</a> and the <a href="https://pandoc.org/MANUAL.html">Pandoc manual</a> (search for ‘–reference-doc’).</p>
+</div>
+</div>
+<div id="an-example" class="section level2">
+<h2>An example</h2>
+<p><a href="https://github.com/joelnitta/ms_template">I’ve set up an example repo</a> highlighting my method for converting from Rmd to docx that illustrates all of the tips I’ve mentioned above and more (<a href="https://github.com/joelnitta/ms_template/blob/master/example_output/ms.pdf">cross-referencing figures, automatic scientific notation, etc.</a>), along with <a href="https://github.com/joelnitta/ms_template/blob/master/code/render.R">some R code to automate the process</a>. I hope you find it useful.</p>
+</div>
+<div id="one-last-thing" class="section level2">
+<h2>One last thing</h2>
+<p>Always inspect the docx file generated by Pandoc! Not all Latex packages have Pandoc support, so they may (silently!) fail to render, and sometimes custom macros don’t behave as expected.</p>
+<p>Do you have any tips or tricks for writing scientific manuscripts with R? Please let me know in the comments!</p>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>The currently supported output formats are <code>html</code>, <code>pdf</code>, or <code>doc</code>.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>You can also use <code>bookdown::pdf_document2()</code>, which I prefer because it supports <a href="https://bookdown.org/yihui/rmarkdown-cookbook/cross-ref.html">cross-referencing</a>.<a href="#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p>The <code>\xspace</code> is to circumvent <a href="https://tex.stackexchange.com/questions/31091/space-after-latex-commands">Latex’s default behavior of always deleting the next space after a macro</a>. This works for most cases, but it won’t if the next character is not a letter. In that case, force a space with <code>{ }</code>, as in <code>\pval{ }&lt; 0.05</code> if you had a custom macro for <code>\pval</code>. See what I mean about Latex being overly complicated?<a href="#fnref3" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
