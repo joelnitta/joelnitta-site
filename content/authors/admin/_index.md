@@ -10,12 +10,12 @@ authors:
 superuser: true
 
 # Role/position
-role: Postdoctoral Fellow
+role: Assistant Professor
 
 # Organizations/Affiliations
 organizations:
-- name: Smithsonian Institution
-  url: "https://naturalhistory.si.edu/research/botany/"
+- name: University of Tokyo
+  url: "https://www.u-tokyo.ac.jp/"
 
 # Short bio (displayed in user profile at end of posts)
 bio: My research interests fern systematics, community ecology, and reproducible analysis.
@@ -70,7 +70,7 @@ email: ""
 # - Visitors
 ---
 
-I am a Peter Buck Postdoctoral Fellow at the <a href="https://naturalhistory.si.edu/research/botany/">Smithsonian National Museum of Natural History</a>. I study **ferns**, an ancient and diverse lineage of vascular plants.
+I am a specially-appointed Assistant Professor in the <a href="http://iwasakilab.bs.s.u-tokyo.ac.jp/eindex.html">Iwasaki Lab</a> at the <a href="https://www.u-tokyo.ac.jp/">University of Tokyo</a>. I study **ferns**, an ancient and diverse lineage of vascular plants.
 
 Ferns have a unique lifecycle combining two free-living stages (gametophyte and sporophyte) that differ from each other dramatically in appearance and physiology. This sets ferns apart from nearly all other land plants, and has important implications for their ecology and evolution. I am particularly interested in how different stages of the fern lifecycle contribute to community assembly processes, as well as fern ecology, evolution, and systematics generally.
 
