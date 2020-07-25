@@ -13,7 +13,7 @@ image_preview = ""
 selected = false
 projects = ["community_ecology"]
 tags = []
-url_pdf = "https://drive.google.com/uc?export=download&id=1UY39YPGj8t3P6VT66e7P-5aYsFOQtjN4"
+url_pdf = "https://drive.google.com/uc?export=download&id=1-BJ0tiTOq85JRr0s8nqTxLaa3mexbnR8"
 url_preprint = ""
 url_code = "https://github.com/joelnitta/canopylife"
 url_dataset = "https://doi.org/10.5061/dryad.fqz612jps"

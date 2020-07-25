@@ -10,7 +10,7 @@ authors:
 superuser: true
 
 # Role/position
-role: Assistant Professor
+role: Project Research Associate
 
 # Organizations/Affiliations
 organizations:
@@ -70,7 +70,7 @@ email: ""
 # - Visitors
 ---
 
-I am a specially-appointed Assistant Professor in the <a href="http://iwasakilab.bs.s.u-tokyo.ac.jp/eindex.html">Iwasaki Lab</a> at the <a href="https://www.u-tokyo.ac.jp/">University of Tokyo</a>. I study **ferns**, an ancient and diverse lineage of vascular plants.
+I am a Project Research Associate in the <a href="http://iwasakilab.bs.s.u-tokyo.ac.jp/eindex.html">Iwasaki Lab</a> at the <a href="https://www.u-tokyo.ac.jp/">University of Tokyo</a>. I study **ferns**, an ancient and diverse lineage of vascular plants.
 
 Ferns have a unique lifecycle combining two free-living stages (gametophyte and sporophyte) that differ from each other dramatically in appearance and physiology. This sets ferns apart from nearly all other land plants, and has important implications for their ecology and evolution. I am particularly interested in how different stages of the fern lifecycle contribute to community assembly processes, as well as fern ecology, evolution, and systematics generally.
 
