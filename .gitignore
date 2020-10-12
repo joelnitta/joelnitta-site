@@ -6,4 +6,5 @@ public
 blogdown
 resources
 temp
+renv
 .DS_Store
