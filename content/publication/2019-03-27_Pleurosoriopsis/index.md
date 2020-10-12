@@ -1,5 +1,5 @@
 +++
-title = "Growth Dynamics of Independent Gametophytes of Pleurosoriopsis makinoi ( Polypodiaceae)"
+title = "Growth Dynamics of Independent Gametophytes of Pleurosoriopsis makinoi (Polypodiaceae)"
 date = "2019-03-27"
 authors = ["Atsushi Ebihara", "**Joel H. Nitta**", "Yurika Matsumoto", "Yuri Fukazawa", "Marie Kurihara", "Hitomi Yokote", "Kaoru Sakuma", "Otowa Azakami", "Yumiko Hirayama", "Ryoko Imaichi"]
 publication_types = ["2"]
