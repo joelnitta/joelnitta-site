@@ -77,7 +77,7 @@ If you use the popular [Academic](https://github.com/gcushen/hugo-academic) them
 
 * Dan Quintana's [tweetorial](https://twitter.com/dsquintana/status/993410504570888192) provides an excellent and quick overview!
 
-<!--html_preserve-->{{% tweet "993410504570888192" %}}<!--/html_preserve-->
+{{% tweet "993410504570888192" %}}
 
 * Mikey Harper's [post](https://mikeyharper.uk/migrating-to-blogdown/) on the benefits of `blogdown`.
 
