@@ -1,9 +1,9 @@
 ---
 # Display name
-name: Joel H. Nitta
+title: Joel H. Nitta
 
 # Highlight name in author lists
-highlight_name: false
+highlight_name: true
 
 # Username (this should match the folder name)
 authors:

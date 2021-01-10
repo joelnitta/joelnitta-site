@@ -2,7 +2,7 @@
 title: "A taxonomic and molecular survey of the pteridophytes of the Nectandra Cloud Forest Reserve, Costa Rica"
 date: "2020-10-13"
 authors:
-- Joel H. Nitta
+- admin
 - Atsushi Ebihara
 - Alan R. Smith
 publication_types: ["2"]

@@ -1,7 +1,7 @@
 +++
 title = "A survey of the fern gametophyte flora of Japan: Frequent independent occurrences of noncordiform gametophytes"
 date = "2013-01-29"
-authors = ["Atsushi Ebihara", "A Yamaoka", "N Mizukami", "A Sakoda", "**Joel H. Nitta**", "Ryoko Imaichi"]
+authors = ["Atsushi Ebihara", "A Yamaoka", "N Mizukami", "A Sakoda", "admin", "Ryoko Imaichi"]
 publication_types = ["2"]
 publication = "_American Journal of Botany_ 100: 735--743"
 publication_short = "_American Journal of Botany_ 100: 735--743"

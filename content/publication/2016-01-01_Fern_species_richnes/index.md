@@ -1,7 +1,7 @@
 +++
 title = "Fern species richness and abundance are indicators of climate change on high-elevation islands: evidence from an elevational gradient on Tahiti (French Polynesia)"
 date = "2016-01-01"
-authors = ["Robin Pouteau", "Jean-Yves Meyer", "Pauline Blanchard", "**Joel H. Nitta**", "Maruiti Terorotua", "Ravahere Taputuarai"]
+authors = ["Robin Pouteau", "Jean-Yves Meyer", "Pauline Blanchard", "admin", "Maruiti Terorotua", "Ravahere Taputuarai"]
 publication_types = ["2"]
 publication = "_Climatic Change_ 138: 143--156"
 publication_short = "_Climatic Change_ 138: 143--156"

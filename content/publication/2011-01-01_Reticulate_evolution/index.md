@@ -1,7 +1,7 @@
 +++
 title = "Reticulate evolution in the Crepidomanes minutum species complex (Hymenophyllaceae)"
 date = "2011-08-29"
-authors = ["**Joel H. Nitta**", "Atsushi Ebihara", "M Ito"]
+authors = ["admin", "Atsushi Ebihara", "M Ito"]
 publication_types = ["2"]
 publication = "_American Journal of Botany_ 98: 1782--1800"
 publication_short = "_American Journal of Botany_ 98: 1782--1800"

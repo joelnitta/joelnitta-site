@@ -1,7 +1,7 @@
 +++
 title = "Virtual Issue: Ecology and Evolution of Pteridophytes in the Era of Molecular Genetics"
 date = "2019-10-08"
-authors = ["**Joel H. Nitta**", "Atsushi Ebihara"]
+authors = ["admin", "Atsushi Ebihara"]
 publication_types = ["2"]
 publication = "_Journal of Plant Research_ 132: 719--721"
 publication_short = "_J. Plant Res._ 132: 719--721"

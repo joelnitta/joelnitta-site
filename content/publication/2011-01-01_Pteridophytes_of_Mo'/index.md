@@ -1,7 +1,7 @@
 +++
 title = "Pteridophytes of Mo'orea, French Polynesia: additional new records"
 date = "2011-01-01"
-authors = ["**Joel H. Nitta**", "Jean-Yves Meyer", "Alan R. Smith"]
+authors = ["admin", "Jean-Yves Meyer", "Alan R. Smith"]
 publication_types = ["2"]
 publication = "_American Fern Journal_ 101: 36--49"
 publication_short = "_American Fern Journal_ 101: 36--49"

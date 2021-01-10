@@ -1,7 +1,7 @@
 +++
 title = "Hemi-epiphytism in Vandenboschia collariata (Hymenophyllaceae)"
 date = "2009-01-01"
-authors = ["**Joel H. Nitta**", "M J Epps"]
+authors = ["admin", "M J Epps"]
 publication_types = ["2"]
 publication = "_Brittonia_ 61: 392--397"
 publication_short = "_Brittonia_ 61: 392--397"

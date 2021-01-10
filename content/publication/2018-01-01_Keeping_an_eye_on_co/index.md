@@ -1,7 +1,7 @@
 +++
 title = "Keeping an eye on coloration: Ecological correlates of the evolution of pitcher traits in the genus Nepenthes (Caryophyllales)"
 date = "2018-01-04"
-authors = ["Kadeem J. Gilbert", "**Joel H. Nitta**", "Gerard Talavera", "Naomi E. Pierce"]
+authors = ["Kadeem J. Gilbert", "admin", "Gerard Talavera", "Naomi E. Pierce"]
 publication_types = ["2"]
 publication = "_Biological Journal of the Linnean Society_ 123: 321--337"
 publication_short = "_Biological Journal of the Linnean Society_ 123: 321--337"

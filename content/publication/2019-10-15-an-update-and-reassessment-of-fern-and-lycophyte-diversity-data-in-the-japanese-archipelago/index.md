@@ -1,7 +1,7 @@
 +++
 title = "An update and reassessment of fern and lycophyte diversity data in the Japanese Archipelago"
 date = "2019-09-16"
-authors = ["Atsushi Ebihara", "**Joel H. Nitta**"]
+authors = ["Atsushi Ebihara", "admin"]
 publication_types = ["2"]
 publication = "_Journal of Plant Research_ 132: 723--738"
 publication_short = "_J. Plant Res._ 132: 723--738"

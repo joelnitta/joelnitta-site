@@ -1,7 +1,7 @@
 +++
 title = "Growth Dynamics of Independent Gametophytes of Pleurosoriopsis makinoi (Polypodiaceae)"
 date = "2019-03-27"
-authors = ["Atsushi Ebihara", "**Joel H. Nitta**", "Yurika Matsumoto", "Yuri Fukazawa", "Marie Kurihara", "Hitomi Yokote", "Kaoru Sakuma", "Otowa Azakami", "Yumiko Hirayama", "Ryoko Imaichi"]
+authors = ["Atsushi Ebihara", "admin", "Yurika Matsumoto", "Yuri Fukazawa", "Marie Kurihara", "Hitomi Yokote", "Kaoru Sakuma", "Otowa Azakami", "Yumiko Hirayama", "Ryoko Imaichi"]
 publication_types = ["2"]
 publication = "_Bulletin of the National Museum of Nature and Science, Series B (Botany), Tokyo_ 45: 77--86"
 publication_short = "_Bull. Natl. Mus. Nat. Sci., Ser. B_ 45: 77--86"

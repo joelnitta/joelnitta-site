@@ -3,7 +3,7 @@ title = "Life cycle matters: DNA barcoding reveals contrasting community structu
 # Is this a featured publication? (true/false)
 featured = true
 date = "2017-01-01"
-authors = ["**Joel H. Nitta**", "Jean-Yves Meyer", "Ravahere Taputuarai", "Charles C Davis"]
+authors = ["admin", "Jean-Yves Meyer", "Ravahere Taputuarai", "Charles C Davis"]
 
 publication_types = ["2"]
 

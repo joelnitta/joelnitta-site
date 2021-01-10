@@ -1,7 +1,7 @@
 +++
 title = "The Separation of Generations: Biology and Biogeography of Long-Lived Sporophyteless Fern Gametophytes"
 date = "2017-01-01"
-authors = ["Jerald B Pinson", "Sally M. Chambers", "**Joel H. Nitta**", "Li-Yaung Kuo", "Emily B Sessa"]
+authors = ["Jerald B Pinson", "Sally M. Chambers", "admin", "Li-Yaung Kuo", "Emily B Sessa"]
 publication_types = ["2"]
 publication = "_International Journal of Plant Sciences_ 178: 1--18"
 publication_short = "_International Journal of Plant Sciences_ 178: 1--18"

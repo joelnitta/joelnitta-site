@@ -1,7 +1,7 @@
 +++
 title = "Antrophyum solomonense (Pteridaceae), a New Species from the Solomon Islands, and its Systematic Position Based on Phylogenetic Analysis"
 date = "2015-09-22"
-authors = ["Cheng-Wei Chen", "**Joel H. Nitta**", "Moffat Fanerii", "Tsung Yu Aleck Yang", "Fred Pitisopa", "Chia Wei Li", "Wen-Liang Chiou"]
+authors = ["Cheng-Wei Chen", "admin", "Moffat Fanerii", "Tsung Yu Aleck Yang", "Fred Pitisopa", "Chia Wei Li", "Wen-Liang Chiou"]
 publication_types = ["2"]
 publication = "_Systematic Botany_ 40: 645--651"
 publication_short = "_Systematic Botany_ 40: 645--651"

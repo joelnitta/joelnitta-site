@@ -3,7 +3,7 @@ title = "Life in the canopy: community trait assessments reveal substantial func
 # Is this a featured publication? (true/false)
 featured = true
 date = "2020-04-14"
-authors = ["**Joel H. Nitta**", "James E. Watkins, Jr.", "Charles C. Davis"]
+authors = ["admin", "James E. Watkins, Jr.", "Charles C. Davis"]
 publication_types = ["2"]
 publication = "_New Phytologist_ doi:10.1111/nph.16607"
 publication_short = "_New Phyt._ doi:10.1111/nph.16607"

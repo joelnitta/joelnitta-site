@@ -1,7 +1,7 @@
 +++
 title = "Exploring the utility of three plastid loci for biocoding the filmy ferns (Hymenophyllaceae) of Moorea"
 date = "2008-08-01"
-authors = ["**Joel H. Nitta**"]
+authors = ["admin"]
 publication_types = ["2"]
 publication = "_Taxon_ 57: 725--2E"
 publication_short = "_Taxon_ 57: 725--2E"

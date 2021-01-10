@@ -1,7 +1,7 @@
 +++
 title = "Molecular species identification with rich floristic sampling: DNA barcoding the pteridophyte flora of Japan"
 date = "2010-12-08"
-authors = ["Atsushi Ebihara", "**Joel H. Nitta**", "M Ito"]
+authors = ["Atsushi Ebihara", "admin", "M Ito"]
 publication_types = ["2"]
 publication = "_PLoS ONE_ 5: e15136"
 publication_short = "_PLoS ONE_ 5: e15136"

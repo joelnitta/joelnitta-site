@@ -1,7 +1,7 @@
 +++
 title = "Microsorum × tohieaense (Polypodiaceae), a new hybrid fern from French Polynesia, with implications for the taxonomy of Microsorum"
 date = "2018-06-21"
-authors = ["**Joel H. Nitta**", "Saad Amer", "Charles C. Davis"]
+authors = ["admin", "Saad Amer", "Charles C. Davis"]
 publication_types = ["2"]
 publication = "_Systematic Botany_ 43: 397--413"
 publication_short = "_Systematic Botany_ 43: 397--413"

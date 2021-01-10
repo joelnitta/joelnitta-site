@@ -1,7 +1,7 @@
 +++
 title = "New Records of Polyphlebium borbonicum, an African Filmy Fern, in the New World and Polynesia"
 date = "2009-01-01"
-authors = ["Atsushi Ebihara", "**Joel H. Nitta**", "David Lorence", "Jean-Yves Dubuisson"]
+authors = ["Atsushi Ebihara", "admin", "David Lorence", "Jean-Yves Dubuisson"]
 publication_types = ["2"]
 publication = "_American Fern Journal_ 99: 200--206"
 publication_short = "_American Fern Journal_ 99: 200--206"
