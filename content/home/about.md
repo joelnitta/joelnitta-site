@@ -19,4 +19,10 @@ title: Biography
 # See https://wowchemy.com/docs/get-started/#introduce-yourself
 author: admin
 
+# Make spacing between sections narrower
+# Order is top, right, bottom, left.
+design:
+  spacing:
+    padding: ["20px", "0", "20px", "0"]
+
 ---

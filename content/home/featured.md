@@ -33,4 +33,9 @@ design:
   #   3 = Card
   #   4 = Citation (publication only)
   view: 2
+
+# Make spacing between sections narrower
+design:
+  spacing:
+    padding: ["20px", "0", "20px", "0"]
 ---

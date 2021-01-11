@@ -41,4 +41,9 @@ design:
 
   # For Showcase view, flip alternate rows?
   flip_alt_rows: false
+
+# Make spacing between sections narrower
+design:
+  spacing:
+    padding: ["20px", "0", "20px", "0"]
 ---
