@@ -80,6 +80,9 @@ edit_page = {repo_url = "https://github.com/joelnitta/joelnitta-site", content_d
 # Show related content at the bottom of pages?
 show_related = {docs = true, page = false, post = true, project = true, publication = true, talk = true}
 
+# Link authors to their profile page? (true/false)
+link_authors = false
+
 ############################
 ## Contact details
 ##
