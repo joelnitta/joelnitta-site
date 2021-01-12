@@ -69,7 +69,7 @@
   {{end}}
 
   {{/* Archive link */}}
-  {{ $show_archive_link := $st.Params.content.archive.enable | default (gt $count $items_count) }}
+  {{ $show_archive_link := true }}
   {{ if $show_archive_link }}
 
     {{ $archive_link := "" }}
