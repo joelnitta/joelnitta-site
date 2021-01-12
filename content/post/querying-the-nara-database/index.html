@@ -27,9 +27,10 @@ output:
 reading_time: false
 ---
 
-<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
-<script src="/rmarkdown-libs/pymjs/pym.v1.js"></script>
-<script src="/rmarkdown-libs/widgetframe-binding/widgetframe.js"></script>
+<script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
+<script src="{{< blogdown/postref >}}index_files/htmlwidgets/htmlwidgets.js"></script>
+<script src="{{< blogdown/postref >}}index_files/pymjs/pym.v1.js"></script>
+<script src="{{< blogdown/postref >}}index_files/widgetframe-binding/widgetframe.js"></script>
   <link rel="stylesheet" href="/css/summarytools.css" type="text/css" />
 
 <div id="TOC">
@@ -55,7 +56,7 @@ pre code {
 }
 </style>
 <style type="text/css">
- img {   background-color:transparent;   border:0; }  table.st-table > thead > tr {    background-color: #eeeeee; }  table.st-table th {   text-align: center; }  table.st-table td span {   display: block; }  .st-container {   width: 100%;   padding-right: 15px;   padding-left: 15px;   margin-right: auto;   margin-left: auto;   margin-top: 15px; }  .st-multiline {   white-space: pre; }  .st-table {     width: auto;     table-layout: auto;     margin-top: 20px;     margin-bottom: 20px;     max-width: 100%;     background-color: transparent;     border-collapse: collapse; }  .st-table > thead > tr > th, .st-table > tbody > tr > th, .st-table > tfoot > tr > th, .st-table > thead > tr > td, .st-table > tbody > tr > td, .st-table > tfoot > tr > td {   vertical-align: middle; }  .st-table-bordered {   border: 1px solid #bbbbbb; }  .st-table-bordered > thead > tr > th, .st-table-bordered > tbody > tr > th, .st-table-bordered > tfoot > tr > th, .st-table-bordered > thead > tr > td, .st-table-bordered > tbody > tr > td, .st-table-bordered > tfoot > tr > td {   border: 1px solid #cccccc; }  .st-table-bordered > thead > tr > th, .st-table-bordered > thead > tr > td, .st-table thead > tr > th {   border-bottom: none; }  .st-table td, .st-table th {   padding: 8px; }  .st-table > thead > tr {    background-color: #eeeeee; }  .st-table-bordered > thead > tr > th, .st-table-bordered > tbody > tr > th, .st-table-bordered > thead > tr > td, .st-table-bordered > tbody > tr > td {   border: 1px solid #cccccc; }   .st-table-striped > tbody > tr:nth-of-type(odd) {   background-color: #ffffff; }  .st-table-striped > tbody > tr:nth-of-type(even) {   background-color: #f8f8f8; }  .st-table-striped > tbody > tr:nth-of-type(odd) {   background-color: #ffffff; }  .st-table-striped > tbody > tr:nth-of-type(even) {   background-color: #f9f9f9; }   .st-descr-table > thead > tr > th, .st-descr-table > tbody > tr > th, .st-descr-table > tfoot > tr > th, .st-descr-table > thead > tr > td, .st-descr-table > tbody > tr > td, .st-descr-table > tfoot > tr > td {   padding-left:  24px;   padding-right: 24px;   word-wrap: break-word; }  .st-descr-table td {   text-align: right; }  .st-freq-table, .st-freq-table-nomiss, .st-cross-table {   border: medium none; }  .st-freq-table  > thead > tr:nth-child(1) > th:nth-child(1), .st-cross-table > thead > tr:nth-child(1) > th:nth-child(1), .st-cross-table > thead > tr:nth-child(1) > th:nth-child(3) {   border:none;   background-color: #ffffff;   text-align: center; }  .st-freq-table > thead > tr > th, .st-freq-table > tbody > tr > th, .st-freq-table > tfoot > tr > th, .st-freq-table > thead > tr > td, .st-freq-table > tbody > tr > td, .st-freq-table > tfoot > tr > td, .st-freq-table-nomiss > thead > tr > th, .st-freq-table-nomiss > tbody > tr > th, .st-freq-table-nomiss > tfoot > tr > th, .st-freq-table-nomiss > thead > tr > td, .st-freq-table-nomiss > tbody > tr > td, .st-freq-table-nomiss > tfoot > tr > td, .st-cross-table > thead > tr > th, .st-cross-table > tbody > tr > th, .st-cross-table > tfoot > tr > th, .st-cross-table > thead > tr > td, .st-cross-table > tbody > tr > td, .st-cross-table > tfoot > tr > td {   padding-left:  20px;   padding-right: 20px; }   .st-protect-top-border {   border-top:1px solid #cccccc !important; }  .st-cross-table td {   text-align: center; }  .st-small {   font-size: 13px; }  .st-small td, .st-small th {   padding: 8px; }  .st-small > thead > tr > th, .st-small > tbody > tr > th, .st-small > tfoot > tr > th, .st-small > thead > tr > td, .st-small > tbody > tr > td, .st-small > tfoot > tr > td {   padding-left:  12px;   padding-right: 12px; } </style>
+ img {   background-color: transparent;   border: 0; }  .st-table td, .st-table th {   padding: 8px; }  .st-table > thead > tr {    background-color: #eeeeee; }  .st-cross-table td {   text-align: center; }  .st-descr-table td {   text-align: right; }  table.st-table th {   text-align: center; }  table.st-table > thead > tr {    background-color: #eeeeee; }  table.st-table td span {   display: block; }  table.st-table > tfoot > tr > td {   border:none; }  .st-container {   width: 100%;   padding-right: 15px;   padding-left: 15px;   margin-right: auto;   margin-left: auto;   margin-top: 15px; }  .st-multiline {   white-space: pre; }  .st-table {     width: auto;     table-layout: auto;     margin-top: 20px;     margin-bottom: 20px;     max-width: 100%;     background-color: transparent;     border-collapse: collapse; }  .st-table > thead > tr > th, .st-table > tbody > tr > th, .st-table > tfoot > tr > th, .st-table > thead > tr > td, .st-table > tbody > tr > td, .st-table > tfoot > tr > td {   vertical-align: middle; }  .st-table-bordered {   border: 1px solid #bbbbbb; }  .st-table-bordered > thead > tr > th, .st-table-bordered > tbody > tr > th, .st-table-bordered > thead > tr > td, .st-table-bordered > tbody > tr > td {   border: 1px solid #cccccc; }  .st-table-bordered > thead > tr > th, .st-table-bordered > thead > tr > td, .st-table thead > tr > th {   border-bottom: none; }  .st-freq-table > thead > tr > th, .st-freq-table > tbody > tr > th, .st-freq-table > tfoot > tr > th, .st-freq-table > thead > tr > td, .st-freq-table > tbody > tr > td, .st-freq-table > tfoot > tr > td, .st-freq-table-nomiss > thead > tr > th, .st-freq-table-nomiss > tbody > tr > th, .st-freq-table-nomiss > tfoot > tr > th, .st-freq-table-nomiss > thead > tr > td, .st-freq-table-nomiss > tbody > tr > td, .st-freq-table-nomiss > tfoot > tr > td, .st-cross-table > thead > tr > th, .st-cross-table > tbody > tr > th, .st-cross-table > tfoot > tr > th, .st-cross-table > thead > tr > td, .st-cross-table > tbody > tr > td, .st-cross-table > tfoot > tr > td {   padding-left: 20px;   padding-right: 20px; }  .st-table-bordered > thead > tr > th, .st-table-bordered > tbody > tr > th, .st-table-bordered > thead > tr > td, .st-table-bordered > tbody > tr > td {   border: 1px solid #cccccc; }  .st-table-striped > tbody > tr:nth-of-type(odd) {   background-color: #ffffff; }  .st-table-striped > tbody > tr:nth-of-type(even) {   background-color: #f9f9f9; }  .st-descr-table > thead > tr > th, .st-descr-table > tbody > tr > th, .st-descr-table > thead > tr > td, .st-descr-table > tbody > tr > td {   padding-left: 24px;   padding-right: 24px;   word-wrap: break-word; }  .st-freq-table, .st-freq-table-nomiss, .st-cross-table {   border: medium none; }  .st-freq-table > thead > tr:nth-child(1) > th:nth-child(1), .st-cross-table > thead > tr:nth-child(1) > th:nth-child(1), .st-cross-table > thead > tr:nth-child(1) > th:nth-child(3) {   border: none;   background-color: #ffffff;   text-align: center; }  .st-protect-top-border {   border-top: 1px solid #cccccc !important; }  .st-ws-char {   display: inline;   color: #999999;   letter-spacing: 0.2em; }  /* Optionnal classes */ .st-small {   font-size: 13px; }  .st-small td, .st-small th {   padding: 8px; }  .st-small > thead > tr > th, .st-small > tbody > tr > th, .st-small > thead > tr > td, .st-small > tbody > tr > td {   padding-left: 12px;   padding-right: 12px; } </style>
 <div id="tldr" class="section level2">
 <h2>TL;DR</h2>
 <ul>
@@ -94,7 +95,7 @@ library(listviewer)</code></pre>
 <pre><code>List of 1
  $ opaResponse:List of 4
   ..$ @status: chr &quot;200&quot;
-  ..$ time   : chr &quot;2019-04-12T00:03:56.794Z&quot;
+  ..$ time   : chr &quot;2021-01-12T07:29:21.926Z&quot;
   ..$ request:List of 5
   .. ..$ format     : chr &quot;json&quot;
   .. ..$ pretty     : logi TRUE
@@ -102,14 +103,14 @@ library(listviewer)</code></pre>
   .. ..$ q          : chr &quot;war%20relocation%20authority&quot;
   .. ..$ resultTypes: chr &quot;item&quot;
   ..$ results:List of 5
-  .. ..$ queryTime: int 58
-  .. ..$ total    : int 5737
+  .. ..$ queryTime: int 302
+  .. ..$ total    : int 6240
   .. ..$ offset   : int 0
   .. ..$ rows     : int 10
   .. ..$ result   :List of 10</code></pre>
 <p>We see that everything is contained in a single list item, which is unnamed. Not sure what the purpose of that is. 😕</p>
 <p>Drilling down a bit, <code>$opaResponse</code> contains <code>$request</code>, which holds metadata about our query. <code>$opaResponse</code> also contains <code>$results</code>, which sounds more like what we’re interested in!</p>
-<p>Notice that we had 5737 total results, but only 10 items in <code>$results$result</code>. This is because the default API query only returns that top 10 results. Now that we know how many results to expect, let’s specify that in a “real” query. In the API, we can indicate the maximum number of results to return (up to 10,000) with <code>rows=</code>. Note that this one will take much longer to download.</p>
+<p>Notice that we had 6240 total results, but only 10 items in <code>$results$result</code>. This is because the default API query only returns that top 10 results. Now that we know how many results to expect, let’s specify that in a “real” query. In the API, we can indicate the maximum number of results to return (up to 10,000) with <code>rows=</code>. Note that this one will take much longer to download.</p>
 <pre class="r"><code># Wait a minute so we don&#39;t overload the API with requests
 Sys.sleep(60)
 
@@ -135,7 +136,7 @@ nresults</code></pre>
 <pre class="r"><code>set.seed(3098) # for reproducibility
 jsonedit(json_data[sample(1:nresults, 10)])</code></pre>
 <div id="htmlwidget-1" style="width:100%;height:350px;" class="widgetframe html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1">{"x":{"url":"/post/querying-the-nara-database/index_files/figure-html//widgets/widget_real-query-structure.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"url":"index_files/figure-html//widgets/widget_real-query-structure.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
 <p>It looks like they have a more-or-less shared structure (6–7 items each), so we <em>should</em> be able to wrangle them into something more tidy.</p>
 </div>
 <div id="data-tidying" class="section level2">
@@ -264,16 +265,16 @@ brackets_to_list(title_location)</code></pre>
 
 other_cols %&gt;% head</code></pre>
 <pre><code># A tibble: 6 x 11
-  contributor scopeAndContent… records_type title parent_series_t…
-  &lt;chr&gt;       &lt;chr&gt;            &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;           
-1 Albers, Cl… &quot;The full capti… Photographs… &lt;NA&gt;  Central Photogr…
-2 Albers, Cl… &quot;The full capti… Photographs… &lt;NA&gt;  Central Photogr…
-3 Albers, Cl… &quot;The full capti… Photographs… &lt;NA&gt;  Central Photogr…
-4 &lt;NA&gt;        &lt;NA&gt;             Textual Rec… &lt;NA&gt;  Construction Co…
-5 Albers, Cl… &quot;The full capti… Photographs… &lt;NA&gt;  Central Photogr…
-6 Clark, Fre… &quot;The full capti… Photographs… &lt;NA&gt;  Central Photogr…
-# … with 6 more variables: start_date &lt;chr&gt;, end_date &lt;chr&gt;,
-#   creator &lt;chr&gt;, thumbnail &lt;chr&gt;, record_group &lt;chr&gt;, archive &lt;chr&gt;</code></pre>
+  contributor scopeAndContent… records_type title parent_series_t… start_date
+  &lt;chr&gt;       &lt;chr&gt;            &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;            &lt;chr&gt;     
+1 Albers, Cl… &quot;The full capti… Photographs… &lt;NA&gt;  Central Photogr… 1942      
+2 Albers, Cl… &quot;The full capti… Photographs… &lt;NA&gt;  Central Photogr… 1942      
+3 Albers, Cl… &quot;The full capti… Photographs… &lt;NA&gt;  Central Photogr… 1942      
+4 &lt;NA&gt;         &lt;NA&gt;            Textual Rec… &lt;NA&gt;  Construction Co… 1942      
+5 Albers, Cl… &quot;The full capti… Photographs… &lt;NA&gt;  Central Photogr… 1942      
+6 Clark, Fre… &quot;The full capti… Photographs… &lt;NA&gt;  Central Photogr… 1942      
+# … with 5 more variables: end_date &lt;chr&gt;, creator &lt;chr&gt;, thumbnail &lt;chr&gt;,
+#   record_group &lt;chr&gt;, archive &lt;chr&gt;</code></pre>
 </div>
 <div id="level-3-facepalm" class="section level3">
 <h3>Level 3: Facepalm</h3>
@@ -283,7 +284,7 @@ other_cols %&gt;% head</code></pre>
 <pre class="r"><code>tag_list &lt;- map(json_data, ~ pluck(., !!!tag_location, .default = NA_character_)) 
 jsonedit(tag_list[1:10])</code></pre>
 <div id="htmlwidget-2" style="width:100%;height:350px;" class="widgetframe html-widget"></div>
-<script type="application/json" data-for="htmlwidget-2">{"x":{"url":"/post/querying-the-nara-database/index_files/figure-html//widgets/widget_tag-list.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-2">{"x":{"url":"index_files/figure-html//widgets/widget_tag-list.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
 <p>Two things are immediately obvious: some items have many tags, and some have none. For example, the first item has 17 tags. But it’s not that easy… the tags themselves (indicated by the name “$”) are contained within nested lists that also contain other metadata.</p>
 <p>To extract just the tags, which are located one level down within each item, we use another mind-bending nested map. We then collapse down the resulting character vectors into a single-length vector each by mapping <code>paste()</code>.</p>
 <pre class="r"><code>mult_tags &lt;- map(tag_list, 
@@ -305,7 +306,7 @@ single_tags[!is.na(single_tags)] %&gt;% head</code></pre>
 [4] &quot;cots&quot;              &quot;ArchivesGameNight&quot; &quot;MRC-tg1&quot;          </code></pre>
 <p>Now, we can finally combine both sets of tags into the final vector.</p>
 <pre class="r"><code>tags &lt;- coalesce(single_tags, mult_tags)</code></pre>
-<p>That <code>paste(collapse)</code> left a bunch of <code>&quot;&quot;</code> elements in our vector though. Let’s convert those to proper <code>NA</code>.</p>
+<p>That <code>paste(collapse)</code> left a bunch of <code>""</code> elements in our vector though. Let’s convert those to proper <code>NA</code>.</p>
 <pre class="r"><code>tags &lt;- map_chr(tags, function (x) if (x == &quot;&quot;) {NA_character_} else {x})</code></pre>
 <p>Now we can combine these with the “simple” columns into our tidy dataframe.</p>
 <pre class="r"><code>tidy_data &lt;- bind_cols(tidy_data, other_cols, tags = tags)
@@ -320,7 +321,7 @@ tidy_data %&gt;% head</code></pre>
 1 5368… desc… 0.0585 Albers, Cl… &quot;The full capti… Photographs… &lt;NA&gt; 
 2 5368… desc… 0.0585 Albers, Cl… &quot;The full capti… Photographs… &lt;NA&gt; 
 3 5362… desc… 0.0502 Albers, Cl… &quot;The full capti… Photographs… &lt;NA&gt; 
-4 7820… desc… 0.0489 &lt;NA&gt;        &lt;NA&gt;             Textual Rec… &lt;NA&gt; 
+4 7820… desc… 0.0489 &lt;NA&gt;         &lt;NA&gt;            Textual Rec… &lt;NA&gt; 
 5 5368… desc… 0.0433 Albers, Cl… &quot;The full capti… Photographs… &lt;NA&gt; 
 6 5362… desc… 0.0433 Clark, Fre… &quot;The full capti… Photographs… &lt;NA&gt; 
 # … with 8 more variables: parent_series_title &lt;chr&gt;, start_date &lt;chr&gt;,
@@ -339,11 +340,11 @@ print(method = &quot;render&quot;, headings = FALSE)</code></pre>
 <div class="container st-container"><table class="table table-striped table-bordered st-table st-table-striped st-table-bordered st-multiline ">
   <thead>
     <tr>
-      <th align="center" class="variable st-protect-top-border"><strong>Variable</strong></th>
-      <th align="center" class="stats.values st-protect-top-border"><strong>Stats / Values</strong></th>
-      <th align="center" class="freqs.pct.valid st-protect-top-border"><strong>Freqs (% of Valid)</strong></th>
-      <th align="center" class="graph st-protect-top-border"><strong>Graph</strong></th>
-      <th align="center" class="missing st-protect-top-border"><strong>Missing</strong></th>
+      <th align="center" class="st-protect-top-border"><strong>Variable</strong></th>
+      <th align="center" class="st-protect-top-border"><strong>Stats / Values</strong></th>
+      <th align="center" class="st-protect-top-border"><strong>Freqs (% of Valid)</strong></th>
+      <th align="center" class="st-protect-top-border"><strong>Graph</strong></th>
+      <th align="center" class="st-protect-top-border"><strong>Missing</strong></th>
     </tr>
   </thead>
   <tbody>
@@ -362,9 +363,9 @@ print(method = &quot;render&quot;, headings = FALSE)</code></pre>
 10. NARA's Southeast Region (
 [ 4 others ]</td>
       <td align="left" style="padding:0;vertical-align:middle"><table style="border-collapse:collapse;border:none;margin:0"><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">3982</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">71.5%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">1527</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">27.4%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">22</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.4%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">12</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.2%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">8</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.1%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">4</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.1%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">2</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.0%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">2</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.0%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">2</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.0%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">2</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.0%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">4</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.1%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr></table></td>
-      <td align="left" style="vertical-align:middle;padding:0;background-color:transparent"><img style="border:none;background-color:transparent;padding:0" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAF0AAADPCAQAAAA91hUAAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBAwSBA3mLRRTAAABQUlEQVR42u3XO67CQBBFQQ9iocSP9UDsnUJqPwkkPnLfNnUyJ6iEOpg7blPXDtUA9F4dlx/X+MP/Gw/o03Sqtj1tXn01Phh0dPT40NHR40Ov6N/Lca72vNBYPtHH2z+zVUtt44NpTF/d+uWjgXfe+N6+NvDmbd1T64NBR0ePDx0dPT70igy8rdrjwPtsJZXSe4WOjh4fOjp6fOjov0K3kiqyktDR40NHR48PHR09vsZ0K6kiKwkdPT50dPT40NHR42tMt5Iq2gvdwENHTwwdHT0+dHT0+BrTDbyKrCR09PjQ0dHjQ0dHj68x3UqqyEpCR48PHR09PnR09Pga062kivZCN/DQ0RNDR0ePDx0dPb7GdAOvIisJHT0+dHT0+NDR0eNrTLeSKrKS0NHjQ0dHjw8dHT2+xvTR6om+qvG/jl7RHX8MLQduJcKXAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE5LTA0LTEyVDA5OjA0OjEzKzA5OjAwM0gB1gAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOS0wNC0xMlQwOTowNDoxMyswOTowMEIVuWoAAAA9dEVYdGljYzpjb3B5cmlnaHQAQ29weXJpZ2h0IDIwMDcgQXBwbGUgSW5jLiwgYWxsIHJpZ2h0cyByZXNlcnZlZC6eZtwpAAAAI3RFWHRpY2M6ZGVzY3JpcHRpb24AR2VuZXJpYyBSR0IgUHJvZmlsZRqnOI4AAAAkdEVYdGljYzptYW51ZmFjdHVyZXIAR2VuZXJpYyBSR0IgUHJvZmlsZRw9aD4AAAAddEVYdGljYzptb2RlbABHZW5lcmljIFJHQiBQcm9maWxl6m+uqwAAAABJRU5ErkJggg=="></td>
+      <td align="left" style="vertical-align:middle;padding:0;background-color:transparent"><img style="border:none;background-color:transparent;padding:0" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAF0AAADKCAQAAABtG4SzAAAAAmJLR0QA/4ePzL8AAAAHdElNRQflAQwHHSA8puzIAAABPElEQVR42u3XUUrDYBSE0fziHt2DrsfuoavU10So0FZyZ+R8b3kJh3ILmfW1tfYyDUDv6nX/cIk//Pd1g75tb9O2X7senooPBh0dPT50dPT4iuk/Pr+uj71lpLX/zl0Pv+as9trigymmH27986mV9HHyvf3ZSjr/D158MOjo6PGho6PHV0y3ks7KSpruQH9uJY3Su0JHR48PHR09PnT0u7KSJjI10NHjQ0dHjw8dHT2+YrqVNJGVhI4eHzo6enzo6OjxFdOtpImsJHT0+NDR0eNDR0ePr5huJU1kJaGjx4eOjh4fOjp6fKbGRP+FbiWhoyeGjo4eHzo6enxW0kSmBjp6fOjo6PGho6PHV0y3kiayktDR40NHR48PHR09vmK6lTSRlYSOHh86Onp86Ojo8RXTV9Un+qHiXx19om9WOi0PmdWQswAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMS0wMS0xMlQwNzoyOTozMiswMDowMAxK7tMAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjEtMDEtMTJUMDc6Mjk6MzIrMDA6MDB9F1ZvAAAAPXRFWHRpY2M6Y29weXJpZ2h0AENvcHlyaWdodCAyMDA3IEFwcGxlIEluYy4sIGFsbCByaWdodHMgcmVzZXJ2ZWQunmbcKQAAACN0RVh0aWNjOmRlc2NyaXB0aW9uAEdlbmVyaWMgUkdCIFByb2ZpbGUapziOAAAAAElFTkSuQmCC"></td>
       <td align="center">24
-(0.43%)</td>
+(0.4%)</td>
     </tr>
     <tr>
       <td align="left">records_type
@@ -372,9 +373,9 @@ print(method = &quot;render&quot;, headings = FALSE)</code></pre>
       <td align="left">1. Photographs and other Gra
 2. Textual Records</td>
       <td align="left" style="padding:0;vertical-align:middle"><table style="border-collapse:collapse;border:none;margin:0"><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">3965</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">71.2%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">1604</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">28.8%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr></table></td>
-      <td align="left" style="vertical-align:middle;padding:0;background-color:transparent"><img style="border:none;background-color:transparent;padding:0" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAFwAAAAtCAQAAACJmMS3AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBAwSBA3mLRRTAAAAi0lEQVRo3u3XMQqAMBBE0ax4UGs9j9a5qbaJoASVzY7836WRV0zh2p40G3oDgKs0lo8t+OBnu4CnNPW23ZSrl+xUgAMHHjTgwIEHDTjwxk6/tbm3pzkrbwd7/BmfSqvsVGTh1cbX1zfn4ra2T2/O7KVOwlMBDhx40IADBx404MAb+8fNqZTsVIB7dwAYNwuh/0bWUAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxOS0wNC0xMlQwOTowNDoxMyswOTowMDNIAdYAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTktMDQtMTJUMDk6MDQ6MTMrMDk6MDBCFblqAAAAPXRFWHRpY2M6Y29weXJpZ2h0AENvcHlyaWdodCAyMDA3IEFwcGxlIEluYy4sIGFsbCByaWdodHMgcmVzZXJ2ZWQunmbcKQAAACN0RVh0aWNjOmRlc2NyaXB0aW9uAEdlbmVyaWMgUkdCIFByb2ZpbGUapziOAAAAJHRFWHRpY2M6bWFudWZhY3R1cmVyAEdlbmVyaWMgUkdCIFByb2ZpbGUcPWg+AAAAHXRFWHRpY2M6bW9kZWwAR2VuZXJpYyBSR0IgUHJvZmlsZepvrqsAAAAASUVORK5CYII="></td>
+      <td align="left" style="vertical-align:middle;padding:0;background-color:transparent"><img style="border:none;background-color:transparent;padding:0" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAFwAAAAqCAQAAACUnfQPAAAAAmJLR0QA/4ePzL8AAAAHdElNRQflAQwHHSA8puzIAAAAhklEQVRYw+3XzQmAMAxA4Ubc0R10Ht2hU+o1CvVQJT/lvVsv5QMjNHKWnE3eAOBZmvXhCD7wqzTgpSzetpfq7ZR2VIADBx404MCBBw24dY/XYe27xSHRT3DpvsYmbR1jVPbPG9Bm9tF+3YAs/5C0owIcOPCgAQcOPGjArRtjA8pU2lEBbt0FWk0LrYF5Q80AAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDEtMTJUMDc6Mjk6MzIrMDA6MDAMSu7TAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTAxLTEyVDA3OjI5OjMyKzAwOjAwfRdWbwAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAAABJRU5ErkJggg=="></td>
       <td align="center">22
-(0.39%)</td>
+(0.4%)</td>
     </tr>
     <tr>
       <td align="left">contributor
@@ -390,10 +391,10 @@ print(method = &quot;render&quot;, headings = FALSE)</code></pre>
 9. Parker, Tom
 10. Stewart, Francis, War Rel
 11. Van Tassel, Gretchen</td>
-      <td align="left" style="padding:0;vertical-align:middle"><table style="border-collapse:collapse;border:none;margin:0"><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">381</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">10.2%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">154</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">4.1%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">26</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.7%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">291</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">7.8%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">872</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">23.2%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">18</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.5%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">93</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">2.5%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">188</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">5.0%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">707</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">18.9%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">1002</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">26.7%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">18</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.5%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr></table></td>
-      <td align="left" style="vertical-align:middle;padding:0;background-color:transparent"><img style="border:none;background-color:transparent;padding:0" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAACsAAADPCAQAAADGgeDfAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBAwSBA3mLRRTAAABJUlEQVR42u3ZSw6DMAxF0VCxUOZdDx17p3REZWiSRvlQnnQ9o5+jYEWxHE9bGBGPIaoYO/uHVyLRz6mE8n+ej18tkZ/bfZIACwsL6+N0glkndvKnZNGxmgwvCed2/bxHWZkpZPeiY3dNAiwsLKwPis6ZXbe1U/entRNgYWFhL2C1qkOid9ijtofIXlhZ9Wq1dgIsLKwoS+8QflaHkohVkIJxRj4s+qnWBoOFhRVlqQ4Xsb2uq6STAAsLCzuG1So60ZakddT9tdqloikpYHsFLCwsrA9akpC5sGqrEIkLK2tcrdYGg4WFFWWpDuPY6ilJvihVTknsP0mAhYWF9UHRCV1m6LGXbZ6h72GHJ60NBgsLK8pSHc4sw25YWFjYa4bdt1+tFvsGqSg7WhBLybkAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTktMDQtMTJUMDk6MDQ6MTMrMDk6MDAzSAHWAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE5LTA0LTEyVDA5OjA0OjEzKzA5OjAwQhW5agAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAACR0RVh0aWNjOm1hbnVmYWN0dXJlcgBHZW5lcmljIFJHQiBQcm9maWxlHD1oPgAAAB10RVh0aWNjOm1vZGVsAEdlbmVyaWMgUkdCIFByb2ZpbGXqb66rAAAAAElFTkSuQmCC"></td>
+      <td align="left" style="padding:0;vertical-align:middle"><table style="border-collapse:collapse;border:none;margin:0"><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">381</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">10.2%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">154</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">4.1%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">26</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.7%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">291</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">7.8%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">872</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">23.3%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">18</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.5%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">93</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">2.5%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">188</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">5.0%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">707</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">18.9%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">1002</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">26.7%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">18</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.5%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr></table></td>
+      <td align="left" style="vertical-align:middle;padding:0;background-color:transparent"><img style="border:none;background-color:transparent;padding:0" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAACsAAADKCAQAAACWTHFsAAAAAmJLR0QA/4ePzL8AAAAHdElNRQflAQwHHSA8puzIAAABKElEQVR42u3ZYQ6DIAyGYVy8o4fYefQOO6X7xYIK2gA1ftnbf8u2J1oIBTqswSNeLqoYO6YflkKi34OFSv88br+aMj//PCcJsLCwouxuqalZVnIxpMuZaf0rRioJ53b+vYetHhjZWB3aB04rt7CwsN4s1eEmdl7nTsc04STAwsL+PatVHQqb/Bi1m/3TK6D6Oqw1E2BhYUVZzg7hsjpYIldBDA2C88iPhtYEg4WFFWWpDuFwBeTCOj0tLCwsrBSrVR2yZ4fW5vHhaaeK04OB7RWwsLCiLJt8P7Z4s9RWIQo3S61Dp5VbWFhYb5bqEBoaBOfLfGWD4GoMtCYYLCysKEt1CF3ax7mXbW4fx9iOitYEg4WFFWWpDnuW9jEsLCzsPe3jxz+tFvsFYos7hu9LibQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDEtMTJUMDc6Mjk6MzIrMDA6MDAMSu7TAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTAxLTEyVDA3OjI5OjMyKzAwOjAwfRdWbwAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAAABJRU5ErkJggg=="></td>
       <td align="center">1841
-(32.93%)</td>
+(32.9%)</td>
     </tr>
     <tr>
       <td align="left">record_group
@@ -406,10 +407,10 @@ print(method = &quot;render&quot;, headings = FALSE)</code></pre>
 6. 46
 7. 549
 8. 77</td>
-      <td align="left" style="padding:0;vertical-align:middle"><table style="border-collapse:collapse;border:none;margin:0"><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">6</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.1%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">1</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.0%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">2</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.1%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">3965</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">99.7%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">1</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.0%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">1</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.0%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">1</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.0%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">1</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.0%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr></table></td>
-      <td align="left" style="vertical-align:middle;padding:0;background-color:transparent"><img style="border:none;background-color:transparent;padding:0" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAHwAAACYCAQAAACMwkWhAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBAwSBA3mLRRTAAABDklEQVR42u3aMQ6CQABFQTAc1EvZc1Nsd00sgYR5Y0Vs9gUp+HE9FtPr7gMUXvhFjuHzefgDP7ayd7xwTeGawjWFawrXFK4pXLOOr+Dr3ac52djK3vEp/OkLzN9wSeGawjWFawrXFK4pXFO4pgVG0wKjKVxTuKZwTeGawjWFawrXtMBo2PBtvHj89DQ8y9v8zfvuo51on67Yn3rhmsI1hWsK1xSuKVzz83a2332eyzQ9afrzj6ZwTeGawjWFawrXFK4pXNMCoyl8WZqeCIVrCtcUrilcU7imcE3hmqYnTQuMpnBN4ZrCNYVrCtcUrilc0wKjaYHRFK4pXFO4pnBN4ZrCNYVrVugVfMLe8cI1X4j7K1j5mkVSAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE5LTA0LTEyVDA5OjA0OjEzKzA5OjAwM0gB1gAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOS0wNC0xMlQwOTowNDoxMyswOTowMEIVuWoAAAA9dEVYdGljYzpjb3B5cmlnaHQAQ29weXJpZ2h0IDIwMDcgQXBwbGUgSW5jLiwgYWxsIHJpZ2h0cyByZXNlcnZlZC6eZtwpAAAAI3RFWHRpY2M6ZGVzY3JpcHRpb24AR2VuZXJpYyBSR0IgUHJvZmlsZRqnOI4AAAAkdEVYdGljYzptYW51ZmFjdHVyZXIAR2VuZXJpYyBSR0IgUHJvZmlsZRw9aD4AAAAddEVYdGljYzptb2RlbABHZW5lcmljIFJHQiBQcm9maWxl6m+uqwAAAABJRU5ErkJggg=="></td>
+      <td align="left" style="padding:0;vertical-align:middle"><table style="border-collapse:collapse;border:none;margin:0"><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">6</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.2%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">1</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.0%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">2</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.1%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">3965</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">99.7%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">1</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.0%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">1</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.0%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">1</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.0%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">1</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.0%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr></table></td>
+      <td align="left" style="vertical-align:middle;padding:0;background-color:transparent"><img style="border:none;background-color:transparent;padding:0" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAHwAAACVCAQAAAAwXFZ/AAAAAmJLR0QA/4ePzL8AAAAHdElNRQflAQwHHSA8puzIAAABD0lEQVR42u3YQQqCUABFUQ332MpahKu06TdwEpjkuaeRBOHl28A3b5PpcfUNFF74j2zD53XzP/zYyp544ZrCNYVrCtcUrilcU7hmHl/B56vv5mRjK3viu/C7LzCH4ZLCNYVrCtcUrilcU7imcE0LjKYFRlO4pnBN4ZrCNYVrCtcUrmmB0Szjxe0XmOGRXvbfPK++tROtuyv2US9cU7imcE3hmsI1bPjHS8r63a/8oYYITeHTBCwwR+GSwjWFawrXFK4pXFO4hg1vgdE0RGgK1xSuKVxTuKZwTeGawjUtMJoWGE3hmsI1hWsK1xSuKVxTuKYFRtMCoylcU7imcE3hmsI1hWsK18zQK/gOe+KFa94LOCtbROGvwgAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMS0wMS0xMlQwNzoyOTozMiswMDowMAxK7tMAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjEtMDEtMTJUMDc6Mjk6MzIrMDA6MDB9F1ZvAAAAPXRFWHRpY2M6Y29weXJpZ2h0AENvcHlyaWdodCAyMDA3IEFwcGxlIEluYy4sIGFsbCByaWdodHMgcmVzZXJ2ZWQunmbcKQAAACN0RVh0aWNjOmRlc2NyaXB0aW9uAEdlbmVyaWMgUkdCIFByb2ZpbGUapziOAAAAAElFTkSuQmCC"></td>
       <td align="center">1613
-(28.85%)</td>
+(28.8%)</td>
     </tr>
     <tr>
       <td align="left">tags
@@ -423,11 +424,12 @@ print(method = &quot;render&quot;, headings = FALSE)</code></pre>
 7. labordaymappage
 8. Japanese Internment
 9. strawberries
-10. american flag, pledge of [ 245 others ]</td>
+10. american flag, pledge of 
+[ 245 others ]</td>
       <td align="left" style="padding:0;vertical-align:middle"><table style="border-collapse:collapse;border:none;margin:0"><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">5246</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">93.8%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">31</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.6%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">20</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.4%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">9</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.2%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">8</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.1%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">5</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.1%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">5</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.1%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">4</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.1%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">3</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.1%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">2</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">0.0%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr><tr style="background-color:transparent"><td style="padding:0 5px 0 7px;margin:0;border:0" align="right">258</td><td style="padding:0 2px 0 0;border:0;" align="left">(</td><td style="padding:0;border:0" align="right">4.6%</td><td style="padding:0 4px 0 2px;border:0" align="left">)</td></tr></table></td>
-      <td align="left" style="vertical-align:middle;padding:0;background-color:transparent"><img style="border:none;background-color:transparent;padding:0" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAHYAAADPCAQAAACKa+0nAAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBAwSBA3mLRRTAAABZ0lEQVR42u3ZMU7DQABFQS/yQVPDeUjtm0JDYUdKQ7CMZt80yA3ap2wK/4yvZR5vVx+g2GJft+4f7uAX+H08iV2W29Vn+2Pb4Wmqa1ysqlhVsapiVcWqilU9vPVsV5/nVGP/Cjt+/W/+r33fVNd43thPcJZ5GqsrVlWsqlhVsapiVcWqilU1y6haKlTFqopVFasqVlWsqlhVsaqWClVLhapYVbGqYlXFqopVFasqVtVSoWqpUBWrKlZVrKpYVbGqYlXFqloqVPPGNstAilUVqypWVayqWFWxqmJVzTKqlgpVsapiVcWqilUVqypWVayqpULVUqEqVlWsqlhVsapiVcWqilW1VKjmjW2WgRSrKlZVrKpYVbGqYlXFqpplVC0VqmJVxaqKVRWrKlZVrKpYVUuFat0/7JeKD/BjXo+Pt5+/29XnOsVU17hYVbGqYlXFqopVFat6eOvZrj7PqQb+Y/vBVNe4WNU3JlItB1PgkPUAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTktMDQtMTJUMDk6MDQ6MTMrMDk6MDAzSAHWAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE5LTA0LTEyVDA5OjA0OjEzKzA5OjAwQhW5agAAAD10RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgMjAwNyBBcHBsZSBJbmMuLCBhbGwgcmlnaHRzIHJlc2VydmVkLp5m3CkAAAAjdEVYdGljYzpkZXNjcmlwdGlvbgBHZW5lcmljIFJHQiBQcm9maWxlGqc4jgAAACR0RVh0aWNjOm1hbnVmYWN0dXJlcgBHZW5lcmljIFJHQiBQcm9maWxlHD1oPgAAAB10RVh0aWNjOm1vZGVsAEdlbmVyaWMgUkdCIFByb2ZpbGXqb66rAAAAAElFTkSuQmCC"></td>
+      <td align="left" style="vertical-align:middle;padding:0;background-color:transparent"><img style="border:none;background-color:transparent;padding:0" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAHYAAADKCAQAAADapnyUAAAAAmJLR0QA/4ePzL8AAAAHdElNRQflAQwHHSA8puzIAAABaUlEQVR42u3ZsU3DYBhF0Rh5x+wA88AOnhIakOxIaQLIcL57msiN5as4xf+yvF/meDr7AYot9vvW/cUb+AN+Xu7EXi7Xs5/th22Hq1GvcbGqYlXFqopVFasaFXtzENgeu8s/sexPdcvDt/m79n2jXuO5sa/gUnE3VlesqlhVsapiVcWqilWNim2pUM2NbamAFKsqVlWsqlhVsapiVaNiWypUHd5VxaqKVRWrKlZVrKpYVbGqlgpVS4WqWFWxqmJVxaqKVRWrKlbVUqFqqVAVqypWVayqWFWxqmJVxapaKlQtFapiVcWqilUVqypWVaxqVGyHd9Xc2JYKSLGqYlXFqopVFasqVjUqtqVC1eFdVayqWFWxqmJVxaqKVRWraqlQtVSoilUVqypWVayqWFWxqmJVLRWqdX+xXypewK95PV5ePz+3s5/rV4x6jYtVFasqVlWsqlhVsaqbU4952vmy4H+2H4x6jYtVfQDQSS0PYdlyYwAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMS0wMS0xMlQwNzoyOTozMiswMDowMAxK7tMAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjEtMDEtMTJUMDc6Mjk6MzIrMDA6MDB9F1ZvAAAAPXRFWHRpY2M6Y29weXJpZ2h0AENvcHlyaWdodCAyMDA3IEFwcGxlIEluYy4sIGFsbCByaWdodHMgcmVzZXJ2ZWQunmbcKQAAACN0RVh0aWNjOmRlc2NyaXB0aW9uAEdlbmVyaWMgUkdCIFByb2ZpbGUapziOAAAAAElFTkSuQmCC"></td>
       <td align="center">0
-(0%)</td>
+(0.0%)</td>
     </tr>
   </tbody>
 </table></div>
@@ -437,46 +439,47 @@ print(method = &quot;render&quot;, headings = FALSE)</code></pre>
 <p>Updated 2019-04-12</p>
 <p><a href="https://github.com/joelnitta/joelnitta-site/blob/master/content/post/querying-the-nara-database/index.Rmd">source code</a></p>
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 3.5.2 (2018-12-20)
-Platform: x86_64-apple-darwin15.6.0 (64-bit)
-Running under: macOS High Sierra 10.13.6
+<pre><code>R version 4.0.2 (2020-06-22)
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Catalina 10.15.7
 
 Matrix products: default
-BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
-LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
+BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
 
+Random number generation:
+ RNG:     Mersenne-Twister 
+ Normal:  Inversion 
+ Sample:  Rounding 
+ 
 locale:
 [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 
 attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
+[1] stats     graphics  grDevices datasets  utils     methods   base     
 
 other attached packages:
- [1] listviewer_2.0.0   jsonlite_1.6       forcats_0.3.0     
- [4] stringr_1.4.0      dplyr_0.8.0.1      purrr_0.3.2       
- [7] readr_1.3.1        tidyr_0.8.1        tibble_2.1.1      
-[10] ggplot2_3.1.0      tidyverse_1.2.1    widgetframe_0.3.1 
-[13] htmlwidgets_1.3    summarytools_0.9.1 knitr_1.21        
-[16] emo_0.0.0.9000    
+ [1] listviewer_3.0.0   jsonlite_1.7.2     forcats_0.5.0      stringr_1.4.0     
+ [5] dplyr_1.0.0        purrr_0.3.4        readr_1.3.1        tidyr_1.1.0       
+ [9] tibble_3.0.3       ggplot2_3.3.2      tidyverse_1.3.0    widgetframe_0.3.1 
+[13] htmlwidgets_1.5.1  summarytools_0.9.8 knitr_1.30         emo_0.0.0.9000    
 
 loaded via a namespace (and not attached):
- [1] tidyselect_0.2.5   xfun_0.5           pander_0.6.2      
- [4] haven_1.1.2        lattice_0.20-38    colorspace_1.3-2  
- [7] htmltools_0.3.6    yaml_2.2.0         utf8_1.1.4        
-[10] rlang_0.3.1        pillar_1.3.1       withr_2.1.2       
-[13] glue_1.3.1         pryr_0.1.4         readxl_1.1.0      
-[16] modelr_0.1.2       matrixStats_0.54.0 plyr_1.8.4        
-[19] cellranger_1.1.0   munsell_0.5.0      blogdown_0.10.5   
-[22] gtable_0.2.0       rvest_0.3.2        codetools_0.2-15  
-[25] evaluate_0.13      curl_3.3           fansi_0.4.0       
-[28] broom_0.5.0        Rcpp_1.0.1         backports_1.1.3   
-[31] scales_1.0.0       checkmate_1.8.5    magick_1.9        
-[34] rapportools_1.0    hms_0.4.2          digest_0.6.18     
-[37] stringi_1.4.3      bookdown_0.9       grid_3.5.2        
-[40] cli_1.1.0          tools_3.5.2        bitops_1.0-6      
-[43] magrittr_1.5       RCurl_1.95-4.11    lazyeval_0.2.1    
-[46] crayon_1.3.4       pkgconfig_2.0.2    xml2_1.2.0        
-[49] lubridate_1.7.4    rstudioapi_0.9.0   assertthat_0.2.1  
-[52] rmarkdown_1.11     httr_1.4.0         R6_2.4.0          
-[55] nlme_3.1-137       compiler_3.5.2    </code></pre>
+ [1] Rcpp_1.0.5         lubridate_1.7.9    lattice_0.20-41    utf8_1.1.4        
+ [5] assertthat_0.2.1   digest_0.6.27      R6_2.5.0           cellranger_1.1.0  
+ [9] plyr_1.8.6         backports_1.1.8    reprex_0.3.0       evaluate_0.14     
+[13] httr_1.4.1         blogdown_0.21.71   pillar_1.4.6       rlang_0.4.10      
+[17] curl_4.3           readxl_1.3.1       rstudioapi_0.11    blob_1.2.1        
+[21] magick_2.5.2       checkmate_2.0.0    rmarkdown_2.6      pander_0.6.3      
+[25] munsell_0.5.0      broom_0.5.6        compiler_4.0.2     modelr_0.1.8      
+[29] xfun_0.19          pkgconfig_2.0.3    base64enc_0.1-3    htmltools_0.5.0   
+[33] tcltk_4.0.2        tidyselect_1.1.0   bookdown_0.21      codetools_0.2-16  
+[37] matrixStats_0.56.0 fansi_0.4.1        withr_2.2.0        crayon_1.3.4      
+[41] dbplyr_1.4.4       grid_4.0.2         nlme_3.1-148       gtable_0.3.0      
+[45] lifecycle_0.2.0    DBI_1.1.0          magrittr_2.0.1     scales_1.1.1      
+[49] cli_2.0.2          stringi_1.5.3      renv_0.12.0        pryr_0.1.4        
+[53] fs_1.4.1           xml2_1.3.2         ellipsis_0.3.1     rapportools_1.0   
+[57] generics_0.0.2     vctrs_0.3.2        tools_4.0.2        glue_1.4.2        
+[61] hms_0.5.3          yaml_2.2.1         colorspace_1.4-1   rvest_0.3.5       
+[65] haven_2.3.1       </code></pre>
 </div>
