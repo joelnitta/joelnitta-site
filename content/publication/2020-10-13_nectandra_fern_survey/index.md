@@ -1,5 +1,6 @@
 ---
 title: "A taxonomic and molecular survey of the pteridophytes of the Nectandra Cloud Forest Reserve, Costa Rica"
+featured: true
 date: "2020-10-13"
 authors:
 - admin
