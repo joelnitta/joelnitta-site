@@ -1,16 +1,16 @@
 ---
-title: A new color scheme for mapping ancestral states
+title: Selecting color schemes for mapping ancestral states
 author: Joel Nitta
-date: '2021-06-01'
-slug: new-color-scheme-anc-states
+date: '2021-06-02'
+slug: color-scheme-anc-states
 categories:
   - R
 tags:
   - R
 subtitle: ''
-summary: 'How to change the phytools default color scheme when visualizing the results of ancestral character state estimation'
+summary: 'How to change the `phytools` default color scheme when visualizing the results of ancestral character state estimation'
 authors: []
-lastmod: '2021-06-01T17:36:13+09:00'
+lastmod: "2021-06-02T10:35:48+0900"
 featured: no
 image:
   caption: ''
@@ -21,25 +21,24 @@ projects: []
 
 
 
+The `phytools` package provides (among many other things) the [`contMap()`](https://rdrr.io/cran/phytools/man/contMap.html) function for estimating ancestral character states and [visualizing their changes along the branches of a phylogenetic tree](http://blog.phytools.org/search?q=contmap). It can either produce the plot directly (default), or be saved as an object with the `plot = FALSE` argument, to be further manipulated and plotted later with `plot()`.
 
-The `phytools` package provides (among many other things) the `contMap()` function for estimating ancestral character states and [visualizing their changes along the branches of a phylogenetic tree](http://blog.phytools.org/search?q=contmap). It can either produce the plot directly (default), or be saved as an object with the `plot = FALSE` argument, to be further manipulated and plotted later with `plot()`.
+## Default colors
 
-However, I have to say I'm not a fan of the default color scheme, which is a rainbow palette going from red through yellow and green to blue. 
+I have to say I'm not a fan of the default color scheme, which is a rainbow palette going from red through yellow and green to blue. 
 
-For example, let's borrow some example code and look at the default plot:
+For example, let's [borrow some example code](http://www.phytools.org/eqg2015/asr.html) and look at the default plot:
 
 
 ```r
-# Example plotting ancestral state character reconstruction
-# from phytools with color palettle from scico
-
-# modified slightly from http://www.phytools.org/eqg2015/asr.html
+# code modified slightly from http://www.phytools.org/eqg2015/asr.html
 
 ## Load needed packages for this blogpost
 library(phytools)
 library(ggtree)
 library(tidyverse)
 library(scico)
+library(viridisLite)
 
 ## Load anole tree
 anole.tree <- read.tree("http://www.phytools.org/eqg2015/data/anole.tre")
@@ -49,19 +48,111 @@ svl <- read_csv("http://www.phytools.org/eqg2015/data/svl.csv") %>%
   mutate(svl = set_names(svl, species)) %>%
   pull(svl)
 
-# Default plot: projection of the reconstruction onto the edges of the tree
-obj <- contMap(anole.tree, svl, plot = FALSE)
-plot(obj,type="fan",legend=0.7*max(nodeHeights(anole.tree)),
-     fsize=c(0.7,0.9))
+# Plot with default color scheme
+contmap_obj <- contMap(anole.tree, svl, plot = FALSE)
+
+plot(
+  contmap_obj, 
+  type="fan", 
+  legend = 0.7*max(nodeHeights(anole.tree)),
+  fsize = c(0.7,0.9))
 ```
 
 <img src="{{< blogdown/postref >}}index.en_files/figure-html/plot-contmap-default-1.png" width="672" />
 
-Although this does provide a wide range of colors, it's not obvious why one color is greater or less than the others without constantly looking at the legend. In particular it's hard to discern the order of intermediate values. Indeed, there has been much written on [why the rainbow palette is generally not a good way to visualize continuous data](https://www.nature.com/articles/s41467-020-19160-7).
+Although this does provide a wide range of colors, **it's not obvious why one color is greater or less than the others**. In particular it's hard to discern the order of intermediate values (yellow, green, light blue). Indeed, there has been much written on [why the rainbow palette is generally not a good way to visualize continuous data](https://www.nature.com/articles/s41467-020-19160-7).
 
-There is a `phytools` function available to manipulate the color palette, `setMap()`. However, `setMap()` just passes its input (a vector of color names or hexadecimals) to `colorRampPalette()`. So if we wanted to use any of the nice color palettes available in say the [`scico`](https://github.com/thomasp85/scico) package, those wouldn't be available.
+## Defining a new color palette
 
-One way to get around this is to use [`ggtree`](https://github.com/YuLab-SMU/ggtree), which uses `ggplot2` for plotting. Then we can provide palettes from `scico` or other similar packages as color scales.
+[`phytools::setMap()`](https://rdrr.io/cran/phytools/man/setMap.html) can be used to specify another color palette. `setMap()` passes its second argument (a vector of color names or [hexadecimals](https://en.wikipedia.org/wiki/Web_colors)) to [`colorRampPalette()`](https://rdrr.io/r/grDevices/colorRamp.html). `colorRampPalette()` is a bit unusual in that it's a function that produces a function, in this case, one that generates a vector of colors interpolating between the original input values:
+
+
+```r
+# colorRampPalette() produces a function
+my_color_func <- colorRampPalette(c("red", "yellow"))
+class(my_color_func)
+```
+
+```
+## [1] "function"
+```
+
+```r
+# The function generates n colors interpolating between
+# the colors originally passed to colorRampPalette()
+my_colors <- my_color_func(n = 6)
+scales::show_col(my_colors)
+```
+
+<img src="{{< blogdown/postref >}}index.en_files/figure-html/colorRampPalette-1.png" width="672" />
+
+So, this works fine for generating custom color gradients. But [designing accurate, color-blind friendly color palettes is not a simple task](https://www.fabiocrameri.ch/visualisation/). Fortunately, there are several packages available with such carefully crafted palettes. Two of my favorite are [`viridis`](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html) and [`scico`](https://github.com/thomasp85/scico). **How can we use these with the plotting function in phytools?**
+
+## Using `viridis` or `scico` palettes
+
+Well, it turns out that as long as we specify the same number of colors, we can replicate the viridis color palette with `colorRampPalette()`. The only difference is the alpha, or transparency level, indicated at the [end of each hexidecimal with two letters](https://stackoverflow.com/questions/23201134/transparent-argb-hex-value) (here "FF"). There is no reason to use transparency here anyways, so that doesn't matter.
+
+
+```r
+# viridis color palette with 6 colors
+viridis(6)
+```
+
+```
+## [1] "#440154FF" "#414487FF" "#2A788EFF" "#22A884FF" "#7AD151FF" "#FDE725FF"
+```
+
+```r
+# colorRampPalette() replicating viridis color palette
+colorRampPalette(viridis(6))(6)
+```
+
+```
+## [1] "#440154" "#414487" "#2A788E" "#22A884" "#7AD151" "#FDE725"
+```
+
+So here is the `viridis` version of the phytools plot:
+
+
+```r
+# Count the number of unique character states in the observed data:
+n_cols <- n_distinct(svl)
+
+# Change the color palette
+contmap_obj_viridis <- setMap(contmap_obj, viridis(n_cols))
+
+# Plot the mapped characters with the new colors
+plot(
+  contmap_obj_viridis, 
+  type="fan", 
+  legend = 0.7*max(nodeHeights(anole.tree)),
+  fsize = c(0.7,0.9))
+```
+
+<img src="{{< blogdown/postref >}}index.en_files/figure-html/phytools-viridis-1.png" width="672" />
+
+And here is another one, this time using a palette from `scico`:
+
+
+```r
+# Change the color palette
+contmap_obj_scico <- setMap(contmap_obj, scico(n_cols, palette = "bilbao"))
+
+# Plot the mapped characters with the new colors
+plot(
+  contmap_obj_scico, 
+  type="fan", 
+  legend = 0.7*max(nodeHeights(anole.tree)),
+  fsize = c(0.7,0.9))
+```
+
+<img src="{{< blogdown/postref >}}index.en_files/figure-html/phytools-scico-1.png" width="672" />
+
+I personally find this one even easier to interpret than `viridis`. It's very clear which values are low and high.
+
+## `ggtree`
+
+Just for completeness, here is code to replicate the plot in  [`ggtree`](https://github.com/YuLab-SMU/ggtree).
 
 
 ```r
@@ -98,7 +189,9 @@ ggtree(
 
 <img src="{{< blogdown/postref >}}index.en_files/figure-html/plot-contmap-ggtree-1.png" width="672" />
 
-I find the values on the second plot are much easier to interpret.
+That's it!
+
+<details><summary>Session info</summary>
 
 
 ```r
@@ -121,10 +214,10 @@ sessionInfo()
 ## [1] stats     graphics  grDevices datasets  utils     methods   base     
 ## 
 ## other attached packages:
-##  [1] scico_1.2.0     forcats_0.5.1   stringr_1.4.0   dplyr_1.0.6    
-##  [5] purrr_0.3.4     readr_1.4.0     tidyr_1.1.3     tibble_3.1.2   
-##  [9] ggplot2_3.3.3   tidyverse_1.3.1 ggtree_3.0.1    phytools_0.7-70
-## [13] maps_3.3.0      ape_5.5        
+##  [1] viridisLite_0.4.0 scico_1.2.0       forcats_0.5.1     stringr_1.4.0    
+##  [5] dplyr_1.0.6       purrr_0.3.4       readr_1.4.0       tidyr_1.1.3      
+##  [9] tibble_3.1.2      ggplot2_3.3.3     tidyverse_1.3.1   ggtree_3.0.1     
+## [13] phytools_0.7-70   maps_3.3.0        ape_5.5          
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] nlme_3.1-152            fs_1.5.0                lubridate_1.7.10       
@@ -157,3 +250,4 @@ sessionInfo()
 ## [82] rvcheck_0.1.8           ellipsis_0.3.2
 ```
 
+</details>
