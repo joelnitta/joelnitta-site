@@ -9,7 +9,7 @@ publication_types = ["2"]
 
 publication = "_Ecological Monographs_ 87: 278--296"
 
-publication_short = "_Ecological Monographs_ 87: 278--296"
+publication_short = "_Ecol. Monogr._ 87: 278--296"
 
 summary= "Ferns are the only major lineage of vascular plants that have nutritionally independent sporophyte (diploid) and gametophyte (haploid) life stages. However, the implications of this unique life cycle for fern community ecology have rarely been considered. To compare patterns of community structure between fern sporophytes and gametophytes, we conducted a survey of the ferns of the islands of Moorea and Tahiti (French Polynesia)."
 
